@@ -19,7 +19,8 @@ export function getTransport() {
 
 export async function sendContactMail(params: {name: string; email: string; message: string}) {
   const transport = getTransport();
-  const to = process.env.CONTACT_TO || user;
+  // Penerima harus alamat email valid; JANGAN gunakan SMTP_USER (itu username, bukan email)
+  const to = process.env.CONTACT_TO || 'inbox@example.com';
   await transport.sendMail({
     from,
     to,
