@@ -1,0 +1,13 @@
+{
+	"nav": {
+		"home": "Beranda",
+		"about": "Tentang",
+		"projects": "Proyek",
+		"skills": "Keahlian",
+		"contact": "Kontak"
+	},
+	"hero": {
+		"title": "Halo, saya",
+		"subtitle": "Developer Web"
+	}
+}
