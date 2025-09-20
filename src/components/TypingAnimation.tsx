@@ -8,6 +8,8 @@ interface TypingAnimationProps {
   delay?: number
   className?: string
   cursorClassName?: string
+  loop?: boolean
+  stopAfterComplete?: boolean
 }
 
 const TypingAnimation: React.FC<TypingAnimationProps> = ({
@@ -15,18 +17,22 @@ const TypingAnimation: React.FC<TypingAnimationProps> = ({
   speed = 100,
   delay = 0,
   className = '',
-  cursorClassName = ''
+  cursorClassName = '',
+  loop = true,
+  stopAfterComplete = false
 }) => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0)
   const [currentText, setCurrentText] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   const [showCursor, setShowCursor] = useState(true)
+  const [isComplete, setIsComplete] = useState(false)
   const { reducedMotion } = useAnimation()
 
   useEffect(() => {
     if (reducedMotion) {
       // Skip animation for users who prefer reduced motion
       setCurrentText(texts[0])
+      setIsComplete(true)
       return
     }
 
@@ -43,12 +49,18 @@ const TypingAnimation: React.FC<TypingAnimationProps> = ({
           clearInterval(typeInterval)
           setIsTyping(false)
 
+          // If stopAfterComplete is true, don't cycle to next text
+          if (stopAfterComplete) {
+            setIsComplete(true)
+            return
+          }
+
           // Wait before starting next text or looping back
           setTimeout(() => {
             if (currentTextIndex < texts.length - 1) {
               setCurrentTextIndex(prev => prev + 1)
               setCurrentText('')
-            } else {
+            } else if (loop) {
               setCurrentTextIndex(0)
               setCurrentText('')
             }
@@ -59,23 +71,23 @@ const TypingAnimation: React.FC<TypingAnimationProps> = ({
 
     const timer = setTimeout(startTyping, delay)
     return () => clearTimeout(timer)
-  }, [currentTextIndex, texts, speed, delay, reducedMotion])
+  }, [currentTextIndex, texts, speed, delay, reducedMotion, loop, stopAfterComplete])
 
-  // Cursor blinking animation
+  // Cursor blinking animation - stop when complete
   useEffect(() => {
-    if (reducedMotion) return
+    if (reducedMotion || isComplete) return
 
     const cursorInterval = setInterval(() => {
       setShowCursor(prev => !prev)
     }, 500)
 
     return () => clearInterval(cursorInterval)
-  }, [reducedMotion])
+  }, [reducedMotion, isComplete])
 
   return (
     <span className={className}>
       {currentText}
-      {!reducedMotion && (
+      {!reducedMotion && !isComplete && (
         <motion.span
           className={`inline-block w-0.5 h-5 bg-current ml-1 ${cursorClassName}`}
           animate={{ opacity: showCursor ? 1 : 0 }}

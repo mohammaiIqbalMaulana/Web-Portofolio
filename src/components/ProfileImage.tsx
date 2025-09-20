@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useAnimation } from '../contexts/AnimationContext'
 
@@ -16,6 +16,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
   className = 'mx-auto',
 }) => {
   const { reducedMotion } = useAnimation()
+  const [isHovered, setIsHovered] = useState(false)
 
   const sizeClasses = {
     sm: 'w-32 h-32',
@@ -30,19 +31,32 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
       animate={{ opacity: 1, scale: 1, rotate: 0 }}
       transition={{
         duration: 0.8,
-        type: "spring",
-        stiffness: 100,
-        damping: 15
+        ease: "easeOut"
       }}
       whileHover={!reducedMotion ? {
-        scale: 1.05,
-        rotate: 2,
-        transition: { duration: 0.3 }
+        scale: 1.2,
+        rotate: 5,
+        transition: {
+          duration: 0.4,
+          ease: "easeOut"
+        }
       } : {}}
-      className={`relative ${sizeClasses[size]} ${className}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`relative ${sizeClasses[size]} ${className} cursor-pointer`}
     >
-      {/* Glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-r from-primary-400 to-primary-600 rounded-full blur-lg opacity-30 animate-pulse" />
+      {/* Smooth glow effect */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r from-primary-400 to-primary-600 rounded-full blur-lg opacity-30"
+        animate={!reducedMotion ? {
+          scale: isHovered ? 1.15 : 1,
+          opacity: isHovered ? 0.5 : 0.3
+        } : {}}
+        transition={{
+          duration: 0.3,
+          ease: "easeOut"
+        }}
+      />
 
       {/* Main image container */}
       <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white dark:border-secondary-800 shadow-2xl">
@@ -50,41 +64,95 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
           src={src}
           alt={alt}
           className="w-full h-full object-cover"
-          whileHover={!reducedMotion ? { scale: 1.1 } : {}}
-          transition={{ duration: 0.5 }}
+          animate={!reducedMotion ? {
+            scale: isHovered ? 1.1 : 1,
+            filter: isHovered ? "brightness(1.15) contrast(1.1) saturate(1.15)" : "brightness(1) contrast(1) saturate(1)"
+          } : {}}
+          transition={{
+            duration: 0.4,
+            ease: "easeOut"
+          }}
         />
 
-        {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+        {/* Smooth overlay */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-t from-primary-600/20 to-transparent"
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        />
+
+        {/* Smooth shine effect */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -skew-x-12"
+          animate={{
+            x: isHovered ? '100%' : '-100%',
+            opacity: isHovered ? 1 : 0
+          }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
+        />
       </div>
 
-      {/* Floating elements for decoration */}
+      {/* Smooth floating elements */}
       {!reducedMotion && (
         <>
           <motion.div
             animate={{
-              y: [-10, 10, -10],
-              rotate: [0, 5, 0]
+              y: isHovered ? [-6, 10, -6] : [-6, 6, -6],
+              rotate: isHovered ? [0, 8, 0] : [0, 5, 0],
+              scale: isHovered ? [1, 1.2, 1] : [1, 1.1, 1]
             }}
             transition={{
-              duration: 3,
+              duration: isHovered ? 1.5 : 2,
               repeat: Infinity,
               ease: "easeInOut"
             }}
-            className="absolute -top-2 -right-2 w-6 h-6 bg-primary-500 rounded-full opacity-60"
+            className="absolute -top-2 -right-2 w-6 h-6 bg-primary-500 rounded-full opacity-60 shadow-lg"
           />
           <motion.div
             animate={{
-              y: [10, -10, 10],
-              rotate: [0, -5, 0]
+              y: isHovered ? [6, -8, 6] : [6, -6, 6],
+              rotate: isHovered ? [0, -6, 0] : [0, -4, 0],
+              scale: isHovered ? [1, 1.3, 1] : [1, 1.15, 1]
             }}
             transition={{
-              duration: 2.5,
+              duration: isHovered ? 1.2 : 1.8,
               repeat: Infinity,
               ease: "easeInOut",
-              delay: 0.5
+              delay: 0.3
             }}
-            className="absolute -bottom-1 -left-1 w-4 h-4 bg-primary-400 rounded-full opacity-50"
+            className="absolute -bottom-1 -left-1 w-4 h-4 bg-blue-500 rounded-full opacity-50 shadow-lg"
+          />
+        </>
+      )}
+
+      {/* Smooth ripple effects */}
+      {!reducedMotion && (
+        <>
+          <motion.div
+            className="absolute inset-0 rounded-full border-2 border-primary-400"
+            animate={isHovered ? {
+              scale: [1, 1.2, 1.4],
+              opacity: [0, 0.4, 0]
+            } : { scale: 1, opacity: 0 }}
+            transition={{
+              duration: 1.2,
+              repeat: isHovered ? Infinity : 0,
+              ease: "easeOut"
+            }}
+          />
+
+          <motion.div
+            className="absolute inset-0 rounded-full border border-primary-300"
+            animate={isHovered ? {
+              scale: [1, 1.3, 1.5],
+              opacity: [0, 0.2, 0]
+            } : { scale: 1, opacity: 0 }}
+            transition={{
+              duration: 1.5,
+              repeat: isHovered ? Infinity : 0,
+              ease: "easeOut",
+              delay: 0.2
+            }}
           />
         </>
       )}

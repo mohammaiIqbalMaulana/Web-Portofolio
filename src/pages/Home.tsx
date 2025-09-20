@@ -35,12 +35,13 @@ const Home: React.FC = () => {
               {/* Name with typing animation */}
               <div className="mb-6">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-secondary-900 dark:text-secondary-100 mb-2">
-                  Hi, I'm{' '}
+                  Hi, My Name{' '}
                   <TypingAnimation
                     texts={['Mohammad Iqbal']}
                     speed={150}
                     className="text-primary-600 dark:text-primary-400"
                     cursorClassName="bg-primary-600 dark:bg-primary-400"
+                    stopAfterComplete={true}
                   />
                 </h1>
               </div>
