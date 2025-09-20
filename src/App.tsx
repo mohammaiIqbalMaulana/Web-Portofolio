@@ -2,14 +2,14 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { AnimationProvider } from './contexts/AnimationContext'
-import Header from './components/layout/Header'
-import Footer from './components/layout/Footer'
+import Header from './layouts/Header'
+import Footer from './layouts/Footer'
 import Home from './pages/Home'
 import About from './pages/About'
 import Projects from './pages/Projects'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
-import ScrollToTop from './components/common/ScrollToTop'
+import ScrollToTop from './components/ScrollToTop'
 
 function App() {
   return (
