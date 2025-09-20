@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useTheme } from '../../contexts/ThemeContext'
+import { useTheme } from '../contexts/ThemeContext'
 import { Moon, Sun, Menu, X } from 'lucide-react'
 import { motion } from 'framer-motion'
 
