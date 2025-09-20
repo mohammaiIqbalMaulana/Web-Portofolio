@@ -27,12 +27,7 @@
     },
 
     /* Node.js types */
-    "types": ["node"],
-
-    /* Composite project settings */
-    "composite": true,
-    "declaration": true,
-    "outDir": "./dist"
+    "types": ["node"]
   },
-  "include": ["vite.config.ts"]
+  "include": ["src"]
 }
