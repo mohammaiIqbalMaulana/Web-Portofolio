@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.6;
+  color: rgb(34 34 34); /* secondary-800 */
+  background-color: rgb(250 250 249); /* secondary-50 */
+  overflow-x: hidden;
+}
+
+.dark body {
+  color: rgb(245 245 244); /* secondary-100 */
+  background-color: rgb(28 25 23); /* secondary-900 */
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(245 245 244); /* secondary-100 */
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: rgb(41 37 36); /* secondary-800 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(56 189 248); /* primary-400 */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(14 165 233); /* primary-500 */
+}
+
+/* Selection styles */
+::selection {
+  background-color: rgb(186 230 253); /* primary-200 */
+  color: rgb(12 74 110); /* primary-900 */
+}
+
+.dark ::selection {
+  background-color: rgb(7 89 133); /* primary-800 */
+  color: rgb(224 242 254); /* primary-100 */
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid rgb(14 165 233); /* primary-500 */
+  outline-offset: 2px;
+}
+
+/* Smooth transitions */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
