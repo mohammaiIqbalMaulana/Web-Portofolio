@@ -2,102 +2,130 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Download, Github, Linkedin, Mail } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import TypingAnimation from '../components/TypingAnimation'
+import ProfileImage from '../components/ProfileImage'
 
 const Home: React.FC = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-secondary-900 dark:text-secondary-100 mb-6">
-              Hi, I'm{' '}
-              <span className="text-primary-600 dark:text-primary-400">
-                Your Name
-              </span>
-            </h1>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <h2 className="text-xl sm:text-2xl lg:text-3xl text-secondary-600 dark:text-secondary-400 mb-8">
-              Full Stack Developer & UI/UX Designer
-            </h2>
-          </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg text-secondary-600 dark:text-secondary-400 mb-12 max-w-2xl mx-auto leading-relaxed"
-          >
-            I create beautiful, functional, and user-centered digital experiences.
-            Passionate about clean code, innovative solutions, and bringing ideas to life.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-          >
-            <Link
-              to="/projects"
-              className="inline-flex items-center px-8 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-lg transition-colors group"
+      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
+            {/* Left Column - Profile Image */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="flex justify-center lg:justify-end"
             >
-              View My Work
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+              <ProfileImage
+                size="xl"
+                className="mx-auto"
+              />
+            </motion.div>
 
-            <button className="inline-flex items-center px-8 py-3 border border-secondary-300 dark:border-secondary-600 text-secondary-700 dark:text-secondary-300 font-medium rounded-lg hover:bg-secondary-50 dark:hover:bg-secondary-800 transition-colors">
-              <Download className="mr-2 w-4 h-4" />
-              Download CV
-            </button>
-          </motion.div>
+            {/* Right Column - Name and Description */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-center lg:text-left"
+            >
+              {/* Name with typing animation */}
+              <div className="mb-6">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-secondary-900 dark:text-secondary-100 mb-2">
+                  Hi, I'm{' '}
+                  <TypingAnimation
+                    texts={['Mohammad Iqbal']}
+                    speed={150}
+                    className="text-primary-600 dark:text-primary-400"
+                    cursorClassName="bg-primary-600 dark:bg-primary-400"
+                  />
+                </h1>
+              </div>
 
-          {/* Social Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex justify-center space-x-6 mt-12"
-          >
-            {[
-              { icon: Github, href: 'https://github.com', label: 'GitHub' },
-              { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-              { icon: Mail, href: 'mailto:your.email@example.com', label: 'Email' },
-            ].map((social) => {
-              const Icon = social.icon
-              return (
-                <motion.a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="p-3 bg-secondary-100 dark:bg-secondary-800 text-secondary-600 dark:text-secondary-400 rounded-lg hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
-                  aria-label={social.label}
+              {/* Description with typing animation */}
+              <div className="mb-8">
+                <TypingAnimation
+                  texts={['Full Stack Developer', 'UI/UX Designer', 'Problem Solver']}
+                  speed={100}
+                  delay={2000}
+                  className="text-xl sm:text-2xl lg:text-3xl text-secondary-600 dark:text-secondary-400 block"
+                  cursorClassName="bg-secondary-600 dark:bg-secondary-400"
+                />
+              </div>
+
+              {/* Additional description */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+                className="text-lg text-secondary-600 dark:text-secondary-400 mb-12 leading-relaxed"
+              >
+                I create beautiful, functional, and user-centered digital experiences.
+                Passionate about clean code, innovative solutions, and bringing ideas to life.
+              </motion.p>
+
+              {/* Action Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.0 }}
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center"
+              >
+                <Link
+                  to="/projects"
+                  className="inline-flex items-center px-8 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-lg transition-colors group"
                 >
-                  <Icon size={24} />
-                </motion.a>
-              )
-            })}
-          </motion.div>
+                  View My Work
+                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+
+                <button className="inline-flex items-center px-8 py-3 border border-secondary-300 dark:border-secondary-600 text-secondary-700 dark:text-secondary-300 font-medium rounded-lg hover:bg-secondary-50 dark:hover:bg-secondary-800 transition-colors">
+                  <Download className="mr-2 w-4 h-4" />
+                  Download CV
+                </button>
+              </motion.div>
+
+              {/* Social Links */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.2 }}
+                className="flex justify-center lg:justify-start space-x-6 mt-12"
+              >
+                {[
+                  { icon: Github, href: 'https://github.com', label: 'GitHub' },
+                  { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
+                  { icon: Mail, href: 'mailto:your.email@example.com', label: 'Email' },
+                ].map((social) => {
+                  const Icon = social.icon
+                  return (
+                    <motion.a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="p-3 bg-secondary-100 dark:bg-secondary-800 text-secondary-600 dark:text-secondary-400 rounded-lg hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+                      aria-label={social.label}
+                    >
+                      <Icon size={24} />
+                    </motion.a>
+                  )
+                })}
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
 
         {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
+          transition={{ delay: 1.6, duration: 0.8 }}
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
         >
           <div className="w-6 h-10 border-2 border-secondary-300 dark:border-secondary-600 rounded-full flex justify-center">
