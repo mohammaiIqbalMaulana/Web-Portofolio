@@ -1,0 +1,79 @@
+/* New Hamburger Animation - X Style */
+.hamburger-line-new {
+  display: block !important;
+  width: 20px !important;
+  height: 2px !important;
+  background-color: currentColor !important;
+  margin: 2px 0 !important;
+  border-radius: 1px !important;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+  transform-origin: center !important;
+}
+
+#hamburger.hamburger-active .hamburger-line-new:nth-child(1) {
+  transform: rotate(135deg) translate(-2px, 2px) !important;
+  transform-origin: center !important;
+}
+
+#hamburger.hamburger-active .hamburger-line-new:nth-child(2) {
+  opacity: 0 !important;
+  transform: rotate(0deg) scale(0.2, 0.2) !important;
+  transform-origin: center !important;
+}
+
+#hamburger.hamburger-active .hamburger-line-new:nth-child(3) {
+  transform: rotate(225deg) translate(-2px, -2px) !important;
+  transform-origin: center !important;
+}
+
+/* Ensure hamburger button stays visible and interactive */
+#hamburger {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: fixed !important;
+  z-index: 45 !important;
+}
+
+#hamburger:hover {
+  transform: scale(1.05) !important;
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+#hamburger:active {
+  transform: scale(0.95) !important;
+}
+
+#hamburger:focus {
+  outline: 2px solid #3b82f6 !important;
+  outline-offset: 2px !important;
+}
+
+/* Additional styles for better visibility */
+#hamburger {
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Remove blur when hamburger menu is active */
+#hamburger.hamburger-active {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Ensure hamburger button is never hidden */
+@media (max-width: 1023px) {
+  #hamburger {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Safe area support for mobile devices */
+@supports (padding-top: env(safe-area-inset-top)) {
+  #hamburger {
+    padding-top: calc(8px + env(safe-area-inset-top)) !important;
+  }
+}

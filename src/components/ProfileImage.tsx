@@ -19,10 +19,10 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
   const [isHovered, setIsHovered] = useState(false)
 
   const sizeClasses = {
-    sm: 'w-32 h-32',
-    md: 'w-48 h-48',
-    lg: 'w-64 h-64',
-    xl: 'w-80 h-80'
+    sm: 'w-24 h-24 sm:w-32 sm:h-32 md:w-44 md:h-44 lg:w-52 lg:h-52',
+    md: 'w-28 h-28 sm:w-36 sm:h-36 md:w-48 md:h-48 lg:w-56 lg:h-56',
+    lg: 'w-32 h-32 sm:w-40 sm:h-40 md:w-52 md:h-52 lg:w-64 lg:h-64',
+    xl: 'w-44 h-44 sm:w-52 sm:h-52 md:w-52 md:h-52 lg:w-80 lg:h-80'
   }
 
   return (
@@ -34,7 +34,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
         ease: "easeOut"
       }}
       whileHover={!reducedMotion ? {
-        scale: 1.2,
+        scale: 1.1,
         rotate: 5,
         transition: {
           duration: 0.4,

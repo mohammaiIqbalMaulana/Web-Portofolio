@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useAnimation } from '../contexts/AnimationContext'
 
@@ -28,6 +28,10 @@ const TypingAnimation: React.FC<TypingAnimationProps> = ({
   const [isComplete, setIsComplete] = useState(false)
   const { reducedMotion } = useAnimation()
 
+  const typingTimeoutRef = useRef<NodeJS.Timeout>()
+  const cursorIntervalRef = useRef<NodeJS.Timeout>()
+  const delayTimeoutRef = useRef<NodeJS.Timeout>()
+
   useEffect(() => {
     if (reducedMotion) {
       // Skip animation for users who prefer reduced motion
@@ -56,7 +60,7 @@ const TypingAnimation: React.FC<TypingAnimationProps> = ({
           }
 
           // Wait before starting next text or looping back
-          setTimeout(() => {
+          typingTimeoutRef.current = setTimeout(() => {
             if (currentTextIndex < texts.length - 1) {
               setCurrentTextIndex(prev => prev + 1)
               setCurrentText('')
@@ -67,10 +71,17 @@ const TypingAnimation: React.FC<TypingAnimationProps> = ({
           }, 2000) // Wait 2 seconds before next text
         }
       }, speed)
+
+      // Store interval reference for cleanup
+      typingTimeoutRef.current = typeInterval as any
     }
 
-    const timer = setTimeout(startTyping, delay)
-    return () => clearTimeout(timer)
+    delayTimeoutRef.current = setTimeout(startTyping, delay)
+
+    return () => {
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current)
+      if (delayTimeoutRef.current) clearTimeout(delayTimeoutRef.current)
+    }
   }, [currentTextIndex, texts, speed, delay, reducedMotion, loop, stopAfterComplete])
 
   // Cursor blinking animation - stop when complete
@@ -81,8 +92,21 @@ const TypingAnimation: React.FC<TypingAnimationProps> = ({
       setShowCursor(prev => !prev)
     }, 500)
 
-    return () => clearInterval(cursorInterval)
+    cursorIntervalRef.current = cursorInterval
+
+    return () => {
+      if (cursorIntervalRef.current) clearInterval(cursorIntervalRef.current)
+    }
   }, [reducedMotion, isComplete])
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current)
+      if (cursorIntervalRef.current) clearInterval(cursorIntervalRef.current)
+      if (delayTimeoutRef.current) clearTimeout(delayTimeoutRef.current)
+    }
+  }, [])
 
   return (
     <span className={className}>
