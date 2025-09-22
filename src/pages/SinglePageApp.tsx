@@ -685,23 +685,19 @@ const SinglePageAppContent: React.FC = () => {
                       { icon: Github, href: 'https://github.com', label: 'GitHub' },
                       { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
                       { icon: Mail, href: 'mailto:your.email@example.com', label: 'Email' },
-                    ].map((social, index) => {
+                    ].map((social) => {
                       const Icon = social.icon
                       return (
-                        <motion.a
-                          key={social.label}
-                          href={social.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
-                          viewport={{ once: true }}
-                          whileHover={{ scale: 1.1, y: -2 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="p-2 bg-secondary-800 text-secondary-400 hover:text-primary-400 hover:bg-secondary-700 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
-                          aria-label={social.label}
-                        >
+                          <motion.a
+                            key={social.label}
+                            href={social.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileHover={{ scale: 1.1, y: -2 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="p-2 sm:p-3 bg-secondary-100 dark:bg-secondary-800 text-secondary-600 dark:text-secondary-400 rounded-lg hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+                            aria-label={social.label}
+                          >
                           <Icon size={18} className="sm:w-5 sm:h-5" />
                         </motion.a>
                       )
