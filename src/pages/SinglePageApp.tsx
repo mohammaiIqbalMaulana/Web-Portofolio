@@ -6,7 +6,6 @@ import { AnimationProvider } from '../contexts/AnimationContext'
 import TypingAnimation from '../components/TypingAnimation'
 import ProfileImage from '../components/ProfileImage'
 import HamburgerMenu from '../components/HamburgerMenu'
-import SocialIcon from '../components/SocialIcon'
 import '../styles/hamburger.css'
 
 const SinglePageAppContent: React.FC = () => {
