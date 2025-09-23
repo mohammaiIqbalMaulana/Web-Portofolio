@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Download, Github, Linkedin, Mail, ChevronUp, Moon, Sun } from 'lucide-react'
+import { ArrowRight, Download, Github, Instagram, Youtube, Music2, Linkedin, Mail, ChevronUp, Moon, Sun } from 'lucide-react'
 import { ThemeProvider, useTheme } from '../contexts/ThemeContext'
 import { AnimationProvider } from '../contexts/AnimationContext'
 import TypingAnimation from '../components/TypingAnimation'
@@ -250,7 +250,7 @@ const SinglePageAppContent: React.FC = () => {
                     {/* Description with typing animation */}
                     <div className="mb-6 sm:mb-8">
                       <TypingAnimation
-                        texts={['Full Stack Developer', 'UI/UX Designer', 'Problem Solver']}
+                        texts={['Full Stack Developer', 'UI/UX Designer', 'Problem Solver', 'Influencer']}
                         speed={100}
                         delay={2000}
                         className="text-lg sm:text-xl md:text-xl lg:text-3xl text-secondary-600 dark:text-secondary-400 block"
@@ -308,6 +308,9 @@ const SinglePageAppContent: React.FC = () => {
                         { icon: Github, href: 'https://github.com/mohammaiIqbalMaulana', label: 'GitHub' },
                         { icon: Linkedin, href: 'https://www.linkedin.com/in/mohammad-iqbalmaulana-93746a386/', label: 'LinkedIn' },
                         { icon: Mail, href: 'mailto:iqbalmaulana14042005@gmail.com', label: 'Email' },
+                        { icon: Instagram, href: 'https://www.instagram.com/kikezukata._/', label: 'Instagram' },
+                        { icon: Youtube, href: 'https://youtube.com/@zukataofficial4484?si=rcinKfCG38z7o4eI', label: 'YouTube' },
+                        { icon: Music2, href: 'https://www.tiktok.com/@kikezukata_kun', label: 'TikTok' },
                       ].map((social) => {
                         const Icon = social.icon
                         return (
@@ -357,10 +360,10 @@ const SinglePageAppContent: React.FC = () => {
                     viewport={{ once: true }}
                   >
                     <h3 className="text-xl sm:text-2xl font-bold text-secondary-900 dark:text-secondary-100 mb-4">
-                      Passionate Full Stack Developer
+                      Passionate 
                     </h3>
                     <p className="text-secondary-600 dark:text-secondary-400 mb-6 leading-relaxed">
-                      I've been studying at Muhammadiyah University of Semarang since 2023. During my studies, I gained a foundation in Java programming and have worked on various programs using both Java and Python. Outside of class, I've also deepened my skills as a full-stack developer using Node.js, including completing two web-based projects during my internship. This combined experience has given me a foundation in building applications from the backend to the frontend, while also developing a broader understanding of programming concepts.
+                      I have been studying at Muhammadiyah University of Semarang since 2023. During my studies, I gained a foundation in Java programming and have worked on various programs using both Java and Python. Outside of class, I also deepened my skills as a full-stack developer using Node.js, including completing two web-based projects during my internship. This combined experience has given me a foundation in building applications from the backend to the frontend, while also developing a broader understanding of programming concepts. In addition to academics and technology, I am also active as an influencer on TikTok and YouTube, further honing my communication skills, content creativity, and engagement with digital audiences.
                     </p>
                     <button
                       onClick={() => scrollToSection('projects')}
@@ -834,9 +837,12 @@ const SinglePageAppContent: React.FC = () => {
                   <h3 className="text-base sm:text-lg font-semibold text-white mb-4">Connect</h3>
                   <div className="flex space-x-3 sm:space-x-4">
                     {[
-                      { icon: Github, href: 'https://github.com/mohammaiIqbalMaulana', label: 'GitHub' },
-                      { icon: Linkedin, href: 'https://www.linkedin.com/in/mohammad-iqbalmaulana-93746a386/', label: 'LinkedIn' },
-                      { icon: Mail, href: 'mailto:iqbalmaulana14042005@gmail.com', label: 'Email' },
+                        { icon: Github, href: 'https://github.com/mohammaiIqbalMaulana', label: 'GitHub' },
+                        { icon: Linkedin, href: 'https://www.linkedin.com/in/mohammad-iqbalmaulana-93746a386/', label: 'LinkedIn' },
+                        { icon: Mail, href: 'mailto:iqbalmaulana14042005@gmail.com', label: 'Email' }, 
+                        { icon: Instagram, href: 'https://www.instagram.com/kikezukata._/', label: 'Instagram' },
+                        { icon: Youtube, href: 'https://youtube.com/@zukataofficial4484?si=rcinKfCG38z7o4eI', label: 'YouTube' },
+                        { icon: Music2, href: 'https://www.tiktok.com/@kikezukata_kun', label: 'TikTok' },
                     ].map((social) => {
                       const Icon = social.icon
                       return (
