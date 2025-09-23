@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowRight, Download, Github, Instagram, Youtube, Music2, Linkedin, Mail, ChevronUp, Moon, Sun, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
+import { ArrowRight, Download, Github, Instagram, Youtube, Music2, Linkedin, Mail, ChevronUp, Moon, Sun, Send, CheckCircle, AlertCircle, Loader2, Code, Database, Palette, Zap, Globe, Cpu, Layers, Sparkles } from 'lucide-react'
 import { ThemeProvider, useTheme } from '../contexts/ThemeContext'
 import { AnimationProvider } from '../contexts/AnimationContext'
 import TypingAnimation from '../components/TypingAnimation'
@@ -181,7 +181,7 @@ const SinglePageAppContent: React.FC = () => {
 
     if (!formData.email.trim()) {
       errors.email = 'Email is required'
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    } else if (!/\S@\S\.\S/.test(formData.email)) {
       errors.email = 'Please enter a valid email address'
     }
 
@@ -512,9 +512,9 @@ const SinglePageAppContent: React.FC = () => {
                     className="grid grid-cols-2 gap-4 sm:gap-6"
                   >
                     {[
-                      { number: '10+', label: 'Projects Completed' },
-                      { number: '2+', label: 'Years Experience' },
-                      { number: '5+', label: 'Happy Clients' },
+                      { number: '10', label: 'Projects Completed' },
+                      { number: '2', label: 'Years Experience' },
+                      { number: '5', label: 'Happy Clients' },
                       { number: '90%', label: 'Client Satisfaction' },
                     ].map((stat, index) => (
                       <div key={index} className="text-center p-4 sm:p-6 bg-white dark:bg-secondary-800 rounded-lg shadow-sm">
@@ -532,8 +532,13 @@ const SinglePageAppContent: React.FC = () => {
             </section>
 
             {/* Skills Section */}
-            <section id="skills" className="py-8 sm:py-12 md:py-16 bg-white dark:bg-secondary-800">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section id="skills" className="py-8 sm:py-12 md:py-16 bg-white dark:bg-secondary-800 relative overflow-hidden">
+              {/* Background Effects */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-50/30 to-transparent dark:from-primary-900/10 dark:to-transparent"></div>
+              <div className="absolute top-20 left-10 w-72 h-72 bg-primary-400/10 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-20 right-10 w-72 h-72 bg-primary-400/10 rounded-full blur-3xl"></div>
+
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -541,52 +546,258 @@ const SinglePageAppContent: React.FC = () => {
                   viewport={{ once: true }}
                   className="text-center mb-12 sm:mb-16"
                 >
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary-900 dark:text-secondary-100 mb-4">
+                  <motion.h2
+                    className="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary-900 dark:text-secondary-100 mb-4"
+                    initial={{ opacity: 0, y: -20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    viewport={{ once: true }}
+                  >
                     Skills & Technologies
-                  </h2>
-                  <p className="text-base sm:text-lg text-secondary-600 dark:text-secondary-400 max-w-2xl mx-auto">
+                  </motion.h2>
+                  <motion.p
+                    className="text-base sm:text-lg text-secondary-600 dark:text-secondary-400 max-w-2xl mx-auto"
+                    initial={{ opacity: 0, y: -20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                    viewport={{ once: true }}
+                  >
                     I work with modern technologies and frameworks to build robust and scalable applications.
-                  </p>
+                  </motion.p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                {/* Skill Categories */}
+                <div className="mb-12">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.6 }}
+                    viewport={{ once: true }}
+                    className="flex flex-wrap justify-center gap-3 mb-8"
+                  >
+                    {[
+                      { name: 'Frontend', icon: Globe, color: 'from-blue-500 to-cyan-500' },
+                      { name: 'Backend', icon: Database, color: 'from-green-500 to-emerald-500' },
+                      { name: 'Design', icon: Palette, color: 'from-purple-500 to-pink-500' }
+                    ].map((category, index) => {
+                      const Icon = category.icon
+                      return (
+                        <motion.div
+                          key={category.name}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.6, delay: 0.8 * index * 0.1 }}
+                          viewport={{ once: true }}
+                          className={`flex items-center space-x-2 px-4 py-2 rounded-full bg-gradient-to-r ${category.color} text-white shadow-lg`}
+                        >
+                          <Icon size={16} />
+                          <span className="font-medium text-sm">{category.name}</span>
+                        </motion.div>
+                      )
+                    })}
+                  </motion.div>
+                </div>
+
+                {/* Enhanced Skills Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
                   {[
-                    { name: 'React', level: 85 },
-                    { name: 'TypeScript', level: 70 },
-                    { name: 'Node.js', level: 100 },
-                    { name: 'Python', level: 85 },
-                    { name: 'Tailwind CSS', level: 92 },
-                    { name: 'MySQL', level: 93 },
-                    { name: 'Java', level: 90 },
-                    { name: 'Figma', level: 80 }
-                  ].map((skill, index) => (
-                    <motion.div
-                      key={skill.name}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                      viewport={{ once: true }}
-                      className="text-center"
-                    >
-                      <div className="mb-4">
-                        <div className="w-full bg-secondary-200 dark:bg-secondary-700 rounded-full h-2 mb-2">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${skill.level}%` }}
-                            transition={{ duration: 1, delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                            className="bg-primary-500 h-2 rounded-full"
-                          />
-                        </div>
-                        <div className="text-sm font-medium text-secondary-900 dark:text-secondary-100">
-                          {skill.name}
-                        </div>
-                        <div className="text-xs text-secondary-600 dark:text-secondary-400">
-                          {skill.level}%
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
+                    {
+                      name: 'React',
+                      level: 85,
+                      category: 'Frontend',
+                      icon: Code,
+                      color: 'from-blue-500 to-cyan-500',
+                      description: 'Building dynamic user interfaces with modern React patterns'
+                    },
+                    {
+                      name: 'TypeScript',
+                      level: 70,
+                      category: 'Frontend',
+                      icon: Layers,
+                      color: 'from-blue-600 to-blue-400',
+                      description: 'Type-safe JavaScript development for scalable applications'
+                    },
+                    {
+                      name: 'Node.js',
+                      level: 100,
+                      category: 'Backend',
+                      icon: Zap,
+                      color: 'from-green-500 to-emerald-500',
+                      description: 'High-performance server-side JavaScript runtime'
+                    },
+                    {
+                      name: 'Python',
+                      level: 85,
+                      category: 'Backend',
+                      icon: Cpu,
+                      color: 'from-green-600 to-green-400',
+                      description: 'Versatile programming for data science and web development'
+                    },
+                    {
+                      name: 'Tailwind CSS',
+                      level: 92,
+                      category: 'Frontend',
+                      icon: Sparkles,
+                      color: 'from-cyan-500 to-teal-500',
+                      description: 'Utility-first CSS framework for rapid UI development'
+                    },
+                    {
+                      name: 'MySQL',
+                      level: 93,
+                      category: 'Backend',
+                      icon: Database,
+                      color: 'from-orange-500 to-red-500',
+                      description: 'Relational database management and optimization'
+                    },
+                    {
+                      name: 'Java',
+                      level: 90,
+                      category: 'Backend',
+                      icon: Cpu,
+                      color: 'from-red-500 to-orange-500',
+                      description: 'Object-oriented programming and enterprise applications'
+                    },
+                    {
+                      name: 'Figma',
+                      level: 80,
+                      category: 'Design',
+                      icon: Palette,
+                      color: 'from-purple-500 to-pink-500',
+                      description: 'UI/UX design and prototyping for digital products'
+                    }
+                  ].map((skill, index) => {
+                    const Icon = skill.icon
+                    return (
+                      <motion.div
+                        key={skill.name}
+                        initial={{ opacity: 0, y: 30, rotateX: -15 }}
+                        whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                        transition={{
+                          duration: 0.8,
+                          delay: index * 0.1,
+                          type: "spring",
+                          stiffness: 100,
+                          damping: 15
+                        }}
+                        viewport={{ once: true }}
+                        whileHover={{
+                          y: -8,
+                          rotateX: 5,
+                          scale: window.innerWidth < 640 ? 1.02 : 1.05,
+                          transition: { duration: 0.3, type: "spring", stiffness: 300 }
+                        }}
+                        className="group relative"
+                      >
+                        {/* Skill Card */}
+                        <div className="relative bg-white dark:bg-secondary-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border border-secondary-200 dark:border-secondary-700 overflow-hidden">
+                          {/* Background Gradient */}
+                          <div className={`absolute inset-0 bg-gradient-to-br ${skill.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
+
+                          {/* Glow Effect */}
+                          <div className={`absolute -inset-1 bg-gradient-to-r ${skill.color} rounded-xl sm:rounded-2xl blur opacity-0 group-hover:opacity-20 transition-opacity duration-300`}></div>
+
+                          <div className="relative z-10">
+                            {/* Icon and Name */}
+                            <div className="flex items-center justify-between mb-4">
+                              <div className={`p-2 sm:p-3 rounded-lg sm:rounded-xl bg-gradient-to-r ${skill.color} text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                                <Icon size={window.innerWidth < 640 ? 20 : 24} />
+                              </div>
+                              <div className="text-right">
+                                <div className="text-xs font-medium text-secondary-500 dark:text-secondary-400 uppercase tracking-wide">
+                                  {skill.category}
+                                </div>
+                                <div className="text-xs text-secondary-400 dark:text-secondary-500">
+                                  {skill.level}%
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Skill Name */}
+                            <h3 className="text-base sm:text-lg font-bold text-secondary-900 dark:text-secondary-100 mb-2 sm:mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                              {skill.name}
+                            </h3>
+
+                            {/* Circular Progress */}
+                            <div className="relative mb-3 sm:mb-4">
+                              <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto">
+                                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                  {/* Background Circle */}
+                                  <path
+                                    d="M18 2.0845
+                                      a 15.9155 15.9155 0 0 1 0 31.831
+                                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    className="text-secondary-200 dark:text-secondary-700"
+                                  />
+                                  {/* Progress Circle */}
+                                  <motion.path
+                                    d="M18 2.0845
+                                      a 15.9155 15.9155 0 0 1 0 31.831
+                                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                                    fill="none"
+                                    stroke="url(#gradient)"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    initial={{ pathLength: 0 }}
+                                    whileInView={{ pathLength: skill.level / 100 }}
+                                    transition={{ duration: 2, delay: index * 0.1, ease: "easeInOut" }}
+                                    viewport={{ once: true }}
+                                    className="drop-shadow-sm"
+                                  />
+                                  <defs>
+                                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                      <stop offset="0%" stopColor="#3B82F6" />
+                                      <stop offset="100%" stopColor="#06B6D4" />
+                                    </linearGradient>
+                                  </defs>
+                                </svg>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                  <div className="text-xs font-bold text-secondary-600 dark:text-secondary-400">
+                                    {skill.level}%
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Description */}
+                            <motion.p
+                              className="text-xs text-secondary-600 dark:text-secondary-400 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              initial={{ y: 10 }}
+                              whileInView={{ y: 0 }}
+                              transition={{ duration: 0.3, delay: 0.2 }}
+                              viewport={{ once: true }}
+                            >
+                              {skill.description}
+                            </motion.p>
+
+                            {/* Floating Particles */}
+                            <div className="absolute top-1 sm:top-2 right-1 sm:right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <div className="flex space-x-1">
+                                {[...Array(3)].map((_, i) => (
+                                  <motion.div
+                                    key={i}
+                                    className={`w-1 h-1 bg-gradient-to-r ${skill.color} rounded-full`}
+                                    animate={{
+                                      y: [0, -8, 0],
+                                      opacity: [0.3, 1, 0.3]
+                                    }}
+                                    transition={{
+                                      duration: 2,
+                                      delay: i * 0.2,
+                                      repeat: Infinity,
+                                      ease: "easeInOut"
+                                    }}
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                      </motion.div>
+                    )
+                  })}
                 </div>
               </div>
             </section>
@@ -723,7 +934,7 @@ const SinglePageAppContent: React.FC = () => {
                               key={techIndex}
                               initial={{ opacity: 0, scale: 0.8 }}
                               whileInView={{ opacity: 1, scale: 1 }}
-                              transition={{ duration: 0.4, delay: index * 0.1 + techIndex * 0.05 }}
+                              transition={{ duration: 0.4, delay: index * 0.1 * techIndex * 0.05 }}
                               viewport={{ once: true }}
                               className="px-2 sm:px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-xs sm:text-sm rounded-full hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors"
                             >
@@ -1055,7 +1266,7 @@ const SinglePageAppContent: React.FC = () => {
                         key={item.id}
                         initial={{ opacity: 0, x: -10 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.4, delay: 0.2 + index * 0.05 }}
+                        transition={{ duration: 0.4, delay: 0.2 * index * 0.05 }}
                         viewport={{ once: true }}
                       >
                         <button
