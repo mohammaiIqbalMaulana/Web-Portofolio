@@ -55,6 +55,10 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onToggle, onNavig
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               className="fixed top-0 right-0 z-[44] w-full max-w-[280px] h-auto bg-white dark:bg-secondary-900 shadow-lg lg:hidden rounded-bl-lg"
+              style={{
+                top: 'calc(64px + env(safe-area-inset-top, 0px))',
+                maxHeight: 'calc(100vh - 120px - env(safe-area-inset-top, 0px))'
+              }}
               data-menu-panel
             >
               <div className="flex flex-col">

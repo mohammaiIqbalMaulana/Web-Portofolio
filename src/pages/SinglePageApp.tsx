@@ -62,7 +62,7 @@ const SinglePageAppContent: React.FC = () => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
-      const headerHeight = 80 // Increased to account for better positioning
+      const headerHeight = 10
       const elementPosition = element.offsetTop - headerHeight
 
       window.scrollTo({
@@ -173,7 +173,7 @@ const SinglePageAppContent: React.FC = () => {
   }
 
   // Form handling functions
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
@@ -289,7 +289,7 @@ const SinglePageAppContent: React.FC = () => {
           {/* Enhanced Fixed Header */}
           <header className={`fixed top-0 left-0 z-40 w-full transition-all duration-500 ${
             isScrolled
-              ? 'bg-secondary-50/95 dark:bg-secondary-900/95 backdrop-blur-lg border-b border-secondary-200/50 dark:border-secondary-800/50 shadow-lg'
+              ? 'bg-secondary-50/70 dark:bg-secondary-900/70 backdrop-blur-md border-b border-secondary-200/30 dark:border-secondary-800/30 shadow-md'
               : 'bg-transparent border-b-0'
           } ${isHeaderVisible ? 'translate-y-0' : '-translate-y-full'}`}>
             {/* Scroll Progress Bar */}
@@ -1207,7 +1207,7 @@ const SinglePageAppContent: React.FC = () => {
               <div className="absolute bottom-32 right-16 w-72 h-72 bg-orange-300/8 rounded-full blur-3xl"></div>
               <div className="absolute top-1/2 left-1/4 w-48 h-48 bg-amber-400/5 rounded-full blur-3xl"></div>
 
-              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1224,272 +1224,382 @@ const SinglePageAppContent: React.FC = () => {
                 </motion.div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                  {/* Left Column - Contact Info & Image */}
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8 }}
                     viewport={{ once: true }}
+                    className="space-y-8"
                   >
-                    <h3 className="text-xl sm:text-2xl font-bold text-secondary-900 dark:text-secondary-100 mb-4">
-                      Let's Start a Conversation
-                    </h3>
-                    <p className="text-secondary-600 dark:text-secondary-400 mb-6 leading-relaxed">
-                      I'm always interested in new opportunities and exciting projects.
-                      Whether you have a question or just want to say hi, I'll do my best
-                      to get back to you!
-                    </p>
+                    {/* Contact Information */}
+                    <div>
+                      <h3 className="text-xl sm:text-2xl font-bold text-secondary-900 dark:text-secondary-100 mb-6">
+                        Information
+                      </h3>
+
+                      {/* Contact Details */}
+                      <div className="space-y-4 mb-8">
+                        <div className="flex items-center space-x-4 p-4 bg-white/50 dark:bg-secondary-800/50 rounded-lg border border-amber-200/50 dark:border-amber-800/50 backdrop-blur-sm">
+                          <div className="w-12 h-12 bg-amber-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span className="text-white text-xl">📞</span>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-secondary-900 dark:text-secondary-100">Phone</h4>
+                            <p className="text-secondary-600 dark:text-secondary-400">+62 881-6564-510</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center space-x-4 p-4 bg-white/50 dark:bg-secondary-800/50 rounded-lg border border-orange-200/50 dark:border-orange-800/50 backdrop-blur-sm">
+                          <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <Mail className="w-5 h-5 text-white" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-secondary-900 dark:text-secondary-100">Email</h4>
+                            <p className="text-secondary-600 dark:text-secondary-400">iqbalmaulana14042005@gmail.com</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center space-x-4 p-4 bg-white/50 dark:bg-secondary-800/50 rounded-lg border border-red-200/50 dark:border-red-800/50 backdrop-blur-sm">
+                          <div className="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span className="text-white text-xl">📍</span>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-secondary-900 dark:text-secondary-100">Location</h4>
+                            <p className="text-secondary-600 dark:text-secondary-400">Semarang, Indonesia</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Profile Image Section */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.2 }}
+                      viewport={{ once: true }}
+                      className="relative"
+                    >
+                      <div className="bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 rounded-2xl p-6 border border-amber-200/50 dark:border-amber-800/50 backdrop-blur-sm">
+                        <div className="text-center mb-4">
+                          <h4 className="text-lg font-semibold text-secondary-900 dark:text-secondary-100 mb-2">
+                            Let's Work Together!
+                          </h4>
+                          <p className="text-sm text-secondary-600 dark:text-secondary-400 mb-4">
+                            I'm always excited to take on new challenges and collaborate on interesting projects.
+                          </p>
+                          <motion.button
+                            whileHover={{ scale: 1.05, y: -2 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="px-6 py-2 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                          >
+                            Let's Connect
+                          </motion.button>
+                        </div>
+
+                        {/* Profile Image */}
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.8, delay: 0.4 }}
+                          viewport={{ once: true }}
+                          className="flex justify-center"
+                        >
+                          <div className="relative">
+                            <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-white dark:border-secondary-800 shadow-xl">
+                              <img
+                                src="/images/Iqbal.jpg"
+                                alt="Mohammad Iqbal"
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            {/* Decorative elements */}
+                            <div className="absolute -top-2 -right-2 w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center">
+                              <span className="text-white text-sm">🙋🏻‍♂️</span>
+                            </div>
+                            <div className="absolute -bottom-2 -left-2 w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
+                              <span className="text-white text-xs">💎</span>
+                            </div>
+                          </div>
+                        </motion.div>
+                      </div>
+                    </motion.div>
                   </motion.div>
 
+                  {/* Right Column - Contact Form */}
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8 }}
                     viewport={{ once: true }}
                   >
-                    <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-                      {/* Submit Status Messages */}
-                      <AnimatePresence>
-                        {submitStatus && (
+                  <div className="bg-white/80 dark:bg-secondary-800/80 rounded-2xl p-6 sm:p-8 border border-amber-200/50 dark:border-amber-800/50 backdrop-blur-sm shadow-xl">
+                    <h3 className="text-xl sm:text-2xl font-bold text-secondary-900 dark:text-secondary-100 mb-6">
+                      Send Me a Message
+                    </h3>
+
+                      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                        {/* Submit Status Messages */}
+                        <AnimatePresence>
+                          {submitStatus && (
+                            <motion.div
+                              initial={{ opacity: 0, y: -10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -10 }}
+                              className={`p-4 rounded-lg flex items-center space-x-3 ${
+                                submitStatus === 'success'
+                                  ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800'
+                                  : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800'
+                              }`}
+                            >
+                              {submitStatus === 'success' ? (
+                                <CheckCircle className="w-5 h-5 flex-shrink-0" />
+                              ) : (
+                                <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                              )}
+                              <span className="text-sm">
+                                {submitStatus === 'success'
+                                  ? 'Message sent successfully! I\'ll get back to you soon.'
+                                  : 'Failed to send message. Please try again.'}
+                              </span>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+
+                        {/* Form Fields */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <motion.div
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            className={`p-4 rounded-lg flex items-center space-x-3 ${
-                              submitStatus === 'success'
-                                ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800'
-                                : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800'
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.1 }}
+                            viewport={{ once: true }}
+                          >
+                            <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
+                              Full Name *
+                            </label>
+                            <input
+                              type="text"
+                              name="name"
+                              value={formData.name}
+                              onChange={handleInputChange}
+                              onFocus={() => handleFocus('name')}
+                              onBlur={handleBlur}
+                              className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-white transition-all duration-300 ${
+                                formErrors.name
+                                  ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+                                  : 'border-secondary-300 dark:border-secondary-600'
+                              }`}
+                              placeholder="Enter your full name"
+                            />
+                            {formErrors.name && (
+                              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.name}</p>
+                            )}
+                          </motion.div>
+
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            viewport={{ once: true }}
+                          >
+                            <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
+                              Email Address *
+                            </label>
+                            <input
+                              type="email"
+                              name="email"
+                              value={formData.email}
+                              onChange={handleInputChange}
+                              onFocus={() => handleFocus('email')}
+                              onBlur={handleBlur}
+                              className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-white transition-all duration-300 ${
+                                formErrors.email
+                                  ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+                                  : 'border-secondary-300 dark:border-secondary-600'
+                              }`}
+                              placeholder="your.email@example.com"
+                            />
+                            {formErrors.email && (
+                              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.email}</p>
+                            )}
+                          </motion.div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.3 }}
+                            viewport={{ once: true }}
+                          >
+                            <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
+                              Phone Number
+                            </label>
+                            <input
+                              type="tel"
+                              name="whatsapp"
+                              value={formData.whatsapp}
+                              onChange={handleInputChange}
+                              onFocus={() => handleFocus('whatsapp')}
+                              onBlur={handleBlur}
+                              className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-white transition-all duration-300 ${
+                                formErrors.whatsapp
+                                  ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+                                  : 'border-secondary-300 dark:border-secondary-600'
+                              }`}
+                              placeholder="Your phone number"
+                            />
+                            {formErrors.whatsapp && (
+                              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.whatsapp}</p>
+                            )}
+                          </motion.div>
+
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.4 }}
+                            viewport={{ once: true }}
+                          >
+                            <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
+                              Location
+                            </label>
+                            <input
+                              type="text"
+                              name="subject"
+                              value={formData.subject}
+                              onChange={handleInputChange}
+                              onFocus={() => handleFocus('subject')}
+                              onBlur={handleBlur}
+                              className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-white transition-all duration-300 ${
+                                formErrors.subject
+                                  ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+                                  : 'border-secondary-300 dark:border-secondary-600'
+                              }`}
+                              placeholder="Your location"
+                            />
+                            {formErrors.subject && (
+                              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.subject}</p>
+                            )}
+                          </motion.div>
+                        </div>
+
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.6, delay: 0.5 }}
+                          viewport={{ once: true }}
+                        >
+                          <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
+                            What Expertise You're Interested In *
+                          </label>
+                          <select
+                            name="message"
+                            value={formData.message}
+                            onChange={handleInputChange}
+                            onFocus={() => handleFocus('message')}
+                            onBlur={handleBlur}
+                            className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-white transition-all duration-300 ${
+                              formErrors.message
+                                ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+                                : 'border-secondary-300 dark:border-secondary-600'
                             }`}
                           >
-                            {submitStatus === 'success' ? (
-                              <CheckCircle className="w-5 h-5 flex-shrink-0" />
-                            ) : (
-                              <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                            )}
-                            <span className="text-sm">
-                              {submitStatus === 'success'
-                                ? 'Message sent successfully! I\'ll get back to you soon.'
-                                : 'Failed to send message. Please try again.'}
-                            </span>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.1 }}
-                        viewport={{ once: true }}
-                      >
-                        <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
-                          Name *
-                        </label>
-                        <div className="relative">
-                          <input
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            onFocus={() => handleFocus('name')}
-                            onBlur={handleBlur}
-                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 border-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm sm:text-base transition-all duration-300 hover:border-orange-300 dark:hover:border-orange-600 ${
-                              formErrors.name
-                                ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
-                                : 'border-orange-200 dark:border-orange-800'
-                            }`}
-                            placeholder="Enter your name"
-                          />
-                          {formErrors.name && (
-                            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.name}</p>
+                            <option value="">Select a service</option>
+                            <option value="Full Stack Development">Full Stack Development</option>
+                            <option value="UI/UX Design">UI/UX Design</option>
+                            <option value="Mobile Development">Mobile Development</option>
+                            <option value="API Development">API Development</option>
+                            <option value="Consultation">Consultation</option>
+                            <option value="Other">Other</option>
+                          </select>
+                          {formErrors.message && (
+                            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.message}</p>
                           )}
-                        </div>
-                      </motion.div>
+                        </motion.div>
 
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        viewport={{ once: true }}
-                      >
-                        <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
-                          Email *
-                        </label>
-                        <div className="relative">
-                          <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.6, delay: 0.6 }}
+                          viewport={{ once: true }}
+                        >
+                          <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
+                            Tell Us About Your Project *
+                          </label>
+                          <textarea
+                            rows={4}
+                            name="message"
+                            value={formData.message}
                             onChange={handleInputChange}
-                            onFocus={() => handleFocus('email')}
+                            onFocus={() => handleFocus('message')}
                             onBlur={handleBlur}
-                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 border-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm sm:text-base transition-all duration-300 hover:border-orange-300 dark:hover:border-orange-600 ${
-                              formErrors.email
+                            className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-white transition-all duration-300 resize-none ${
+                              formErrors.message
                                 ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
-                                : 'border-orange-200 dark:border-orange-800'
+                                : 'border-secondary-300 dark:border-secondary-600'
                             }`}
-                            placeholder="your.email@example.com"
+                            placeholder="Describe your project requirements, goals, and any specific details..."
                           />
-                          {formErrors.email && (
-                            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.email}</p>
+                          {formErrors.message && (
+                            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.message}</p>
                           )}
-                        </div>
-                      </motion.div>
+                        </motion.div>
 
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.25 }}
-                        viewport={{ once: true }}
-                      >
-                        <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
-                          WhatsApp
-                        </label>
-                        <div className="relative">
-                          <input
-                            type="tel"
-                            name="whatsapp"
-                            value={formData.whatsapp}
-                            onChange={handleInputChange}
-                            onFocus={() => handleFocus('whatsapp')}
-                            onBlur={handleBlur}
-                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 border-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm sm:text-base transition-all duration-300 hover:border-orange-300 dark:hover:border-orange-600 ${
-                              formErrors.whatsapp
-                                ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
-                                : 'border-orange-200 dark:border-orange-800'
-                            }`}
-                            placeholder="Your WhatsApp number"
-                          />
-                          {formErrors.whatsapp && (
-                            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.whatsapp}</p>
-                          )}
-                        </div>
-                      </motion.div>
-
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
-                        viewport={{ once: true }}
-                      >
-                        <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
-                          Message *
-                        </label>
-                        <textarea
-                          rows={4}
-                          name="message"
-                          value={formData.message}
-                          onChange={handleInputChange}
-                          onFocus={() => handleFocus('message')}
-                          onBlur={handleBlur}
-                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 border-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm sm:text-base transition-all duration-300 hover:border-orange-300 dark:hover:border-orange-600 resize-none ${
-                            formErrors.message
-                              ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
-                              : 'border-orange-200 dark:border-orange-800'
+                        <motion.button
+                          type="submit"
+                          disabled={isSubmitting}
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.6, delay: 0.7 }}
+                          viewport={{ once: true }}
+                          whileHover={{
+                            scale: isSubmitting ? 1 : 1.02,
+                            y: isSubmitting ? 0 : -2,
+                            transition: { duration: 0.2, ease: "easeOut" }
+                          }}
+                          whileTap={{
+                            scale: isSubmitting ? 1 : 0.98,
+                            transition: { duration: 0.1 }
+                          }}
+                          className={`relative w-full px-8 py-4 font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl text-base flex items-center justify-center space-x-2 overflow-hidden ${
+                            isSubmitting
+                              ? 'bg-secondary-400 dark:bg-secondary-600 text-secondary-600 dark:text-secondary-400 cursor-not-allowed'
+                              : 'bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white'
                           }`}
-                          placeholder="Tell me about your project or just say hello! I'd love to hear from you..."
-                        />
-                        {formErrors.message && (
-                          <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.message}</p>
-                        )}
-                      </motion.div>
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                                className="w-5 h-5"
+                              >
+                                <Loader2 className="w-5 h-5" />
+                              </motion.div>
+                              <span>Sending...</span>
+                            </>
+                          ) : (
+                            <>
+                              <span className="relative z-10">Submit</span>
+                              <ArrowRight className="w-5 h-5 relative z-10" />
 
-                      <motion.button
-                        type="submit"
-                        disabled={isSubmitting}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.4 }}
-                        viewport={{ once: true }}
-                        whileHover={{ 
-                          scale: isSubmitting ? 1 : 1.02, 
-                          y: isSubmitting ? 0 : -2,
-                          transition: { duration: 0.2, ease: "easeOut" }
-                        }}
-                        whileTap={{ 
-                          scale: isSubmitting ? 1 : 0.98,
-                          transition: { duration: 0.1 }
-                        }}
-                        className={`relative w-full px-6 sm:px-8 py-3 font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl text-sm sm:text-base flex items-center justify-center space-x-2 overflow-hidden ${
-                          isSubmitting
-                            ? 'bg-secondary-400 dark:bg-secondary-600 text-secondary-600 dark:text-secondary-400 cursor-not-allowed'
-                            : 'bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white'
-                        }`}
-                      >
-                        {isSubmitting ? (
-                          <>
-                            <motion.div
-                              animate={{ rotate: 360 }}
-                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                              className="w-4 h-4"
-                            >
-                              <Loader2 className="w-4 h-4" />
-                            </motion.div>
-                            <span>Sending...</span>
-                          </>
-                        ) : (
-                          <>
-                            <motion.span
-                              initial={{ opacity: 0.8 }}
-                              whileHover={{ opacity: 1 }}
-                              className="relative z-10"
-                            >
-                              Send Message
-                            </motion.span>
-                            <motion.div
-                              whileHover={{ 
-                                x: 2, 
-                                y: -1,
-                                transition: { duration: 0.2, ease: "easeOut" }
-                              }}
-                              className="relative z-10"
-                            >
-                              <Send className="w-4 h-4" />
-                            </motion.div>
-                            
-                            {/* Fixed Floating Particles */}
-                            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                              <div className="flex space-x-1">
-                                {[...Array(3)].map((_, i) => (
-                                  <motion.div
-                                    key={i}
-                                    className="w-1 h-1 bg-orange-300 rounded-full"
-                                    animate={{
-                                      y: [0, -8, 0],
-                                      opacity: [0.3, 1, 0.3]
-                                    }}
-                                    transition={{
-                                      duration: 2,
-                                      delay: i * 0.2,
-                                      repeat: Infinity,
-                                      ease: "easeInOut"
-                                    }}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                          </>
-                        )}
-                        
-                        {/* Enhanced background effects - Orange theme */}
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-amber-400 to-orange-500 opacity-0 hover:opacity-100 transition-opacity duration-300"
-                          initial={{ scale: 0 }}
-                          whileHover={{ scale: 1 }}
-                          transition={{ duration: 0.3 }}
-                        />
-
-                        {/* Ripple effect on tap */}
-                        <motion.div
-                          className="absolute inset-0 bg-white/20 rounded-lg"
-                          initial={{ scale: 0, opacity: 0.8 }}
-                          whileTap={{ scale: 1, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                        />
-                      </motion.button>
-                    </form>
+                              {/* Enhanced background effects */}
+                              <motion.div
+                                className="absolute inset-0 bg-gradient-to-r from-amber-400 to-orange-500 opacity-0 hover:opacity-100 transition-opacity duration-300"
+                                initial={{ scale: 0 }}
+                                whileHover={{ scale: 1 }}
+                                transition={{ duration: 0.3 }}
+                              />
+                            </>
+                          )}
+                        </motion.button>
+                      </form>
+                    </div>
                   </motion.div>
                 </div>
               </div>
             </section>
+
           </main>
 
           {/* Scroll to Top Button */}
