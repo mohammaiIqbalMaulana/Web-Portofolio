@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { ArrowRight, Download, Github, Instagram, Youtube, Music2, Linkedin, Mail, ChevronUp, Moon, Sun } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowRight, Download, Github, Instagram, Youtube, Music2, Linkedin, Mail, ChevronUp, Moon, Sun, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
 import { ThemeProvider, useTheme } from '../contexts/ThemeContext'
 import { AnimationProvider } from '../contexts/AnimationContext'
 import TypingAnimation from '../components/TypingAnimation'
 import ProfileImage from '../components/ProfileImage'
 import HamburgerMenu from '../components/HamburgerMenu'
+import emailjs from '@emailjs/browser'
+import { EMAILJS_CONFIG } from '../config/emailjs'
 import '../styles/hamburger.css'
 
 const SinglePageAppContent: React.FC = () => {
@@ -14,6 +16,19 @@ const SinglePageAppContent: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [showAllProjects, setShowAllProjects] = useState(false)
   const { theme, toggleTheme } = useTheme()
+
+  // Contact form state
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    whatsapp: '',
+    subject: '',
+    message: ''
+  })
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null)
+  const [focusedField, setFocusedField] = useState<string | null>(null)
 
   // Handle scroll to show/hide scroll-to-top button and header styling
   useEffect(() => {
@@ -135,6 +150,118 @@ const SinglePageAppContent: React.FC = () => {
       // Fallback to simple toggle if projects section not found
       setShowAllProjects(!showAllProjects)
     }
+  }
+
+  // Form handling functions
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+
+    // Clear error when user starts typing
+    if (formErrors[name]) {
+      setFormErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }))
+    }
+  }
+
+  const validateForm = () => {
+    const errors: Record<string, string> = {}
+
+    if (!formData.name.trim()) {
+      errors.name = 'Name is required'
+    }
+
+    if (!formData.email.trim()) {
+      errors.email = 'Email is required'
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = 'Please enter a valid email address'
+    }
+
+    if (!formData.message.trim()) {
+      errors.message = 'Message is required'
+    } else if (formData.message.trim().length < 10) {
+      errors.message = 'Message must be at least 10 characters long'
+    }
+
+    setFormErrors(errors)
+    return Object.keys(errors).length === 0
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validateForm()) {
+      return
+    }
+
+    setIsSubmitting(true)
+    setSubmitStatus(null)
+
+    try {
+      // Check if EmailJS credentials are configured
+      const { SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY } = EMAILJS_CONFIG
+
+      // Prepare email template parameters
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        to_name: 'Mohammad Iqbal',
+        to_email: 'iqbalmaulana14042005@gmail.com',
+        subject: `Portfolio Contact: ${formData.name}`,
+        message: `
+          Name: ${formData.name}
+          Email: ${formData.email}
+          WhatsApp: ${formData.whatsapp || 'Not Filled'}
+          Message:
+          ${formData.message}
+        `,
+        reply_to: formData.email,
+      }
+
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        templateParams,
+        PUBLIC_KEY
+      )
+
+      setSubmitStatus('success')
+      setFormData({ name: '', email: '', whatsapp: '', subject: '', message: '' })
+
+      // Auto-dismiss success message after 10 seconds
+      setTimeout(() => {
+        setSubmitStatus(null)
+      }, 1000)
+    } catch (error: any) {
+      console.error('❌ EmailJS Error Details:', {
+        error: error,
+        message: error?.message,
+        status: error?.status,
+        text: error?.text,
+        name: error?.name
+      })
+
+      // Auto-dismiss error message after 10 seconds
+      setTimeout(() => {
+        setSubmitStatus(null)
+      }, 1000)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handleFocus = (fieldName: string) => {
+    setFocusedField(fieldName)
+  }
+
+  const handleBlur = () => {
+    setFocusedField(null)
   }
 
   return (
@@ -307,7 +434,6 @@ const SinglePageAppContent: React.FC = () => {
                       {[
                         { icon: Github, href: 'https://github.com/mohammaiIqbalMaulana', label: 'GitHub' },
                         { icon: Linkedin, href: 'https://www.linkedin.com/in/mohammad-iqbalmaulana-93746a386/', label: 'LinkedIn' },
-                        { icon: Mail, href: 'mailto:iqbalmaulana14042005@gmail.com', label: 'Email' },
                         { icon: Instagram, href: 'https://www.instagram.com/kikezukata._/', label: 'Instagram' },
                         { icon: Youtube, href: 'https://youtube.com/@zukataofficial4484?si=rcinKfCG38z7o4eI', label: 'YouTube' },
                         { icon: Music2, href: 'https://www.tiktok.com/@kikezukata_kun', label: 'TikTok' },
@@ -676,6 +802,8 @@ const SinglePageAppContent: React.FC = () => {
                         </span>
                       </div>
                     </div>
+
+
                   </motion.div>
 
                   <motion.div
@@ -684,7 +812,34 @@ const SinglePageAppContent: React.FC = () => {
                     transition={{ duration: 0.8 }}
                     viewport={{ once: true }}
                   >
-                    <form className="space-y-4 sm:space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                      {/* Submit Status Messages */}
+                      <AnimatePresence>
+                        {submitStatus && (
+                          <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            className={`p-4 rounded-lg flex items-center space-x-3 ${
+                              submitStatus === 'success'
+                                ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800'
+                                : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800'
+                            }`}
+                          >
+                            {submitStatus === 'success' ? (
+                              <CheckCircle className="w-5 h-5 flex-shrink-0" />
+                            ) : (
+                              <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                            )}
+                            <span className="text-sm">
+                              {submitStatus === 'success'
+                                ? 'Message sent successfully! I\'ll get back to you soon.'
+                                : 'Failed to send message. Please try again.'}
+                            </span>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -692,14 +847,27 @@ const SinglePageAppContent: React.FC = () => {
                         viewport={{ once: true }}
                       >
                         <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
-                          Name
+                          Name *
                         </label>
                         <input
                           type="text"
-                          className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-secondary-300 dark:border-secondary-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-secondary-100 text-sm sm:text-base transition-all duration-200 hover:border-primary-300 dark:hover:border-primary-600 focus:shadow-lg"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          onFocus={() => handleFocus('name')}
+                          onBlur={handleBlur}
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-secondary-100 text-sm sm:text-base transition-all duration-200 hover:border-primary-300 dark:hover:border-primary-600 focus:shadow-lg ${
+                            formErrors.name
+                              ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+                              : 'border-secondary-300 dark:border-secondary-600'
+                          }`}
                           placeholder="Your name"
                         />
+                        {formErrors.name && (
+                          <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.name}</p>
+                        )}
                       </motion.div>
+
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -707,14 +875,55 @@ const SinglePageAppContent: React.FC = () => {
                         viewport={{ once: true }}
                       >
                         <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
-                          Email
+                          Email *
                         </label>
                         <input
                           type="email"
-                          className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-secondary-300 dark:border-secondary-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-secondary-100 text-sm sm:text-base transition-all duration-200 hover:border-primary-300 dark:hover:border-primary-600 focus:shadow-lg"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          onFocus={() => handleFocus('email')}
+                          onBlur={handleBlur}
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-secondary-100 text-sm sm:text-base transition-all duration-200 hover:border-primary-300 dark:hover:border-primary-600 focus:shadow-lg ${
+                            formErrors.email
+                              ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+                              : 'border-secondary-300 dark:border-secondary-600'
+                          }`}
                           placeholder="your.email@example.com"
                         />
+                        {formErrors.email && (
+                          <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.email}</p>
+                        )}
                       </motion.div>
+
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.25 }}
+                        viewport={{ once: true }}
+                      >
+                        <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
+                          WhatsApp
+                        </label>
+                        <input
+                          type="tel"
+                          name="whatsapp"
+                          value={formData.whatsapp}
+                          onChange={handleInputChange}
+                          onFocus={() => handleFocus('whatsapp')}
+                          onBlur={handleBlur}
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-secondary-100 text-sm sm:text-base transition-all duration-200 hover:border-primary-300 dark:hover:border-primary-600 focus:shadow-lg ${
+                            formErrors.whatsapp
+                              ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+                              : 'border-secondary-300 dark:border-secondary-600'
+                          }`}
+                          placeholder="Your WhatsApp number"
+                        />
+                        {formErrors.whatsapp && (
+                          <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.whatsapp}</p>
+                        )}
+                      </motion.div>
+
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -722,25 +931,53 @@ const SinglePageAppContent: React.FC = () => {
                         viewport={{ once: true }}
                       >
                         <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
-                          Message
+                          Message *
                         </label>
                         <textarea
                           rows={4}
-                          className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-secondary-300 dark:border-secondary-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-secondary-100 text-sm sm:text-base transition-all duration-200 hover:border-primary-300 dark:hover:border-primary-600 focus:shadow-lg resize-none"
+                          name="message"
+                          value={formData.message}
+                          onChange={handleInputChange}
+                          onFocus={() => handleFocus('message')}
+                          onBlur={handleBlur}
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-secondary-100 text-sm sm:text-base transition-all duration-200 hover:border-primary-300 dark:hover:border-primary-600 focus:shadow-lg resize-none ${
+                            formErrors.message
+                              ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+                              : 'border-secondary-300 dark:border-secondary-600'
+                          }`}
                           placeholder="Your message..."
                         />
+                        {formErrors.message && (
+                          <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.message}</p>
+                        )}
                       </motion.div>
+
                       <motion.button
                         type="submit"
+                        disabled={isSubmitting}
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.4 }}
                         viewport={{ once: true }}
-                        whileHover={{ scale: 1.02, y: -2 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="w-full px-6 sm:px-8 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl text-sm sm:text-base"
+                        whileHover={{ scale: isSubmitting ? 1 : 1.02, y: isSubmitting ? 0 : -2 }}
+                        whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                        className={`w-full px-6 sm:px-8 py-3 font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl text-sm sm:text-base flex items-center justify-center space-x-2 ${
+                          isSubmitting
+                            ? 'bg-secondary-400 dark:bg-secondary-600 text-secondary-600 dark:text-secondary-400 cursor-not-allowed'
+                            : 'bg-primary-500 hover:bg-primary-600 text-white'
+                        }`}
                       >
-                        Send Message
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span>Sending...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Send Message</span>
+                            <Send className="w-4 h-4" />
+                          </>
+                        )}
                       </motion.button>
                     </form>
                   </motion.div>
@@ -839,7 +1076,6 @@ const SinglePageAppContent: React.FC = () => {
                     {[
                         { icon: Github, href: 'https://github.com/mohammaiIqbalMaulana', label: 'GitHub' },
                         { icon: Linkedin, href: 'https://www.linkedin.com/in/mohammad-iqbalmaulana-93746a386/', label: 'LinkedIn' },
-                        { icon: Mail, href: 'mailto:iqbalmaulana14042005@gmail.com', label: 'Email' }, 
                         { icon: Instagram, href: 'https://www.instagram.com/kikezukata._/', label: 'Instagram' },
                         { icon: Youtube, href: 'https://youtube.com/@zukataofficial4484?si=rcinKfCG38z7o4eI', label: 'YouTube' },
                         { icon: Music2, href: 'https://www.tiktok.com/@kikezukata_kun', label: 'TikTok' },
