@@ -66,6 +66,17 @@ const SinglePageAppContent: React.FC = () => {
     })
   }
 
+  // Handle CV download
+  const handleDownloadCV = () => {
+    const cvPath = '/CV_Mohammad Iqbal Maulana.pdf'
+    const link = document.createElement('a')
+    link.href = cvPath
+    link.download = 'CV_Mohammad Iqbal Maulana.pdf'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   // Toggle show all projects with smooth scroll preservation
   const toggleShowAllProjects = () => {
     const projectsSection = document.getElementById('projects')
@@ -276,6 +287,7 @@ const SinglePageAppContent: React.FC = () => {
                       </motion.button>
 
                       <motion.button
+                        onClick={handleDownloadCV}
                         className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 border border-secondary-300 dark:border-secondary-600 text-secondary-700 dark:text-secondary-300 font-medium rounded-lg hover:bg-secondary-50 dark:hover:bg-secondary-800 transition-all duration-200 group shadow-sm hover:shadow-md"
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
@@ -293,9 +305,9 @@ const SinglePageAppContent: React.FC = () => {
                       className="flex justify-center lg:justify-start items-center gap-4 sm:gap-6"
                     >
                       {[
-                        { icon: Github, href: 'https://github.com', label: 'GitHub' },
-                        { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-                        { icon: Mail, href: 'mailto:your.email@example.com', label: 'Email' },
+                        { icon: Github, href: 'https://github.com/mohammaiIqbalMaulana', label: 'GitHub' },
+                        { icon: Linkedin, href: 'https://www.linkedin.com/in/mohammad-iqbalmaulana-93746a386/', label: 'LinkedIn' },
+                        { icon: Mail, href: 'mailto:iqbalmaulana14042005@gmail.com', label: 'Email' },
                       ].map((social) => {
                         const Icon = social.icon
                         return (
