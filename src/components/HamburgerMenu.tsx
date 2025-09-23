@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../contexts/ThemeContext'
-import { Github, Linkedin, Mail, Moon, Sun } from 'lucide-react'
+import { Github, Linkedin, Instagram, Moon, Sun, } from 'lucide-react'
 import '../styles/hamburger.css'
 
 interface HamburgerMenuProps {
@@ -22,9 +22,10 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onToggle, onNavig
   ]
 
   const socialLinks = [
-    { icon: Github, href: 'https://github.com', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: Mail, href: 'mailto:your.email@example.com', label: 'Email' },
+    { icon: Github, href: 'https://github.com/mohammaiIqbalMaulana', label: 'GitHub' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/mohammad-iqbalmaulana-93746a386/', label: 'LinkedIn' },
+    { icon: Instagram, href: 'https://www.instagram.com/kikezukata._/', label: 'Instagram' },
+
   ]
 
   return (
@@ -54,7 +55,7 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onToggle, onNavig
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="fixed top-0 right-0 z-[44] w-full max-w-[280px] h-auto bg-white dark:bg-secondary-900 shadow-lg lg:hidden rounded-bl-lg"
+              className="fixed top-0 right-0 z-[44] w-full max-w-[280px] h-auto bg-secondary-50/70 dark:bg-secondary-900/70 backdrop-blur-md shadow-2xl lg:hidden rounded-bl-lg border-l border-secondary-200/30 dark:border-secondary-700/30"
               style={{
                 top: 'calc(64px + env(safe-area-inset-top, 0px))',
                 maxHeight: 'calc(100vh - 120px - env(safe-area-inset-top, 0px))'
@@ -72,15 +73,17 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onToggle, onNavig
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1 }}
                       >
-                        <button
+                        <motion.button
                           onClick={() => {
                             onNavigate(item.id)
                             onToggle()
                           }}
-                          className="w-full flex items-center px-4 py-3 text-left text-base font-medium text-secondary-700 dark:text-secondary-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-secondary-100 dark:hover:bg-secondary-800 rounded-lg transition-colors"
+                          whileHover={{ scale: 1.05, x: 10 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="w-full flex items-center px-4 py-3 text-left text-base font-medium text-secondary-700 dark:text-secondary-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gradient-to-r hover:from-primary-50 hover:to-secondary-100 dark:hover:from-primary-900/20 dark:hover:to-secondary-800 rounded-lg transition-all duration-200"
                         >
                           {item.label}
-                        </button>
+                        </motion.button>
                       </motion.li>
                     ))}
                   </ul>
@@ -109,12 +112,12 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onToggle, onNavig
                           href={social.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          whileHover={{ scale: 1.1, y: -2 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="p-2 bg-secondary-100 dark:bg-secondary-800 text-secondary-600 dark:text-secondary-400 rounded-lg hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+                          whileHover={{ scale: 1.2, y: -4, rotate: 5 }}
+                          whileTap={{ scale: 0.9 }}
+                          className="p-3 bg-gradient-to-br from-secondary-100 to-secondary-200 dark:from-secondary-800 dark:to-secondary-700 text-secondary-600 dark:text-secondary-400 rounded-xl hover:text-primary-600 dark:hover:text-primary-400 hover:from-primary-100 hover:to-primary-200 dark:hover:from-primary-900/30 dark:hover:to-primary-800/30 transition-all duration-300 shadow-md hover:shadow-lg"
                           aria-label={social.label}
                         >
-                          <Icon size={16} />
+                          <Icon size={18} />
                         </motion.a>
                       )
                     })}
