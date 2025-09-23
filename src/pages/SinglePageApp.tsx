@@ -285,9 +285,9 @@ const SinglePageAppContent: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-secondary-50 dark:bg-secondary-900 transition-colors duration-300">
+    <div className="min-h-screen bg-secondary-50 dark:bg-secondary-900 transition-colors duration-0">
           {/* Enhanced Fixed Header */}
-          <header className={`fixed top-0 left-0 z-40 w-full transition-all duration-500 ${
+          <header className={`fixed top-0 left-0 z-40 w-full transition-all duration-0 ${
             isScrolled
               ? 'bg-secondary-50/70 dark:bg-secondary-900/70 backdrop-blur-md border-b border-secondary-200/30 dark:border-secondary-800/30 shadow-md'
               : 'bg-transparent border-b-0'
@@ -308,7 +308,7 @@ const SinglePageAppContent: React.FC = () => {
                 {/* Logo */}
                 <motion.button
                   onClick={() => scrollToSection('home')}
-                  className="flex items-center space-x-2 hover:opacity-80 transition-all duration-200"
+                  className="flex items-center space-x-2 hover:opacity-80 transition-all duration-0"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -332,7 +332,7 @@ const SinglePageAppContent: React.FC = () => {
                     <motion.button
                       key={item.id}
                       onClick={() => scrollToSection(item.id)}
-                      className="px-3 py-2 text-sm font-medium text-secondary-700 dark:text-secondary-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300 relative group overflow-hidden"
+                      className="px-3 py-2 text-sm font-medium text-secondary-700 dark:text-secondary-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-0 relative group overflow-hidden"
                       whileHover={{
                         y: -2,
                         scale: 1.05,
@@ -345,13 +345,13 @@ const SinglePageAppContent: React.FC = () => {
                     >
                       <span className="relative z-10">{item.label}</span>
                       <motion.span
-                        className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
+                        className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-0"
                         whileHover={{ height: "2px" }}
                         transition={{ duration: 0.2 }}
                       />
                       {/* Magnetic effect background */}
                       <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        className="absolute inset-0 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-0"
                         initial={{ scale: 0 }}
                         whileHover={{ scale: 1 }}
                         transition={{ duration: 0.2 }}
@@ -371,7 +371,7 @@ const SinglePageAppContent: React.FC = () => {
                     }}
                     whileTap={{ scale: 0.9 }}
                     onClick={toggleTheme}
-                    className="hidden lg:flex p-2 rounded-lg bg-secondary-100 dark:bg-secondary-800 text-secondary-700 dark:text-secondary-300 hover:bg-secondary-200 dark:hover:bg-secondary-700 transition-all duration-300 shadow-sm hover:shadow-lg relative overflow-hidden group"
+                    className="hidden lg:flex p-2 rounded-lg bg-secondary-100 dark:bg-secondary-800 text-secondary-700 dark:text-secondary-300 hover:bg-secondary-200 dark:hover:bg-secondary-700 transition-all duration-0 shadow-sm hover:shadow-lg relative overflow-hidden group"
                     aria-label="Toggle theme"
                     initial={{ opacity: 0, rotate: -180 }}
                     animate={{ opacity: 1, rotate: 0 }}
@@ -390,7 +390,7 @@ const SinglePageAppContent: React.FC = () => {
 
                     {/* Enhanced background effects */}
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 dark:from-blue-400 dark:to-purple-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg"
+                      className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 dark:from-blue-400 dark:to-purple-400 opacity-0 group-hover:opacity-20 transition-opacity duration-0 rounded-lg"
                       initial={{ scale: 0 }}
                       whileHover={{ scale: 1 }}
                       transition={{ duration: 0.2 }}
@@ -400,7 +400,7 @@ const SinglePageAppContent: React.FC = () => {
                     <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400 to-orange-400 dark:from-blue-400 dark:to-purple-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
 
                     {/* Floating particles */}
-                    <div className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-0">
                       <div className="flex space-x-1">
                         {[...Array(3)].map((_, i) => (
                           <motion.div
@@ -436,7 +436,7 @@ const SinglePageAppContent: React.FC = () => {
           {/* Main Content */}
           <main>
             {/* Hero Section */}
-            <section id="home" className="pt-16 min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-16 bg-gradient-to-br from-slate-50 via-blue-50/20 to-indigo-50/30 dark:from-secondary-900 dark:via-blue-900/5 dark:to-indigo-900/10 relative overflow-hidden">
+            <section id="home" className="pt-16 min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-16 bg-gradient-to-br from-slate-50 via-blue-50/20 to-indigo-50/30 dark:from-secondary-900 dark:via-blue-900/5 dark:to-indigo-900/10 relative overflow-hidden" style={{ transition: 'none' }}>
               {/* Enhanced Background Effects - Blue Theme */}
               <div className="absolute inset-0 bg-gradient-to-br from-blue-50/40 via-transparent to-indigo-50/30 dark:from-blue-900/15 dark:via-transparent dark:to-indigo-900/10"></div>
               <div className="absolute top-10 left-20 w-80 h-80 bg-blue-400/15 rounded-full blur-3xl animate-pulse"></div>
@@ -456,7 +456,7 @@ const SinglePageAppContent: React.FC = () => {
                   >
                   <ProfileImage
                     size="xl"
-                    className="mx-auto max-w-[200px] sm:max-w-[300px] lg:max-w-[400px] hover:scale-105 transition-transform duration-300 -mt-4 md:-mt-1 lg:-mt-24"
+                    className="mx-auto max-w-[200px] sm:max-w-[300px] lg:max-w-[400px] hover:scale-105 transition-transform duration-0 -mt-4 md:-mt-1 lg:-mt-24"
                   />
                   </motion.div>
 
@@ -512,7 +512,7 @@ const SinglePageAppContent: React.FC = () => {
                     >
                       <motion.button
                         onClick={() => scrollToSection('projects')}
-                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-medium rounded-lg transition-all duration-300 group shadow-lg hover:shadow-2xl relative overflow-hidden"
+                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-medium rounded-lg transition-all duration-0 group shadow-lg hover:shadow-2xl relative overflow-hidden"
                         whileHover={{
                           scale: 1.05,
                           y: -3,
@@ -521,11 +521,11 @@ const SinglePageAppContent: React.FC = () => {
                         whileTap={{ scale: 0.95 }}
                       >
                         <span className="relative z-10">View My Work</span>
-                        <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 group-hover:-translate-y-0.5 transition-all duration-300 relative z-10" />
+                        <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 group-hover:-translate-y-0.5 transition-all duration-0 relative z-10" />
 
                         {/* Enhanced Background Effects */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-0"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-700 translate-y-full group-hover:translate-y-0 transition-transform duration-0"></div>
 
                         {/* Shimmer Effect */}
                         <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
@@ -533,7 +533,7 @@ const SinglePageAppContent: React.FC = () => {
 
                       <motion.button
                         onClick={handleDownloadCV}
-                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 border-2 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-medium rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-300 group shadow-sm hover:shadow-lg relative overflow-hidden"
+                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 border-2 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-medium rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-0 group shadow-sm hover:shadow-lg relative overflow-hidden"
                         whileHover={{
                           scale: 1.05,
                           y: -3,
@@ -542,11 +542,11 @@ const SinglePageAppContent: React.FC = () => {
                         }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        <Download className="mr-2 w-4 h-4 group-hover:translate-y-[-2px] group-hover:rotate-12 transition-all duration-300 relative z-20" />
+                        <Download className="mr-2 w-4 h-4 group-hover:translate-y-[-2px] group-hover:rotate-12 transition-all duration-0 relative z-20" />
                         <span className="relative z-20">Download CV</span>
 
                         {/* Enhanced Background Effects */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-0"></div>
 
                         {/* Ripple Effect */}
                         <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 group-hover:animate-ping bg-blue-400/20 dark:bg-blue-600/20"></div>
@@ -584,16 +584,16 @@ const SinglePageAppContent: React.FC = () => {
                               transition: { duration: 0.4, type: "spring", stiffness: 300 }
                             }}
                             whileTap={{ scale: 0.9 }}
-                            className="p-2 sm:p-3 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-600 dark:text-blue-400 rounded-lg hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-800/50 dark:hover:to-indigo-800/50 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300 relative overflow-hidden group shadow-sm hover:shadow-lg"
+                            className="p-2 sm:p-3 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-600 dark:text-blue-400 rounded-lg hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-800/50 dark:hover:to-indigo-800/50 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-0 relative overflow-hidden group shadow-sm hover:shadow-lg"
                             aria-label={social.label}
                           >
                             <Icon size={20} className="sm:w-5 sm:h-5 md:w-6 md:h-6 transition-transform duration-300 group-hover:scale-110" />
 
                             {/* Enhanced Background Effects */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-indigo-400/20 dark:from-blue-600/30 dark:to-indigo-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-indigo-400/20 dark:from-blue-600/30 dark:to-indigo-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-0 rounded-lg"></div>
 
                             {/* Glow Effect */}
-                            <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+                            <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition-opacity duration-0"></div>
 
                             {/* Shimmer Effect */}
                             <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 dark:via-white/10 to-transparent rounded-lg"></div>
@@ -607,7 +607,7 @@ const SinglePageAppContent: React.FC = () => {
             </section>
 
             {/* About Section */}
-            <section id="about" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-emerald-50 via-green-50/20 to-teal-50/30 dark:from-secondary-900 dark:via-emerald-900/5 dark:to-teal-900/10 relative overflow-hidden">
+            <section id="about" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-emerald-50 via-green-50/20 to-teal-50/30 dark:from-secondary-900 dark:via-emerald-900/5 dark:to-teal-900/10 relative overflow-hidden" style={{ transition: 'none' }}>
               {/* Enhanced Background Effects - Green Theme */}
               <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/40 via-transparent to-teal-50/30 dark:from-emerald-900/15 dark:via-transparent dark:to-teal-900/10"></div>
               <div className="absolute top-16 left-16 w-80 h-80 bg-emerald-400/15 rounded-full blur-3xl animate-pulse"></div>
@@ -647,7 +647,7 @@ const SinglePageAppContent: React.FC = () => {
                     </p>
                     <motion.button
                       onClick={() => scrollToSection('projects')}
-                      className="inline-flex items-center text-emerald-600 dark:text-emerald-400 font-medium hover:text-emerald-700 dark:hover:text-emerald-300 relative overflow-hidden group px-4 py-2 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-300"
+                      className="inline-flex items-center text-emerald-600 dark:text-emerald-400 font-medium hover:text-emerald-700 dark:hover:text-emerald-300 relative overflow-hidden group px-4 py-2 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-0"
                       whileHover={{
                         scale: 1.05,
                         x: 5,
@@ -656,10 +656,10 @@ const SinglePageAppContent: React.FC = () => {
                       whileTap={{ scale: 0.95 }}
                     >
                       <span className="relative z-10">Learn more about my work</span>
-                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 group-hover:-translate-y-0.5 transition-all duration-300 relative z-10" />
+                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 group-hover:-translate-y-0.5 transition-all duration-0 relative z-10" />
 
                       {/* Enhanced Background Effects */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 opacity-0 group-hover:opacity-100 transition-opacity duration-0 rounded-lg"></div>
 
                       {/* Shimmer Effect */}
                       <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-emerald-200/40 dark:via-emerald-400/20 to-transparent rounded-lg"></div>
@@ -681,7 +681,7 @@ const SinglePageAppContent: React.FC = () => {
                     ].map((stat, index) => (
                       <motion.div
                         key={index}
-                        className="text-center p-4 sm:p-6 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group border border-emerald-100 dark:border-emerald-800"
+                        className="text-center p-4 sm:p-6 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-lg shadow-sm hover:shadow-xl transition-all duration-0 relative overflow-hidden group border border-emerald-100 dark:border-emerald-800"
                         whileHover={{
                           y: -8,
                           scale: 1.05,
@@ -698,17 +698,17 @@ const SinglePageAppContent: React.FC = () => {
                         </div>
 
                         {/* Enhanced Background Effects */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/10 to-teal-400/10 dark:from-emerald-600/20 dark:to-teal-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/10 to-teal-400/10 dark:from-emerald-600/20 dark:to-teal-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-0 rounded-lg"></div>
 
                         {/* Glow Effect */}
-                        <div className="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-lg blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                        <div className="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-lg blur opacity-0 group-hover:opacity-20 transition-opacity duration-0"></div>
 
                         {/* Shimmer Effect */}
                         <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-emerald-200/30 dark:via-emerald-400/20 to-transparent rounded-lg"></div>
 
                         {/* Counter Animation */}
                         <motion.div
-                          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-0"
                           initial={{ scale: 0 }}
                           whileHover={{ scale: 1 }}
                           transition={{ type: "spring", stiffness: 300 }}
@@ -997,7 +997,7 @@ const SinglePageAppContent: React.FC = () => {
             </section>
 
             {/* Projects Section */}
-            <section id="projects" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-violet-50 via-purple-50/20 to-fuchsia-50/30 dark:from-secondary-900 dark:via-violet-900/5 dark:to-fuchsia-900/10 relative overflow-hidden">
+            <section id="projects" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-violet-50 via-purple-50/20 to-fuchsia-50/30 dark:from-secondary-900 dark:via-violet-900/5 dark:to-fuchsia-900/10 relative overflow-hidden" style={{ transition: 'none' }}>
               {/* Enhanced Background Effects - Purple Theme */}
               <div className="absolute inset-0 bg-gradient-to-br from-violet-50/40 via-transparent to-fuchsia-50/30 dark:from-violet-900/15 dark:via-transparent dark:to-fuchsia-900/10"></div>
               <div className="absolute top-12 left-12 w-80 h-80 bg-violet-400/15 rounded-full blur-3xl animate-pulse"></div>
@@ -1121,7 +1121,7 @@ const SinglePageAppContent: React.FC = () => {
                           rotateY: 2,
                           transition: { duration: 0.4, type: "spring", stiffness: 300 }
                         }}
-                        className="bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-900/20 dark:to-fuchsia-900/20 rounded-lg shadow-sm p-4 sm:p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer group relative overflow-hidden border border-violet-100 dark:border-violet-800"
+                        className="bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-900/20 dark:to-fuchsia-900/20 rounded-lg shadow-sm p-4 sm:p-6 hover:shadow-2xl transition-all duration-0 cursor-pointer group relative overflow-hidden border border-violet-100 dark:border-violet-800"
                       >
 
                       <div className="h-full flex flex-col">
@@ -1145,7 +1145,7 @@ const SinglePageAppContent: React.FC = () => {
                                 color: "white",
                                 transition: { duration: 0.2 }
                               }}
-                              className="px-2 sm:px-3 py-1 bg-violet-100 dark:bg-violet-800 text-violet-800 dark:text-violet-200 text-xs sm:text-sm rounded-full hover:bg-violet-200 dark:hover:bg-violet-700 transition-all duration-300 relative z-10"
+                              className="px-2 sm:px-3 py-1 bg-violet-100 dark:bg-violet-800 text-violet-800 dark:text-violet-200 text-xs sm:text-sm rounded-full hover:bg-violet-200 dark:hover:bg-violet-700 transition-all duration-0 relative z-10"
                             >
                               {tech}
                             </motion.span>
@@ -1153,10 +1153,10 @@ const SinglePageAppContent: React.FC = () => {
                         </div>
 
                         {/* Enhanced Background Effects */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-violet-400/10 to-fuchsia-400/10 dark:from-violet-600/20 dark:to-fuchsia-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-violet-400/10 to-fuchsia-400/10 dark:from-violet-600/20 dark:to-fuchsia-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-0 rounded-lg"></div>
 
                         {/* Glow Effect */}
-                        <div className="absolute -inset-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 rounded-lg blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                        <div className="absolute -inset-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 rounded-lg blur opacity-0 group-hover:opacity-20 transition-opacity duration-0"></div>
 
                         {/* Shimmer Effect */}
                         <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-violet-200/30 dark:via-violet-400/20 to-transparent rounded-lg"></div>
@@ -1175,7 +1175,7 @@ const SinglePageAppContent: React.FC = () => {
                     >
                       <motion.button
                         onClick={toggleShowAllProjects}
-                        className="inline-flex items-center px-6 sm:px-8 py-3 bg-gradient-to-r from-violet-500 to-fuchsia-600 hover:from-violet-600 hover:to-fuchsia-700 text-white font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-2xl group relative overflow-hidden"
+                        className="inline-flex items-center px-6 sm:px-8 py-3 bg-gradient-to-r from-violet-500 to-fuchsia-600 hover:from-violet-600 hover:to-fuchsia-700 text-white font-medium rounded-lg transition-all duration-0 shadow-lg hover:shadow-2xl group relative overflow-hidden"
                         whileHover={{
                           scale: 1.05,
                           y: -3,
@@ -1184,11 +1184,11 @@ const SinglePageAppContent: React.FC = () => {
                         whileTap={{ scale: 0.95 }}
                       >
                         <span className="relative z-10">{showAllProjects ? 'Show Less' : 'Show More Projects'}</span>
-                        <ArrowRight className={`ml-2 w-4 h-4 transition-all duration-300 group-hover:translate-x-2 group-hover:-translate-y-0.5 relative z-10 ${showAllProjects ? 'rotate-180' : ''}`} />
+                        <ArrowRight className={`ml-2 w-4 h-4 transition-all duration-0 group-hover:translate-x-2 group-hover:-translate-y-0.5 relative z-10 ${showAllProjects ? 'rotate-180' : ''}`} />
 
                         {/* Enhanced Background Effects */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-violet-400 to-fuchsia-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-fuchsia-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-violet-400 to-fuchsia-500 opacity-0 group-hover:opacity-100 transition-opacity duration-0"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-fuchsia-700 translate-y-full group-hover:translate-y-0 transition-transform duration-00"></div>
 
                         {/* Shimmer Effect */}
                         <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
@@ -1200,7 +1200,7 @@ const SinglePageAppContent: React.FC = () => {
             </section>
 
             {/* Contact Section */}
-            <section id="contact" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-amber-50 via-orange-50/20 to-red-50/30 dark:from-secondary-900 dark:via-amber-900/5 dark:to-red-900/10 relative overflow-hidden">
+            <section id="contact" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-amber-50 via-orange-50/20 to-red-50/30 dark:from-secondary-900 dark:via-amber-900/5 dark:to-red-900/10 relative overflow-hidden" style={{ transition: 'none' }}>
               {/* Subtle Background Effects - Orange Theme */}
               <div className="absolute inset-0 bg-gradient-to-br from-amber-50/20 via-transparent to-orange-50/15 dark:from-amber-900/8 dark:via-transparent dark:to-orange-900/5"></div>
               <div className="absolute top-32 left-16 w-64 h-64 bg-amber-300/8 rounded-full blur-3xl"></div>
@@ -1652,7 +1652,7 @@ const SinglePageAppContent: React.FC = () => {
                       type="submit"
                       whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.95 }}
-                      className="px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                      className="px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-medium rounded-lg transition-all duration-0 shadow-lg hover:shadow-xl"
                     >
                       Subscribe
                     </motion.button>

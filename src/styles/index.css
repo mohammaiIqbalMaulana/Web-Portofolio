@@ -40,6 +40,7 @@
   --accent-800: #991b1b;
   --accent-900: #7f1d1d;
   --accent-950: #450a0a;
+  transition: none;
 }
 
 * {
@@ -50,6 +51,7 @@
 
 html {
   scroll-behavior: smooth;
+  transition: none;
 }
 
 body {
@@ -58,6 +60,7 @@ body {
   color: var(--secondary-800);
   background-color: var(--secondary-50);
   overflow-x: hidden;
+  transition: none;
 }
 
 .dark body {
@@ -104,9 +107,4 @@ body {
   outline-offset: 2px;
 }
 
-/* Smooth transitions */
-* {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
+
