@@ -12,6 +12,7 @@ const SinglePageAppContent: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [showScrollTop, setShowScrollTop] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [showAllProjects, setShowAllProjects] = useState(false)
   const { theme, toggleTheme } = useTheme()
 
   // Handle scroll to show/hide scroll-to-top button and header styling
@@ -63,6 +64,66 @@ const SinglePageAppContent: React.FC = () => {
       top: 0,
       behavior: 'smooth'
     })
+  }
+
+  // Toggle show all projects with smooth scroll preservation
+  const toggleShowAllProjects = () => {
+    const projectsSection = document.getElementById('projects')
+    if (projectsSection) {
+      // Store current scroll position and calculate relative position within projects section
+      const currentScrollTop = window.pageYOffset
+      const projectsTop = projectsSection.offsetTop
+      const projectsHeight = projectsSection.offsetHeight
+      const viewportHeight = window.innerHeight
+
+      // Calculate how far down the user has scrolled into the projects section
+      const scrollIntoProjects = currentScrollTop - projectsTop
+      const maxScrollIntoProjects = projectsHeight - viewportHeight
+
+      // Calculate the scroll progress as a ratio (0 to 1)
+      const scrollProgress = maxScrollIntoProjects > 0 ? Math.min(scrollIntoProjects / maxScrollIntoProjects, 1) : 0
+
+      // Toggle the state
+      setShowAllProjects(!showAllProjects)
+
+      // Use setTimeout to ensure the DOM has updated before scrolling
+      setTimeout(() => {
+        const updatedProjectsSection = document.getElementById('projects')
+        if (updatedProjectsSection) {
+          const newProjectsTop = updatedProjectsSection.offsetTop
+          const newProjectsHeight = updatedProjectsSection.offsetHeight
+          const newMaxScrollIntoProjects = newProjectsHeight - viewportHeight
+
+          // Calculate target scroll position based on the same scroll progress
+          let targetScrollTop
+
+          if (showAllProjects) {
+            // Going from all projects to limited - maintain scroll progress
+            targetScrollTop = newProjectsTop + (scrollProgress * newMaxScrollIntoProjects)
+          } else {
+            // Going from limited to all projects - maintain scroll progress
+            targetScrollTop = newProjectsTop + (scrollProgress * newMaxScrollIntoProjects)
+          }
+
+          // Ensure the target position is within reasonable bounds
+          targetScrollTop = Math.max(
+            newProjectsTop,
+            Math.min(targetScrollTop, newProjectsTop + newMaxScrollIntoProjects)
+          )
+
+          // Only scroll if the new position would be significantly different
+          if (Math.abs(targetScrollTop - currentScrollTop) > 20) {
+            window.scrollTo({
+              top: Math.max(0, targetScrollTop),
+              behavior: 'smooth'
+            })
+          }
+        }
+      }, 200) // Increased timeout to ensure DOM updates are complete
+    } else {
+      // Fallback to simple toggle if projects section not found
+      setShowAllProjects(!showAllProjects)
+    }
   }
 
   return (
@@ -306,7 +367,7 @@ const SinglePageAppContent: React.FC = () => {
                     className="grid grid-cols-2 gap-4 sm:gap-6"
                   >
                     {[
-                      { number: '25+', label: 'Projects Completed' },
+                      { number: '10+', label: 'Projects Completed' },
                       { number: '2+', label: 'Years Experience' },
                       { number: '5+', label: 'Happy Clients' },
                       { number: '90%', label: 'Client Satisfaction' },
@@ -403,7 +464,14 @@ const SinglePageAppContent: React.FC = () => {
                   </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <motion.div
+                  key={showAllProjects ? 'all' : 'limited'}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+                >
                   {[
                     {
                       title: 'System Information App',
@@ -475,7 +543,7 @@ const SinglePageAppContent: React.FC = () => {
                       description: 'A simple application for a hospital payroll system created in an interactive notebook. The system allows for adding employee data, calculating monthly salaries, and displaying reports. The program features input validation and a class-based management structure. This project combines OOP implementation and practical data management in a hospital system simulation.',
                       tech: ['Python', 'OOP', 'Pandas']
                     }
-                  ].map((project, index) => (
+                  ].slice(0, showAllProjects ? undefined : 7).map((project, index) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, y: 30, scale: 0.85 }}
@@ -496,6 +564,7 @@ const SinglePageAppContent: React.FC = () => {
                       }}
                       className="bg-white dark:bg-secondary-800 rounded-lg shadow-sm p-4 sm:p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer group relative overflow-hidden"
                     >
+
                       <div className="h-full flex flex-col">
                         <h3 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-secondary-100 mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                           {project.title}
@@ -520,8 +589,26 @@ const SinglePageAppContent: React.FC = () => {
                       </div>
                     </motion.div>
                   ))}
-                </div>
+                </motion.div>
               </div>
+                    {/* Show More Button */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.3 }}
+                      viewport={{ once: true }}
+                      className="text-center mt-8 sm:mt-12"
+                    >
+                      <motion.button
+                        onClick={toggleShowAllProjects}
+                        className="inline-flex items-center px-6 sm:px-8 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl group"
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        {showAllProjects ? 'Show Less' : 'Show More Projects'}
+                        <ArrowRight className={`ml-2 w-4 h-4 transition-transform group-hover:translate-x-1 ${showAllProjects ? 'rotate-180' : ''}`} />
+                      </motion.button>
+                    </motion.div>
             </section>
 
             {/* Contact Section */}
