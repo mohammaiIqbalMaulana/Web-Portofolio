@@ -490,7 +490,7 @@ const SinglePageAppContent: React.FC = () => {
                     viewport={{ once: true }}
                   >
                     <h3 className="text-xl sm:text-2xl font-bold text-secondary-900 dark:text-secondary-100 mb-4">
-                      Passionate 
+                      Passionate with Technologies & Building what matters
                     </h3>
                     <p className="text-secondary-600 dark:text-secondary-400 mb-6 leading-relaxed">
                       I have been studying at Muhammadiyah University of Semarang since 2023. During my studies, I gained a foundation in Java programming and have worked on various programs using both Java and Python. Outside of class, I also deepened my skills as a full-stack developer using Node.js, including completing two web-based projects during my internship. This combined experience has given me a foundation in building applications from the backend to the frontend, while also developing a broader understanding of programming concepts. In addition to academics and technology, I am also active as an influencer on TikTok and YouTube, further honing my communication skills, content creativity, and engagement with digital audiences.
