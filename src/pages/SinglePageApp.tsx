@@ -15,6 +15,9 @@ const SinglePageAppContent: React.FC = () => {
   const [showScrollTop, setShowScrollTop] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [showAllProjects, setShowAllProjects] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
   const { theme, toggleTheme } = useTheme()
 
   // Contact form state
@@ -33,13 +36,27 @@ const SinglePageAppContent: React.FC = () => {
   // Handle scroll to show/hide scroll-to-top button and header styling
   useEffect(() => {
     const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 500)
-      setIsScrolled(window.scrollY > 50)
+      const currentScrollY = window.scrollY
+      const documentHeight = document.documentElement.scrollHeight - window.innerHeight
+      const progress = Math.min((currentScrollY / documentHeight) * 100, 100)
+
+      setShowScrollTop(currentScrollY > 500)
+      setIsScrolled(currentScrollY > 50)
+      setScrollProgress(progress)
+
+      // Hide header when scrolling down, show when scrolling up
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsHeaderVisible(false)
+      } else {
+        setIsHeaderVisible(true)
+      }
+
+      setLastScrollY(currentScrollY)
     }
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [lastScrollY])
 
   // Smooth scroll to section with header offset for all screen sizes
   const scrollToSection = (sectionId: string) => {
@@ -269,12 +286,23 @@ const SinglePageAppContent: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-secondary-50 dark:bg-secondary-900 transition-colors duration-300">
-          {/* Fixed Header */}
-          <header className={`fixed top-0 left-0 z-40 w-full transition-all duration-300 ${
+          {/* Enhanced Fixed Header */}
+          <header className={`fixed top-0 left-0 z-40 w-full transition-all duration-500 ${
             isScrolled
-              ? 'bg-secondary-50/95 dark:bg-secondary-900/95 backdrop-blur-lg border-b border-secondary-200/50 dark:border-secondary-800/50'
+              ? 'bg-secondary-50/95 dark:bg-secondary-900/95 backdrop-blur-lg border-b border-secondary-200/50 dark:border-secondary-800/50 shadow-lg'
               : 'bg-transparent border-b-0'
-          }`}>
+          } ${isHeaderVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+            {/* Scroll Progress Bar */}
+            <motion.div
+              className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 relative overflow-hidden"
+              style={{ width: `${scrollProgress}%` }}
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: scrollProgress / 100 }}
+              transition={{ duration: 0.1 }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
+            </motion.div>
+
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between items-center h-16">
                 {/* Logo */}
@@ -292,7 +320,7 @@ const SinglePageAppContent: React.FC = () => {
                   </span>
                 </motion.button>
 
-                {/* Desktop Navigation - Hidden on mobile/tablet */}
+                {/* Enhanced Desktop Navigation - Hidden on mobile/tablet */}
                 <nav className="hidden lg:flex items-center space-x-8">
                   {[
                     { id: 'home', label: 'Home' },
@@ -300,31 +328,98 @@ const SinglePageAppContent: React.FC = () => {
                     { id: 'skills', label: 'Skills' },
                     { id: 'projects', label: 'Projects' },
                     { id: 'contact', label: 'Contact' },
-                  ].map((item) => (
+                  ].map((item, index) => (
                     <motion.button
                       key={item.id}
                       onClick={() => scrollToSection(item.id)}
-                      className="px-3 py-2 text-sm font-medium text-secondary-700 dark:text-secondary-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors relative group"
-                      whileHover={{ y: -1 }}
+                      className="px-3 py-2 text-sm font-medium text-secondary-700 dark:text-secondary-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300 relative group overflow-hidden"
+                      whileHover={{
+                        y: -2,
+                        scale: 1.05,
+                        transition: { type: "spring", stiffness: 300 }
+                      }}
                       whileTap={{ scale: 0.95 }}
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
                     >
-                      {item.label}
-                      <span className="absolute inset-x-0 bottom-0 h-0.5 bg-primary-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>
+                      <span className="relative z-10">{item.label}</span>
+                      <motion.span
+                        className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
+                        whileHover={{ height: "2px" }}
+                        transition={{ duration: 0.2 }}
+                      />
+                      {/* Magnetic effect background */}
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        initial={{ scale: 0 }}
+                        whileHover={{ scale: 1 }}
+                        transition={{ duration: 0.2 }}
+                      />
                     </motion.button>
                   ))}
                 </nav>
 
                 {/* Theme Toggle & Hamburger Menu - Right side */}
                 <div className="flex items-center space-x-2 sm:space-x-3">
-                  {/* Theme Toggle - Hidden on mobile/tablet when hamburger menu is visible */}
+                  {/* Enhanced Theme Toggle - Hidden on mobile/tablet when hamburger menu is visible */}
                   <motion.button
-                    whileHover={{ scale: 1.05, rotate: 180 }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={{
+                      scale: 1.1,
+                      rotate: 180,
+                      transition: { type: "spring", stiffness: 300 }
+                    }}
+                    whileTap={{ scale: 0.9 }}
                     onClick={toggleTheme}
-                    className="hidden lg:flex p-2 rounded-lg bg-secondary-100 dark:bg-secondary-800 text-secondary-700 dark:text-secondary-300 hover:bg-secondary-200 dark:hover:bg-secondary-700 transition-all duration-200 shadow-sm"
+                    className="hidden lg:flex p-2 rounded-lg bg-secondary-100 dark:bg-secondary-800 text-secondary-700 dark:text-secondary-300 hover:bg-secondary-200 dark:hover:bg-secondary-700 transition-all duration-300 shadow-sm hover:shadow-lg relative overflow-hidden group"
                     aria-label="Toggle theme"
+                    initial={{ opacity: 0, rotate: -180 }}
+                    animate={{ opacity: 1, rotate: 0 }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
                   >
-                    {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+                    <motion.div
+                      key={theme}
+                      initial={{ rotate: -90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 90, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="relative z-10"
+                    >
+                      {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+                    </motion.div>
+
+                    {/* Enhanced background effects */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 dark:from-blue-400 dark:to-purple-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg"
+                      initial={{ scale: 0 }}
+                      whileHover={{ scale: 1 }}
+                      transition={{ duration: 0.2 }}
+                    />
+
+                    {/* Glow effect */}
+                    <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400 to-orange-400 dark:from-blue-400 dark:to-purple-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+
+                    {/* Floating particles */}
+                    <div className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="flex space-x-1">
+                        {[...Array(3)].map((_, i) => (
+                          <motion.div
+                            key={i}
+                            className="w-1 h-1 bg-yellow-400 dark:bg-blue-400 rounded-full"
+                            animate={{
+                              y: [0, -8, 0],
+                              opacity: [0.3, 1, 0.3]
+                            }}
+                            transition={{
+                              duration: 2,
+                              delay: i * 0.2,
+                              repeat: Infinity,
+                              ease: "easeInOut"
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
                   </motion.button>
 
                   {/* Hamburger Menu - Only visible on mobile/tablet */}
@@ -341,8 +436,16 @@ const SinglePageAppContent: React.FC = () => {
           {/* Main Content */}
           <main>
             {/* Hero Section */}
-            <section id="home" className="pt-16 min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-16">
-              <div className="max-w-7xl mx-auto w-full">
+            <section id="home" className="pt-16 min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-16 bg-gradient-to-br from-slate-50 via-blue-50/20 to-indigo-50/30 dark:from-secondary-900 dark:via-blue-900/5 dark:to-indigo-900/10 relative overflow-hidden">
+              {/* Enhanced Background Effects - Blue Theme */}
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/40 via-transparent to-indigo-50/30 dark:from-blue-900/15 dark:via-transparent dark:to-indigo-900/10"></div>
+              <div className="absolute top-10 left-20 w-80 h-80 bg-blue-400/15 rounded-full blur-3xl animate-pulse"></div>
+              <div className="absolute bottom-32 right-16 w-64 h-64 bg-indigo-400/15 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+              <div className="absolute top-1/3 left-1/5 w-96 h-96 bg-blue-500/8 rounded-full blur-3xl animate-pulse" style={{animationDelay: '4s'}}></div>
+              <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-indigo-300/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+              <div className="absolute top-2/3 left-1/3 w-56 h-56 bg-blue-300/12 rounded-full blur-3xl animate-pulse" style={{animationDelay: '3s'}}></div>
+
+              <div className="max-w-7xl mx-auto w-full relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[80vh]">
                   {/* Left Column - Profile Image */}
                   <motion.div
@@ -409,22 +512,47 @@ const SinglePageAppContent: React.FC = () => {
                     >
                       <motion.button
                         onClick={() => scrollToSection('projects')}
-                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-lg transition-all duration-200 group shadow-lg hover:shadow-xl"
-                        whileHover={{ scale: 1.05, y: -2 }}
+                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-medium rounded-lg transition-all duration-300 group shadow-lg hover:shadow-2xl relative overflow-hidden"
+                        whileHover={{
+                          scale: 1.05,
+                          y: -3,
+                          boxShadow: "0 20px 40px rgba(59, 130, 246, 0.4)"
+                        }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        View My Work
-                        <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        <span className="relative z-10">View My Work</span>
+                        <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 group-hover:-translate-y-0.5 transition-all duration-300 relative z-10" />
+
+                        {/* Enhanced Background Effects */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+
+                        {/* Shimmer Effect */}
+                        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
                       </motion.button>
 
                       <motion.button
                         onClick={handleDownloadCV}
-                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 border border-secondary-300 dark:border-secondary-600 text-secondary-700 dark:text-secondary-300 font-medium rounded-lg hover:bg-secondary-50 dark:hover:bg-secondary-800 transition-all duration-200 group shadow-sm hover:shadow-md"
-                        whileHover={{ scale: 1.05, y: -2 }}
+                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 border-2 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-medium rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-300 group shadow-sm hover:shadow-lg relative overflow-hidden"
+                        whileHover={{
+                          scale: 1.05,
+                          y: -3,
+                          borderColor: "rgb(59 130 246)",
+                          boxShadow: "0 10px 30px rgba(59, 130, 246, 0.2)"
+                        }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        <Download className="mr-2 w-4 h-4 group-hover:translate-y-[-1px] transition-transform" />
-                        Download CV
+                        <Download className="mr-2 w-4 h-4 group-hover:translate-y-[-2px] group-hover:rotate-12 transition-all duration-300 relative z-20" />
+                        <span className="relative z-20">Download CV</span>
+
+                        {/* Enhanced Background Effects */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                        {/* Ripple Effect */}
+                        <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 group-hover:animate-ping bg-blue-400/20 dark:bg-blue-600/20"></div>
+
+                        {/* Shimmer Effect */}
+                        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-blue-200/30 dark:via-blue-400/20 to-transparent"></div>
                       </motion.button>
                     </motion.div>
 
@@ -449,12 +577,26 @@ const SinglePageAppContent: React.FC = () => {
                             href={social.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            whileHover={{ scale: 1.1, y: -2 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="p-2 sm:p-3 bg-secondary-100 dark:bg-secondary-800 text-secondary-600 dark:text-secondary-400 rounded-lg hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+                            whileHover={{
+                              scale: 1.15,
+                              y: -4,
+                              rotate: [0, -5, 5, 0],
+                              transition: { duration: 0.4, type: "spring", stiffness: 300 }
+                            }}
+                            whileTap={{ scale: 0.9 }}
+                            className="p-2 sm:p-3 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-600 dark:text-blue-400 rounded-lg hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-800/50 dark:hover:to-indigo-800/50 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300 relative overflow-hidden group shadow-sm hover:shadow-lg"
                             aria-label={social.label}
                           >
-                            <Icon size={20} className="sm:w-5 sm:h-5 md:w-6 md:h-6" />
+                            <Icon size={20} className="sm:w-5 sm:h-5 md:w-6 md:h-6 transition-transform duration-300 group-hover:scale-110" />
+
+                            {/* Enhanced Background Effects */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-indigo-400/20 dark:from-blue-600/30 dark:to-indigo-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+
+                            {/* Glow Effect */}
+                            <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+
+                            {/* Shimmer Effect */}
+                            <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 dark:via-white/10 to-transparent rounded-lg"></div>
                           </motion.a>
                         )
                       })}
@@ -465,8 +607,16 @@ const SinglePageAppContent: React.FC = () => {
             </section>
 
             {/* About Section */}
-            <section id="about" className="py-8 sm:py-12 md:py-16 bg-secondary-50 dark:bg-secondary-900">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section id="about" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-emerald-50 via-green-50/20 to-teal-50/30 dark:from-secondary-900 dark:via-emerald-900/5 dark:to-teal-900/10 relative overflow-hidden">
+              {/* Enhanced Background Effects - Green Theme */}
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/40 via-transparent to-teal-50/30 dark:from-emerald-900/15 dark:via-transparent dark:to-teal-900/10"></div>
+              <div className="absolute top-16 left-16 w-80 h-80 bg-emerald-400/15 rounded-full blur-3xl animate-pulse"></div>
+              <div className="absolute bottom-24 right-20 w-64 h-64 bg-teal-400/15 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+              <div className="absolute top-1/4 right-1/5 w-96 h-96 bg-emerald-500/8 rounded-full blur-3xl animate-pulse" style={{animationDelay: '4s'}}></div>
+              <div className="absolute top-1/3 left-1/4 w-72 h-72 bg-teal-300/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+              <div className="absolute top-2/3 right-1/3 w-56 h-56 bg-emerald-300/12 rounded-full blur-3xl animate-pulse" style={{animationDelay: '3s'}}></div>
+
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -495,13 +645,25 @@ const SinglePageAppContent: React.FC = () => {
                     <p className="text-secondary-600 dark:text-secondary-400 mb-6 leading-relaxed">
                       I have been studying at Muhammadiyah University of Semarang since 2023. During my studies, I gained a foundation in Java programming and have worked on various programs using both Java and Python. Outside of class, I also deepened my skills as a full-stack developer using Node.js, including completing two web-based projects during my internship. This combined experience has given me a foundation in building applications from the backend to the frontend, while also developing a broader understanding of programming concepts. In addition to academics and technology, I am also active as an influencer on TikTok and YouTube, further honing my communication skills, content creativity, and engagement with digital audiences.
                     </p>
-                    <button
+                    <motion.button
                       onClick={() => scrollToSection('projects')}
-                      className="inline-flex items-center text-primary-600 dark:text-primary-400 font-medium hover:text-primary-700 dark:hover:text-primary-300"
+                      className="inline-flex items-center text-emerald-600 dark:text-emerald-400 font-medium hover:text-emerald-700 dark:hover:text-emerald-300 relative overflow-hidden group px-4 py-2 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-300"
+                      whileHover={{
+                        scale: 1.05,
+                        x: 5,
+                        transition: { type: "spring", stiffness: 300 }
+                      }}
+                      whileTap={{ scale: 0.95 }}
                     >
-                      Learn more about my work
-                      <ArrowRight className="ml-2 w-4 h-4" />
-                    </button>
+                      <span className="relative z-10">Learn more about my work</span>
+                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 group-hover:-translate-y-0.5 transition-all duration-300 relative z-10" />
+
+                      {/* Enhanced Background Effects */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+
+                      {/* Shimmer Effect */}
+                      <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-emerald-200/40 dark:via-emerald-400/20 to-transparent rounded-lg"></div>
+                    </motion.button>
                   </motion.div>
 
                   <motion.div
@@ -517,14 +679,45 @@ const SinglePageAppContent: React.FC = () => {
                       { number: '5', label: 'Happy Clients' },
                       { number: '90%', label: 'Client Satisfaction' },
                     ].map((stat, index) => (
-                      <div key={index} className="text-center p-4 sm:p-6 bg-white dark:bg-secondary-800 rounded-lg shadow-sm">
-                        <div className="text-2xl sm:text-3xl font-bold text-primary-600 dark:text-primary-400 mb-2">
+                      <motion.div
+                        key={index}
+                        className="text-center p-4 sm:p-6 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group border border-emerald-100 dark:border-emerald-800"
+                        whileHover={{
+                          y: -8,
+                          scale: 1.05,
+                          rotateY: 5,
+                          transition: { type: "spring", stiffness: 300 }
+                        }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
+                        <div className="text-2xl sm:text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-2 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors relative z-10">
                           {stat.number}
                         </div>
-                        <div className="text-xs sm:text-sm text-secondary-600 dark:text-secondary-400">
+                        <div className="text-xs sm:text-sm text-emerald-600 dark:text-emerald-400 relative z-10">
                           {stat.label}
                         </div>
-                      </div>
+
+                        {/* Enhanced Background Effects */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/10 to-teal-400/10 dark:from-emerald-600/20 dark:to-teal-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+
+                        {/* Glow Effect */}
+                        <div className="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-lg blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+
+                        {/* Shimmer Effect */}
+                        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-emerald-200/30 dark:via-emerald-400/20 to-transparent rounded-lg"></div>
+
+                        {/* Counter Animation */}
+                        <motion.div
+                          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          initial={{ scale: 0 }}
+                          whileHover={{ scale: 1 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <div className="w-16 h-16 rounded-full bg-gradient-to-r from-emerald-400 to-teal-400 flex items-center justify-center">
+                            <span className="text-white font-bold text-lg">+</span>
+                          </div>
+                        </motion.div>
+                      </motion.div>
                     ))}
                   </motion.div>
                 </div>
@@ -535,8 +728,9 @@ const SinglePageAppContent: React.FC = () => {
             <section id="skills" className="py-8 sm:py-12 md:py-16 bg-white dark:bg-secondary-800 relative overflow-hidden">
               {/* Background Effects */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary-50/30 to-transparent dark:from-primary-900/10 dark:to-transparent"></div>
-              <div className="absolute top-20 left-10 w-72 h-72 bg-primary-400/10 rounded-full blur-3xl"></div>
-              <div className="absolute bottom-20 right-10 w-72 h-72 bg-primary-400/10 rounded-full blur-3xl"></div>
+              <div className="absolute top-16 left-16 w-80 h-80 bg-primary-400/10 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-24 right-20 w-64 h-64 bg-primary-400/10 rounded-full blur-3xl"></div>
+              <div className="absolute top-1/3 right-1/4 w-56 h-56 bg-primary-300/8 rounded-full blur-3xl"></div>
 
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <motion.div
@@ -803,8 +997,16 @@ const SinglePageAppContent: React.FC = () => {
             </section>
 
             {/* Projects Section */}
-            <section id="projects" className="py-8 sm:py-12 md:py-16 bg-secondary-50 dark:bg-secondary-900">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section id="projects" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-violet-50 via-purple-50/20 to-fuchsia-50/30 dark:from-secondary-900 dark:via-violet-900/5 dark:to-fuchsia-900/10 relative overflow-hidden">
+              {/* Enhanced Background Effects - Purple Theme */}
+              <div className="absolute inset-0 bg-gradient-to-br from-violet-50/40 via-transparent to-fuchsia-50/30 dark:from-violet-900/15 dark:via-transparent dark:to-fuchsia-900/10"></div>
+              <div className="absolute top-12 left-12 w-80 h-80 bg-violet-400/15 rounded-full blur-3xl animate-pulse"></div>
+              <div className="absolute bottom-28 right-24 w-64 h-64 bg-fuchsia-400/15 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+              <div className="absolute top-1/5 left-1/4 w-96 h-96 bg-violet-500/8 rounded-full blur-3xl animate-pulse" style={{animationDelay: '4s'}}></div>
+              <div className="absolute top-1/4 right-1/5 w-72 h-72 bg-fuchsia-300/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+              <div className="absolute top-3/4 left-1/3 w-56 h-56 bg-violet-300/12 rounded-full blur-3xl animate-pulse" style={{animationDelay: '3s'}}></div>
+
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -900,32 +1102,33 @@ const SinglePageAppContent: React.FC = () => {
                       tech: ['Python', 'OOP', 'Pandas']
                     }
                   ].slice(0, showAllProjects ? undefined : 7).map((project, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 30, scale: 0.85 }}
-                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                      transition={{
-                        duration: 0.3,
-                        delay: index * 0.04,
-                        type: "spring",
-                        stiffness: 120,
-                        damping: 15
-                      }}
-                      viewport={{ once: true, margin: "-50px" }}
-                      whileHover={{
-                        y: -12,
-                        scale: 1.05,
-                        rotateX: 5,
-                        transition: { duration: 0.10, type: "spring", stiffness: 400, damping: 20 }
-                      }}
-                      className="bg-white dark:bg-secondary-800 rounded-lg shadow-sm p-4 sm:p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer group relative overflow-hidden"
-                    >
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 30, scale: 0.85 }}
+                        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{
+                          duration: 0.3,
+                          delay: index * 0.04,
+                          type: "spring",
+                          stiffness: 120,
+                          damping: 15
+                        }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        whileHover={{
+                          y: -12,
+                          scale: 1.05,
+                          rotateX: 5,
+                          rotateY: 2,
+                          transition: { duration: 0.4, type: "spring", stiffness: 300 }
+                        }}
+                        className="bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-900/20 dark:to-fuchsia-900/20 rounded-lg shadow-sm p-4 sm:p-6 hover:shadow-2xl transition-all duration-300 cursor-pointer group relative overflow-hidden border border-violet-100 dark:border-violet-800"
+                      >
 
                       <div className="h-full flex flex-col">
-                        <h3 className="text-lg sm:text-xl font-semibold text-secondary-900 dark:text-secondary-100 mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                        <h3 className="text-lg sm:text-xl font-semibold text-violet-900 dark:text-violet-100 mb-2 group-hover:text-violet-700 dark:group-hover:text-violet-300 transition-colors relative z-10">
                           {project.title}
                         </h3>
-                        <p className="text-sm sm:text-base text-secondary-600 dark:text-secondary-400 mb-4 flex-grow leading-relaxed">
+                        <p className="text-sm sm:text-base text-violet-600 dark:text-violet-400 mb-4 flex-grow leading-relaxed relative z-10">
                           {project.description}
                         </p>
                         <div className="flex flex-wrap gap-2 mt-auto">
@@ -936,12 +1139,27 @@ const SinglePageAppContent: React.FC = () => {
                               whileInView={{ opacity: 1, scale: 1 }}
                               transition={{ duration: 0.4, delay: index * 0.1 * techIndex * 0.05 }}
                               viewport={{ once: true }}
-                              className="px-2 sm:px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-xs sm:text-sm rounded-full hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors"
+                              whileHover={{
+                                scale: 1.1,
+                                backgroundColor: "rgb(139 92 246)",
+                                color: "white",
+                                transition: { duration: 0.2 }
+                              }}
+                              className="px-2 sm:px-3 py-1 bg-violet-100 dark:bg-violet-800 text-violet-800 dark:text-violet-200 text-xs sm:text-sm rounded-full hover:bg-violet-200 dark:hover:bg-violet-700 transition-all duration-300 relative z-10"
                             >
                               {tech}
                             </motion.span>
                           ))}
                         </div>
+
+                        {/* Enhanced Background Effects */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-violet-400/10 to-fuchsia-400/10 dark:from-violet-600/20 dark:to-fuchsia-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+
+                        {/* Glow Effect */}
+                        <div className="absolute -inset-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 rounded-lg blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+
+                        {/* Shimmer Effect */}
+                        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-violet-200/30 dark:via-violet-400/20 to-transparent rounded-lg"></div>
                       </div>
                     </motion.div>
                   ))}
@@ -957,19 +1175,39 @@ const SinglePageAppContent: React.FC = () => {
                     >
                       <motion.button
                         onClick={toggleShowAllProjects}
-                        className="inline-flex items-center px-6 sm:px-8 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl group"
-                        whileHover={{ scale: 1.05, y: -2 }}
+                        className="inline-flex items-center px-6 sm:px-8 py-3 bg-gradient-to-r from-violet-500 to-fuchsia-600 hover:from-violet-600 hover:to-fuchsia-700 text-white font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-2xl group relative overflow-hidden"
+                        whileHover={{
+                          scale: 1.05,
+                          y: -3,
+                          boxShadow: "0 20px 40px rgba(139, 92, 246, 0.4)"
+                        }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        {showAllProjects ? 'Show Less' : 'Show More Projects'}
-                        <ArrowRight className={`ml-2 w-4 h-4 transition-transform group-hover:translate-x-1 ${showAllProjects ? 'rotate-180' : ''}`} />
+                        <span className="relative z-10">{showAllProjects ? 'Show Less' : 'Show More Projects'}</span>
+                        <ArrowRight className={`ml-2 w-4 h-4 transition-all duration-300 group-hover:translate-x-2 group-hover:-translate-y-0.5 relative z-10 ${showAllProjects ? 'rotate-180' : ''}`} />
+
+                        {/* Enhanced Background Effects */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-violet-400 to-fuchsia-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-fuchsia-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+
+                        {/* Shimmer Effect */}
+                        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+
+                        {/* Ripple Effect */}
+                        <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 group-hover:animate-ping bg-violet-400/20"></div>
                       </motion.button>
                     </motion.div>
             </section>
 
             {/* Contact Section */}
-            <section id="contact" className="py-8 sm:py-12 md:py-16 bg-white dark:bg-secondary-800">
-              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section id="contact" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-amber-50 via-orange-50/20 to-red-50/30 dark:from-secondary-900 dark:via-amber-900/5 dark:to-red-900/10 relative overflow-hidden">
+              {/* Subtle Background Effects - Orange Theme */}
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-50/20 via-transparent to-orange-50/15 dark:from-amber-900/8 dark:via-transparent dark:to-orange-900/5"></div>
+              <div className="absolute top-32 left-16 w-64 h-64 bg-amber-300/8 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-32 right-16 w-72 h-72 bg-orange-300/8 rounded-full blur-3xl"></div>
+              <div className="absolute top-1/2 left-1/4 w-48 h-48 bg-amber-400/5 rounded-full blur-3xl"></div>
+
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1000,25 +1238,6 @@ const SinglePageAppContent: React.FC = () => {
                       Whether you have a question or just want to say hi, I'll do my best
                       to get back to you!
                     </p>
-
-                    <div className="space-y-3 sm:space-y-4">
-                      <div className="flex items-center space-x-3">
-                        <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-primary-500 flex-shrink-0" />
-                        <span className="text-sm sm:text-base text-secondary-600 dark:text-secondary-400">
-                          iqbalmaulana14042005@gmail.com
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <span className="w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center flex-shrink-0">
-                          📍
-                        </span>
-                        <span className="text-sm sm:text-base text-secondary-600 dark:text-secondary-400">
-                          Semarang, Indonesia
-                        </span>
-                      </div>
-                    </div>
-
-
                   </motion.div>
 
                   <motion.div
@@ -1064,23 +1283,25 @@ const SinglePageAppContent: React.FC = () => {
                         <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
                           Name *
                         </label>
-                        <input
-                          type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          onFocus={() => handleFocus('name')}
-                          onBlur={handleBlur}
-                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-secondary-100 text-sm sm:text-base transition-all duration-200 hover:border-primary-300 dark:hover:border-primary-600 focus:shadow-lg ${
-                            formErrors.name
-                              ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
-                              : 'border-secondary-300 dark:border-secondary-600'
-                          }`}
-                          placeholder="Your name"
-                        />
-                        {formErrors.name && (
-                          <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.name}</p>
-                        )}
+                        <div className="relative">
+                          <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            onFocus={() => handleFocus('name')}
+                            onBlur={handleBlur}
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 border-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm sm:text-base transition-all duration-300 hover:border-orange-300 dark:hover:border-orange-600 ${
+                              formErrors.name
+                                ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+                                : 'border-orange-200 dark:border-orange-800'
+                            }`}
+                            placeholder="Enter your name"
+                          />
+                          {formErrors.name && (
+                            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.name}</p>
+                          )}
+                        </div>
                       </motion.div>
 
                       <motion.div
@@ -1092,23 +1313,25 @@ const SinglePageAppContent: React.FC = () => {
                         <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
                           Email *
                         </label>
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          onFocus={() => handleFocus('email')}
-                          onBlur={handleBlur}
-                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-secondary-100 text-sm sm:text-base transition-all duration-200 hover:border-primary-300 dark:hover:border-primary-600 focus:shadow-lg ${
-                            formErrors.email
-                              ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
-                              : 'border-secondary-300 dark:border-secondary-600'
-                          }`}
-                          placeholder="your.email@example.com"
-                        />
-                        {formErrors.email && (
-                          <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.email}</p>
-                        )}
+                        <div className="relative">
+                          <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            onFocus={() => handleFocus('email')}
+                            onBlur={handleBlur}
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 border-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm sm:text-base transition-all duration-300 hover:border-orange-300 dark:hover:border-orange-600 ${
+                              formErrors.email
+                                ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+                                : 'border-orange-200 dark:border-orange-800'
+                            }`}
+                            placeholder="your.email@example.com"
+                          />
+                          {formErrors.email && (
+                            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.email}</p>
+                          )}
+                        </div>
                       </motion.div>
 
                       <motion.div
@@ -1120,23 +1343,25 @@ const SinglePageAppContent: React.FC = () => {
                         <label className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
                           WhatsApp
                         </label>
-                        <input
-                          type="tel"
-                          name="whatsapp"
-                          value={formData.whatsapp}
-                          onChange={handleInputChange}
-                          onFocus={() => handleFocus('whatsapp')}
-                          onBlur={handleBlur}
-                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-secondary-100 text-sm sm:text-base transition-all duration-200 hover:border-primary-300 dark:hover:border-primary-600 focus:shadow-lg ${
-                            formErrors.whatsapp
-                              ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
-                              : 'border-secondary-300 dark:border-secondary-600'
-                          }`}
-                          placeholder="Your WhatsApp number"
-                        />
-                        {formErrors.whatsapp && (
-                          <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.whatsapp}</p>
-                        )}
+                        <div className="relative">
+                          <input
+                            type="tel"
+                            name="whatsapp"
+                            value={formData.whatsapp}
+                            onChange={handleInputChange}
+                            onFocus={() => handleFocus('whatsapp')}
+                            onBlur={handleBlur}
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 border-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm sm:text-base transition-all duration-300 hover:border-orange-300 dark:hover:border-orange-600 ${
+                              formErrors.whatsapp
+                                ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+                                : 'border-orange-200 dark:border-orange-800'
+                            }`}
+                            placeholder="Your WhatsApp number"
+                          />
+                          {formErrors.whatsapp && (
+                            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.whatsapp}</p>
+                          )}
+                        </div>
                       </motion.div>
 
                       <motion.div
@@ -1155,12 +1380,12 @@ const SinglePageAppContent: React.FC = () => {
                           onChange={handleInputChange}
                           onFocus={() => handleFocus('message')}
                           onBlur={handleBlur}
-                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-secondary-100 text-sm sm:text-base transition-all duration-200 hover:border-primary-300 dark:hover:border-primary-600 focus:shadow-lg resize-none ${
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 border-2 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm sm:text-base transition-all duration-300 hover:border-orange-300 dark:hover:border-orange-600 resize-none ${
                             formErrors.message
                               ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
-                              : 'border-secondary-300 dark:border-secondary-600'
+                              : 'border-orange-200 dark:border-orange-800'
                           }`}
-                          placeholder="Your message..."
+                          placeholder="Tell me about your project or just say hello! I'd love to hear from you..."
                         />
                         {formErrors.message && (
                           <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.message}</p>
@@ -1174,25 +1399,91 @@ const SinglePageAppContent: React.FC = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.4 }}
                         viewport={{ once: true }}
-                        whileHover={{ scale: isSubmitting ? 1 : 1.02, y: isSubmitting ? 0 : -2 }}
-                        whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-                        className={`w-full px-6 sm:px-8 py-3 font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl text-sm sm:text-base flex items-center justify-center space-x-2 ${
+                        whileHover={{ 
+                          scale: isSubmitting ? 1 : 1.02, 
+                          y: isSubmitting ? 0 : -2,
+                          transition: { duration: 0.2, ease: "easeOut" }
+                        }}
+                        whileTap={{ 
+                          scale: isSubmitting ? 1 : 0.98,
+                          transition: { duration: 0.1 }
+                        }}
+                        className={`relative w-full px-6 sm:px-8 py-3 font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl text-sm sm:text-base flex items-center justify-center space-x-2 overflow-hidden ${
                           isSubmitting
                             ? 'bg-secondary-400 dark:bg-secondary-600 text-secondary-600 dark:text-secondary-400 cursor-not-allowed'
-                            : 'bg-primary-500 hover:bg-primary-600 text-white'
+                            : 'bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white'
                         }`}
                       >
                         {isSubmitting ? (
                           <>
-                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                              className="w-4 h-4"
+                            >
+                              <Loader2 className="w-4 h-4" />
+                            </motion.div>
                             <span>Sending...</span>
                           </>
                         ) : (
                           <>
-                            <span>Send Message</span>
-                            <Send className="w-4 h-4" />
+                            <motion.span
+                              initial={{ opacity: 0.8 }}
+                              whileHover={{ opacity: 1 }}
+                              className="relative z-10"
+                            >
+                              Send Message
+                            </motion.span>
+                            <motion.div
+                              whileHover={{ 
+                                x: 2, 
+                                y: -1,
+                                transition: { duration: 0.2, ease: "easeOut" }
+                              }}
+                              className="relative z-10"
+                            >
+                              <Send className="w-4 h-4" />
+                            </motion.div>
+                            
+                            {/* Fixed Floating Particles */}
+                            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                              <div className="flex space-x-1">
+                                {[...Array(3)].map((_, i) => (
+                                  <motion.div
+                                    key={i}
+                                    className="w-1 h-1 bg-orange-300 rounded-full"
+                                    animate={{
+                                      y: [0, -8, 0],
+                                      opacity: [0.3, 1, 0.3]
+                                    }}
+                                    transition={{
+                                      duration: 2,
+                                      delay: i * 0.2,
+                                      repeat: Infinity,
+                                      ease: "easeInOut"
+                                    }}
+                                  />
+                                ))}
+                              </div>
+                            </div>
                           </>
                         )}
+                        
+                        {/* Enhanced background effects - Orange theme */}
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-amber-400 to-orange-500 opacity-0 hover:opacity-100 transition-opacity duration-300"
+                          initial={{ scale: 0 }}
+                          whileHover={{ scale: 1 }}
+                          transition={{ duration: 0.3 }}
+                        />
+
+                        {/* Ripple effect on tap */}
+                        <motion.div
+                          className="absolute inset-0 bg-white/20 rounded-lg"
+                          initial={{ scale: 0, opacity: 0.8 }}
+                          whileTap={{ scale: 1, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                        />
                       </motion.button>
                     </form>
                   </motion.div>
@@ -1216,15 +1507,50 @@ const SinglePageAppContent: React.FC = () => {
             <ChevronUp size={20} className="sm:w-6 sm:h-6" />
           </motion.button>
 
-          {/* Footer */}
+          {/* Enhanced Footer */}
           <footer className="bg-secondary-900 dark:bg-secondary-950 py-8 sm:py-12 relative overflow-hidden">
-            {/* Background decoration */}
+            {/* Background decoration - Enhanced */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary-900/10 to-transparent"></div>
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary-400/5 rounded-full blur-3xl"></div>
+            <div className="absolute top-8 left-1/5 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-8 right-1/5 w-96 h-96 bg-primary-400/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+            <div className="absolute top-16 right-16 w-80 h-80 bg-primary-400/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+            <div className="absolute bottom-16 left-16 w-72 h-72 bg-primary-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '3s'}}></div>
+            <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-primary-300/8 rounded-full blur-3xl animate-pulse" style={{animationDelay: '4s'}}></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {/* Newsletter Subscription Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="mb-12 sm:mb-16"
+              >
+                <div className="bg-gradient-to-r from-primary-900/20 to-secondary-800/20 dark:from-primary-800/30 dark:to-secondary-700/30 rounded-2xl p-6 sm:p-8 border border-primary-800/30 dark:border-primary-700/30">
+                  <div className="text-center mb-6">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Stay Updated</h3>
+                    <p className="text-secondary-300 text-sm sm:text-base">Subscribe to get notified about new projects and updates</p>
+                  </div>
+
+                  <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                    <input
+                      type="email"
+                      placeholder="Enter your email"
+                      className="flex-1 px-4 py-3 bg-secondary-800/50 border border-secondary-700 rounded-lg text-white placeholder-secondary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
+                    />
+                    <motion.button
+                      type="submit"
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                    >
+                      Subscribe
+                    </motion.button>
+                  </form>
+                </div>
+              </motion.div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1245,6 +1571,39 @@ const SinglePageAppContent: React.FC = () => {
                     Creating beautiful, functional, and user-centered digital experiences.
                     Passionate about clean code, innovative solutions, and bringing ideas to life.
                   </p>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <h3 className="text-base sm:text-lg font-semibold text-white mb-4">Contact Info</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-3">
+                      <Mail className="w-4 h-4 text-primary-400 flex-shrink-0" />
+                      <span className="text-secondary-400 text-sm sm:text-base">
+                        iqbalmaulana14042005@gmail.com
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <span className="w-4 h-4 flex items-center justify-center flex-shrink-0 text-primary-400">
+                        📍
+                      </span>
+                      <span className="text-secondary-400 text-sm sm:text-base">
+                        Semarang, Indonesia
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <span className="w-4 h-4 flex items-center justify-center flex-shrink-0 text-primary-400">
+                        ⏰
+                      </span>
+                      <span className="text-secondary-400 text-sm sm:text-base">
+                        Available for freelance
+                      </span>
+                    </div>
+                  </div>
                 </motion.div>
 
                 <motion.div
@@ -1290,26 +1649,61 @@ const SinglePageAppContent: React.FC = () => {
                   <h3 className="text-base sm:text-lg font-semibold text-white mb-4">Connect</h3>
                   <div className="flex space-x-3 sm:space-x-4">
                     {[
-                        { icon: Github, href: 'https://github.com/mohammaiIqbalMaulana', label: 'GitHub' },
-                        { icon: Linkedin, href: 'https://www.linkedin.com/in/mohammad-iqbalmaulana-93746a386/', label: 'LinkedIn' },
-                        { icon: Instagram, href: 'https://www.instagram.com/kikezukata._/', label: 'Instagram' },
-                        { icon: Youtube, href: 'https://youtube.com/@zukataofficial4484?si=rcinKfCG38z7o4eI', label: 'YouTube' },
-                        { icon: Music2, href: 'https://www.tiktok.com/@kikezukata_kun', label: 'TikTok' },
-                    ].map((social) => {
+                        { icon: Github, href: 'https://github.com/mohammaiIqbalMaulana', label: 'GitHub', color: 'hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800' },
+                        { icon: Linkedin, href: 'https://www.linkedin.com/in/mohammad-iqbalmaulana-93746a386/', label: 'LinkedIn', color: 'hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20' },
+                        { icon: Instagram, href: 'https://www.instagram.com/kikezukata._/', label: 'Instagram', color: 'hover:text-pink-600 hover:bg-pink-50 dark:hover:bg-pink-900/20' },
+                        { icon: Youtube, href: 'https://youtube.com/@zukataofficial4484?si=rcinKfCG38z7o4eI', label: 'YouTube', color: 'hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20' },
+                        { icon: Music2, href: 'https://www.tiktok.com/@kikezukata_kun', label: 'TikTok', color: 'hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20' },
+                    ].map((social, index) => {
                       const Icon = social.icon
                       return (
-                          <motion.a
+                          <motion.div
                             key={social.label}
-                            href={social.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            whileHover={{ scale: 1.1, y: -2 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="p-2 sm:p-3 bg-secondary-100 dark:bg-secondary-800 text-secondary-600 dark:text-secondary-400 rounded-lg hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
-                            aria-label={social.label}
+                            className="relative"
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                            viewport={{ once: true }}
                           >
-                          <Icon size={18} className="sm:w-5 sm:h-5" />
-                        </motion.a>
+                            <motion.a
+                              href={social.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              whileHover={{
+                                scale: 1.15,
+                                y: -4,
+                                rotate: [0, -5, 5, 0],
+                                transition: { duration: 0.4, type: "spring", stiffness: 300 }
+                              }}
+                              whileTap={{ scale: 0.9 }}
+                              className={`p-2 sm:p-3 bg-secondary-800/50 text-secondary-400 rounded-lg ${social.color} transition-all duration-300 relative overflow-hidden group shadow-sm hover:shadow-lg`}
+                              aria-label={social.label}
+                            >
+                              <Icon size={18} className="sm:w-5 sm:h-5 transition-transform duration-300 group-hover:scale-110" />
+
+                              {/* Enhanced background effects */}
+                              <motion.div
+                                className="absolute inset-0 bg-gradient-to-r from-primary-400/20 to-secondary-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"
+                                initial={{ scale: 0 }}
+                                whileHover={{ scale: 1 }}
+                                transition={{ duration: 0.2 }}
+                              />
+
+                              {/* Glow effect */}
+                              <div className="absolute -inset-1 bg-gradient-to-r from-primary-400 to-secondary-600 rounded-lg blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+
+                              {/* Tooltip */}
+                              <motion.div
+                                className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-secondary-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none z-20"
+                                initial={{ y: 5, opacity: 0 }}
+                                whileHover={{ y: 0, opacity: 1 }}
+                                transition={{ duration: 0.2 }}
+                              >
+                                {social.label}
+                                <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-secondary-900"></div>
+                              </motion.div>
+                            </motion.a>
+                          </motion.div>
                       )
                     })}
                   </div>
