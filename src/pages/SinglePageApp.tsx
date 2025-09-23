@@ -287,9 +287,7 @@ const SinglePageAppContent: React.FC = () => {
                       Passionate Full Stack Developer
                     </h3>
                     <p className="text-secondary-600 dark:text-secondary-400 mb-6 leading-relaxed">
-                      With over 5 years of experience in web development, I specialize in creating
-                      modern, responsive, and user-friendly applications. I love turning complex
-                      problems into simple, beautiful, and intuitive solutions.
+                      I've been studying at Muhammadiyah University of Semarang since 2023. During my studies, I gained a foundation in Java programming and have worked on various programs using both Java and Python. Outside of class, I've also deepened my skills as a full-stack developer using Node.js, including completing two web-based projects during my internship. This combined experience has given me a foundation in building applications from the backend to the frontend, while also developing a broader understanding of programming concepts.
                     </p>
                     <button
                       onClick={() => scrollToSection('projects')}
@@ -308,10 +306,10 @@ const SinglePageAppContent: React.FC = () => {
                     className="grid grid-cols-2 gap-4 sm:gap-6"
                   >
                     {[
-                      { number: '50+', label: 'Projects Completed' },
-                      { number: '5+', label: 'Years Experience' },
-                      { number: '20+', label: 'Happy Clients' },
-                      { number: '100%', label: 'Client Satisfaction' },
+                      { number: '25+', label: 'Projects Completed' },
+                      { number: '2+', label: 'Years Experience' },
+                      { number: '5+', label: 'Happy Clients' },
+                      { number: '90%', label: 'Client Satisfaction' },
                     ].map((stat, index) => (
                       <div key={index} className="text-center p-4 sm:p-6 bg-white dark:bg-secondary-800 rounded-lg shadow-sm">
                         <div className="text-2xl sm:text-3xl font-bold text-primary-600 dark:text-primary-400 mb-2">
@@ -347,14 +345,14 @@ const SinglePageAppContent: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                   {[
-                    { name: 'React', level: 95 },
-                    { name: 'TypeScript', level: 90 },
-                    { name: 'Node.js', level: 85 },
-                    { name: 'Python', level: 80 },
-                    { name: 'Next.js', level: 88 },
+                    { name: 'React', level: 85 },
+                    { name: 'TypeScript', level: 70 },
+                    { name: 'Node.js', level: 100 },
+                    { name: 'Python', level: 85 },
                     { name: 'Tailwind CSS', level: 92 },
-                    { name: 'PostgreSQL', level: 82 },
-                    { name: 'AWS', level: 75 },
+                    { name: 'MySQL', level: 93 },
+                    { name: 'Java', level: 90 },
+                    { name: 'Figma', level: 80 }
                   ].map((skill, index) => (
                     <motion.div
                       key={skill.name}
@@ -408,19 +406,74 @@ const SinglePageAppContent: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                   {[
                     {
-                      title: 'E-Commerce Platform',
-                      description: 'A full-stack e-commerce solution with React, Node.js, and PostgreSQL.',
-                      tech: ['React', 'Node.js', 'PostgreSQL']
+                      title: 'System Information App',
+                      description: 'The System Information App is a full-stack web-based application built with Node.js (Express.js), MySQL, and Bootstrap 5 to support issue monitoring and news report management. This application features management of leaders and OPDs, CRUD staff reports, input of priority/special/virality issues for leaders, and an interactive dashboard with filters and data visualization. The system also supports uploading, downloading, clustering, and centralized storage with user authentication so that previously manual processes are now faster, safer, and more efficient.',
+                      tech: ['Node.js', 'Express.js', 'Bootstrap' , 'CKEditor', 'MySQL']
                     },
                     {
-                      title: 'Task Management App',
-                      description: 'A collaborative task management application with real-time updates.',
-                      tech: ['React', 'TypeScript', 'Firebase']
+                      title: 'System Development Tracking Social Media Account',
+                      description: 'The Social Media Account Development Tracking System is a website used to comprehensively manage TikTok account data. Its main features include CRUD posting, follower count updates, target input, and automatic Engagement Rate (ER) calculations using predetermined formulas. The system also provides reports in PDF and Excel formats, as well as visualization of account growth through interactive charts.',
+                      tech: ['Node.js', 'Express.js', 'Bootstrap', 'SweetAlert', 'AJAX', 'MySQL']
                     },
                     {
-                      title: 'Weather Dashboard',
-                      description: 'A responsive weather dashboard with location-based forecasts.',
-                      tech: ['React', 'Tailwind CSS', 'OpenWeather API']
+                      title: 'Hospital Management System (Java GUI)',
+                      description: 'A simple Java GUI-based application with CRUD features for managing hospital data, including medications, drug prices, doctor names, and patient names. This system is designed to simplify and practically manage hospital data.',
+                      tech: ['Java', 'Swing', 'JDBC', 'MySQL']
+                    },
+                    {
+                      title: 'Object Scanner with YOLO (Real-time Detection)',
+                      description: 'This project leverages YOLOv8 to perform real-time object detection through a camera. The system is capable of recognizing surrounding objects, including specialized variants such as face detection (YOLOv8_FACE) and mobile phone detection (YOLOv8_HANDPHONE). This application demonstrates a fast and accurate implementation of modern computer vision with deep learning.',
+                      tech: ['Python', 'YOLOv8', 'OpenCV', 'NumPy']
+                    },
+                    {
+                      title: 'Personal Portfolio Website',
+                      description: 'A personal portfolio website built with React and Tailwind CSS to showcase my projects, skills, and experience. The website features a modern design, responsive layout, and smooth animations to provide an engaging user experience.',
+                      tech: ['React', 'Node.js', 'Tailwind CSS', 'TypeScript']
+                    },
+                    {
+                      title: 'Rock Paper Scissors Classification (CNN)',
+                      description: 'An image classification project uses a Convolutional Neural Network (CNN) to recognize the hand symbols rock, paper, and scissors. The dataset is processed using a simple CNN architecture until the model can make accurate predictions. This project demonstrates the application of deep learning to a classic game using an image classification approach.',
+                      tech: ['Python', 'TensorFlow', 'Keras', 'OpenCV', 'NumPy']
+                    },
+                    {
+                      title: 'Streamlit Web App',
+                      description: 'A Streamlit-based project for creating interactive web applications from machine learning or data analysis models. Its main feature is a simple interface that allows users to test models directly without the need for re-coding. This project serves as an example of implementing ML model deployment into a web-based application.',
+                      tech: ['Python', 'Streamlit', 'Pandas', 'NumPy']
+                    },
+                    {
+                      title: 'Python Fundamentals & Praktikum (CLI/Notebook Projects)',
+                      description: 'In addition to large projects, there are also exercises and practicals focused on Python fundamentals, such as a CLI system for payroll validation, data processing, and experiments in Google Colab. These practicals reinforce programming fundamentals, explore popular libraries, and apply them to simple case studies.',
+                      tech: ['Python', 'Pandas', 'NumPy', 'Matplotlib']
+                    },
+                    {
+                      title: 'Template Matching (Image Detection)',
+                      description: 'This project uses template matching with OpenCV to detect specific objects in images. The system works by matching template patterns to the main image to locate the desired object. This project demonstrates the basic application of computer vision in digital image processing.',
+                      tech: ['Python', 'OpenCV', 'NumPy']
+                    },
+                    {
+                      title: 'Cropping Makhluk Hidup (Image Processing)',
+                      description: 'A simple program for cropping specific portions of images of living things. This project emphasizes image manipulation with Python as a first step in further processing, while also developing an understanding of using image processing libraries.',
+                      tech: ['Python', 'Pillow', 'NumPy']
+                    },
+                    {
+                      title: 'Analisis Kompleksitas Algoritma',
+                      description: 'This notebook focuses on time complexity analysis for evaluating algorithm efficiency. Containing simple function implementations and performance experiments, this project trains program efficiency analysis skills in various scenarios.',
+                      tech: ['Python', 'Jupyter Notebook']
+                    },
+                    {
+                      title: 'Image Classification with CNN',
+                      description: 'This project builds a Convolutional Neural Network (CNN) model for image classification using TensorFlow and Keras. The dataset is processed using augmentation techniques, then the model is trained to produce an evaluation in the form of a confusion matrix and a classification report. This project demonstrates the application of deep learning to computer vision using a simple yet effective CNN architecture.',
+                      tech: ['Python', 'TensorFlow', 'Keras', 'OpenCV', 'NumPy']
+                    },
+                    {
+                      title: 'Payroll System (Perhitungan Gaji)',
+                      description: 'This project creates an OOP-based payroll calculation system in Python. The program allows employee data input, bonus settings, and deductions, as well as displaying payslips in tabular format using PrettyTable. This system demonstrates the application of class concepts, methods, and data validation to manage employee payroll calculations in an organized manner.',
+                      tech: ['Python', 'OOP', 'PrettyTable']
+                    },
+                    {
+                      title: 'Hospital Payroll Management System',
+                      description: 'A simple application for a hospital payroll system created in an interactive notebook. The system allows for adding employee data, calculating monthly salaries, and displaying reports. The program features input validation and a class-based management structure. This project combines OOP implementation and practical data management in a hospital system simulation.',
+                      tech: ['Python', 'OOP', 'Pandas']
                     }
                   ].map((project, index) => (
                     <motion.div
