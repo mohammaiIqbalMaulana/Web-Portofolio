@@ -509,7 +509,7 @@ const SinglePageAppContent: React.FC = () => {
                       <div className="flex items-center space-x-3">
                         <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-primary-500 flex-shrink-0" />
                         <span className="text-sm sm:text-base text-secondary-600 dark:text-secondary-400">
-                          your.email@example.com
+                          iqbalmaulana14042005@gmail.com
                         </span>
                       </div>
                       <div className="flex items-center space-x-3">
@@ -517,7 +517,7 @@ const SinglePageAppContent: React.FC = () => {
                           📍
                         </span>
                         <span className="text-sm sm:text-base text-secondary-600 dark:text-secondary-400">
-                          Bandung, Indonesia
+                          Semarang, Indonesia
                         </span>
                       </div>
                     </div>
@@ -682,9 +682,9 @@ const SinglePageAppContent: React.FC = () => {
                   <h3 className="text-base sm:text-lg font-semibold text-white mb-4">Connect</h3>
                   <div className="flex space-x-3 sm:space-x-4">
                     {[
-                      { icon: Github, href: 'https://github.com', label: 'GitHub' },
-                      { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-                      { icon: Mail, href: 'mailto:your.email@example.com', label: 'Email' },
+                      { icon: Github, href: 'https://github.com/mohammaiIqbalMaulana', label: 'GitHub' },
+                      { icon: Linkedin, href: 'https://www.linkedin.com/in/mohammad-iqbalmaulana-93746a386/', label: 'LinkedIn' },
+                      { icon: Mail, href: 'mailto:iqbalmaulana14042005@gmail.com', label: 'Email' },
                     ].map((social) => {
                       const Icon = social.icon
                       return (
@@ -714,7 +714,7 @@ const SinglePageAppContent: React.FC = () => {
                 viewport={{ once: true }}
               >
                 <p className="text-secondary-400 text-sm sm:text-base">
-                  © 2024 Mohammad Iqbal. All rights reserved.
+                  © 2025 Mohammad Iqbal. All rights reserved.
                 </p>
               </motion.div>
             </div>
