@@ -41,13 +41,16 @@ const SinglePageAppContent: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Smooth scroll to section
+  // Smooth scroll to section with header offset for all screen sizes
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+      const headerHeight = 80 // Increased to account for better positioning
+      const elementPosition = element.offsetTop - headerHeight
+
+      window.scrollTo({
+        top: Math.max(0, elementPosition),
+        behavior: 'smooth'
       })
     }
   }
@@ -294,6 +297,7 @@ const SinglePageAppContent: React.FC = () => {
                   {[
                     { id: 'home', label: 'Home' },
                     { id: 'about', label: 'About' },
+                    { id: 'skills', label: 'Skills' },
                     { id: 'projects', label: 'Projects' },
                     { id: 'contact', label: 'Contact' },
                   ].map((item) => (
@@ -528,7 +532,7 @@ const SinglePageAppContent: React.FC = () => {
             </section>
 
             {/* Skills Section */}
-            <section className="py-8 sm:py-12 md:py-16 bg-white dark:bg-secondary-800">
+            <section id="skills" className="py-8 sm:py-12 md:py-16 bg-white dark:bg-secondary-800">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -1043,6 +1047,7 @@ const SinglePageAppContent: React.FC = () => {
                     {[
                       { id: 'home', label: 'Home' },
                       { id: 'about', label: 'About' },
+                      { id: 'skills', label: 'Skills' },
                       { id: 'projects', label: 'Projects' },
                       { id: 'contact', label: 'Contact' },
                     ].map((item, index) => (
