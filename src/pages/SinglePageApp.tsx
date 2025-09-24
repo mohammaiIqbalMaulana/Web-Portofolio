@@ -287,7 +287,7 @@ const SinglePageAppContent: React.FC = () => {
   return (
     <div className="min-h-screen bg-secondary-50 dark:bg-secondary-900 transition-colors duration-0">
           {/* Enhanced Fixed Header */}
-          <header className={`fixed top-0 left-0 z-40 w-full transition-all duration-0 ${
+          <header className={`fixed top-0 left-0 z-40 w-full transition-all duration-300 ${
             isScrolled
               ? 'bg-secondary-50/70 dark:bg-secondary-900/70 backdrop-blur-md border-b border-secondary-200/30 dark:border-secondary-800/30 shadow-md'
               : 'bg-transparent border-b-0'
@@ -398,28 +398,6 @@ const SinglePageAppContent: React.FC = () => {
 
                     {/* Glow effect */}
                     <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400 to-orange-400 dark:from-blue-400 dark:to-purple-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
-
-                    {/* Floating particles */}
-                    <div className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-0">
-                      <div className="flex space-x-1">
-                        {[...Array(3)].map((_, i) => (
-                          <motion.div
-                            key={i}
-                            className="w-1 h-1 bg-yellow-400 dark:bg-blue-400 rounded-full"
-                            animate={{
-                              y: [0, -8, 0],
-                              opacity: [0.3, 1, 0.3]
-                            }}
-                            transition={{
-                              duration: 2,
-                              delay: i * 0.2,
-                              repeat: Infinity,
-                              ease: "easeInOut"
-                            }}
-                          />
-                        ))}
-                      </div>
-                    </div>
                   </motion.button>
 
                   {/* Hamburger Menu - Only visible on mobile/tablet */}
