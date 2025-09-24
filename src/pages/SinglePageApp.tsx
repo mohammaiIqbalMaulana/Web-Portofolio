@@ -19,15 +19,17 @@ const SinglePageAppContent: React.FC = () => {
   const [isHeaderVisible, setIsHeaderVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const { theme, toggleTheme } = useTheme()
+  const [showConnectOptions, setShowConnectOptions] = useState(false)
 
   // Contact form state
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    whatsapp: '',
-    subject: '',
-    message: ''
-  })
+const [formData, setFormData] = useState({
+  name: '',
+  email: '',
+  whatsapp: '',
+  location: '',
+  expertise: '',
+  message: ''
+})
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null)
@@ -198,12 +200,12 @@ const SinglePageAppContent: React.FC = () => {
 
     if (!formData.email.trim()) {
       errors.email = 'Email is required'
-    } else if (!/\S@\S\.\S/.test(formData.email)) {
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       errors.email = 'Please enter a valid email address'
     }
 
-    if (!formData.subject.trim()) {
-      errors.subject = 'Please select an expertise area'
+    if (!formData.expertise.trim()) {
+      errors.expertise = 'Please select an expertise area'
     }
 
     if (!formData.message.trim()) {
@@ -232,19 +234,15 @@ const SinglePageAppContent: React.FC = () => {
 
       // Prepare email template parameters
       const templateParams = {
+        // Parameter untuk template EmailJS yang sesuai
         from_name: formData.name,
         from_email: formData.email,
+        service_type: formData.expertise || 'General Inquiry',
+        client_phone: formData.whatsapp || 'Not provided',
+        client_location: formData.location || 'Not specified',
+        project_details: formData.message,
         to_name: 'Mohammad Iqbal',
         to_email: 'iqbalmaulana14042005@gmail.com',
-        subject: `${formData.subject ? formData.subject : 'General Inquiry'} from Portfolio Contact: ${formData.name}`,
-        message: `
-          Name: ${formData.name}
-          Email: ${formData.email}
-          Phone: ${formData.whatsapp || 'Not Provided'}
-          Interested In: ${formData.subject || 'Not Specified'}
-          Message:
-          ${formData.message}
-        `,
         reply_to: formData.email,
       }
 
@@ -257,7 +255,14 @@ const SinglePageAppContent: React.FC = () => {
       )
 
       setSubmitStatus('success')
-      setFormData({ name: '', email: '', whatsapp: '', subject: '', message: '' })
+      setFormData({ 
+        name: '', 
+        email: '', 
+        whatsapp: '', 
+        location: '',
+        expertise: '',
+        message: '' 
+      })
 
       // Auto-dismiss success message after 10 seconds
       setTimeout(() => {
@@ -1272,11 +1277,12 @@ const SinglePageAppContent: React.FC = () => {
                             I'm always excited to take on new challenges and collaborate on interesting projects.
                           </p>
                           <motion.button
-                            whileHover={{ scale: 1.05, y: -2 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="px-6 py-2 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
-                          >
-                            Let's Connect
+                              onClick={() => window.open('https://wa.me/628816564510?text=Hi%20Mohammad%20Iqbal,%20I%20found%20your%20portfolio%20and%20interested%20in%20working%20together!', '_blank')}
+                              whileHover={{ scale: 1.05, y: -2 }}
+                              whileTap={{ scale: 0.95 }}
+                              className="px-6 py-2 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                            >
+                              Let's Connect
                           </motion.button>
                         </div>
 
@@ -1448,20 +1454,20 @@ const SinglePageAppContent: React.FC = () => {
                             </label>
                             <input
                               type="text"
-                              name="subject"
-                              value={formData.subject}
+                              name="location"
+                              value={formData.location}
                               onChange={handleInputChange}
-                              onFocus={() => handleFocus('subject')}
+                              onFocus={() => handleFocus('location')}
                               onBlur={handleBlur}
                               className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-white transition-all duration-300 ${
-                                formErrors.subject
+                                formErrors.location
                                   ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
                                   : 'border-secondary-300 dark:border-secondary-600'
                               }`}
                               placeholder="Your location"
                             />
-                            {formErrors.subject && (
-                              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.subject}</p>
+                            {formErrors.location && (
+                              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.locaion}</p>
                             )}
                           </motion.div>
                         </div>
@@ -1476,12 +1482,12 @@ const SinglePageAppContent: React.FC = () => {
                             What Expertise You're Interested In *
                           </label>
                           <select
-                            name="subject"
-                            value={formData.subject}
+                            name="expertise"
+                            value={formData.expertise}
                             onChange={handleInputChange}
-                            onFocus={() => handleFocus('subject')}
+                            onFocus={() => handleFocus('expertise')}
                             onBlur={handleBlur}
-                            className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-white transition-all duration-300 ${formErrors.subject
+                            className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-white transition-all duration-300 ${formErrors.expertise
                               ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
                               : 'border-secondary-300 dark:border-secondary-600'
                             }`}
@@ -1494,8 +1500,8 @@ const SinglePageAppContent: React.FC = () => {
                             <option value="Consultation">Consultation</option>
                             <option value="Other">Other</option>
                           </select>
-                          {formErrors.subject && (
-                            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.subject}</p>
+                          {formErrors.expertise && (
+                            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.expertise}</p>
                           )}
                         </motion.div>
 
