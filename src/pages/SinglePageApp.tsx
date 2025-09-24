@@ -1123,97 +1123,219 @@ const [formData, setFormData] = useState({
                   {[
                     {
                       title: 'System Information App',
-                      description: 'The System Information App is a full-stack web-based application built with Node.js (Express.js), MySQL, and Bootstrap 5 to support issue monitoring and news report management. This application features management of leaders and OPDs, CRUD staff reports, input of priority/special/virality issues for leaders, and an interactive dashboard with filters and data visualization. The system also supports uploading, downloading, clustering, and centralized storage with user authentication so that previously manual processes are now faster, safer, and more efficient.',
-                      tech: ['Node.js', 'Express.js', 'Bootstrap' , 'CKEditor', 'MySQL']
+                      description: 'The System Information App is a full-stack web-based application built with Node.js (Express.js), MySQL, and Bootstrap 5 to support issue monitoring and news report management...',
+                      tech: ['Node.js', 'Express.js', 'Bootstrap', 'CKEditor', 'MySQL'],
+                      links: [
+                        {
+                          type: 'github',
+                          url: 'https://github.com/mohammaiIqbalMaulana/system-information-app',
+                          label: 'View Code'
+                        },
+                        {
+                          type: 'demo',
+                          url: 'https://system-info-demo.vercel.app',
+                          label: 'Live Demo'
+                        }
+                      ]
                     },
                     {
                       title: 'System Development Tracking Social Media Account',
-                      description: 'The Social Media Account Development Tracking System is a website used to comprehensively manage TikTok account data. Its main features include CRUD posting, follower count updates, target input, and automatic Engagement Rate (ER) calculations using predetermined formulas. The system also provides reports in PDF and Excel formats, as well as visualization of account growth through interactive charts.',
-                      tech: ['Node.js', 'Express.js', 'Bootstrap', 'SweetAlert', 'AJAX', 'MySQL']
+                      description: 'The Social Media Account Development Tracking System is a website used to comprehensively manage TikTok account data...',
+                      tech: ['Node.js', 'Express.js', 'Bootstrap', 'SweetAlert', 'AJAX', 'MySQL'],
+                      links: [
+                        {
+                          type: 'github',
+                          url: 'https://github.com/mohammaiIqbalMaulana/social-media-tracker',
+                          label: 'Source Code'
+                        }
+                      ]
                     },
                     {
                       title: 'Hospital Management System (Java GUI)',
-                      description: 'A simple Java GUI-based application with CRUD features for managing hospital data, including medications, drug prices, doctor names, and patient names. This system is designed to simplify and practically manage hospital data.',
-                      tech: ['Java', 'Swing', 'JDBC', 'MySQL']
+                      description: 'A simple Java GUI-based application with CRUD features for managing hospital data...',
+                      tech: ['Java', 'Swing', 'JDBC', 'MySQL'],
+                      links: [
+                        {
+                          type: 'github',
+                          url: 'https://github.com/mohammaiIqbalMaulana/hospital-management-java',
+                          label: 'GitHub Repo'
+                        }
+                      ]
                     },
                     {
                       title: 'Object Scanner with YOLO (Real-time Detection)',
-                      description: 'This project leverages YOLOv8 to perform real-time object detection through a camera. The system is capable of recognizing surrounding objects, including specialized variants such as face detection (YOLOv8_FACE) and mobile phone detection (YOLOv8_HANDPHONE). This application demonstrates a fast and accurate implementation of modern computer vision with deep learning.',
-                      tech: ['Python', 'YOLOv8', 'OpenCV', 'NumPy']
+                      description: 'This project leverages YOLOv8 to perform real-time object detection through a camera...',
+                      tech: ['Python', 'YOLOv8', 'OpenCV', 'NumPy'],
+                      links: [
+                        {
+                          type: 'colab',
+                          url: 'https://colab.research.google.com/drive/your-notebook-id',
+                          label: 'Open in Colab'
+                        },
+                        {
+                          type: 'github',
+                          url: 'https://github.com/mohammaiIqbalMaulana/yolo-object-detection',
+                          label: 'Source Code'
+                        }
+                      ]
                     },
                     {
                       title: 'Personal Portfolio Website',
-                      description: 'A personal portfolio website built with React and Tailwind CSS to showcase my projects, skills, and experience. The website features a modern design, responsive layout, and smooth animations to provide an engaging user experience.',
-                      tech: ['React', 'Node.js', 'Tailwind CSS', 'TypeScript']
+                      description: 'A personal portfolio website built with React and Tailwind CSS...',
+                      tech: ['React', 'Node.js', 'Tailwind CSS', 'TypeScript'],
+                      links: [
+                        {
+                          type: 'github',
+                          url: 'https://github.com/mohammaiIqbalMaulana/portfolio',
+                          label: 'Source Code'
+                        },
+                        {
+                          type: 'demo',
+                          url: 'https://iqbal-portfolio.vercel.app',
+                          label: 'Live Site'
+                        }
+                      ]
                     },
                     {
                       title: 'Rock Paper Scissors Classification (CNN)',
-                      description: 'An image classification project uses a Convolutional Neural Network (CNN) to recognize the hand symbols rock, paper, and scissors. The dataset is processed using a simple CNN architecture until the model can make accurate predictions. This project demonstrates the application of deep learning to a classic game using an image classification approach.',
-                      tech: ['Python', 'TensorFlow', 'Keras', 'OpenCV', 'NumPy']
+                      description: 'An image classification project uses a Convolutional Neural Network (CNN)...',
+                      tech: ['Python', 'TensorFlow', 'Keras', 'OpenCV', 'NumPy'],
+                      links: [
+                        {
+                          type: 'colab',
+                          url: 'https://colab.research.google.com/drive/your-rps-notebook-id',
+                          label: 'Run in Colab'
+                        }
+                      ]
                     },
                     {
                       title: 'Streamlit Web App',
-                      description: 'A Streamlit-based project for creating interactive web applications from machine learning or data analysis models. Its main feature is a simple interface that allows users to test models directly without the need for re-coding. This project serves as an example of implementing ML model deployment into a web-based application.',
-                      tech: ['Python', 'Streamlit', 'Pandas', 'NumPy']
+                      description: 'A Streamlit-based project for creating interactive web applications...',
+                      tech: ['Python', 'Streamlit', 'Pandas', 'NumPy'],
+                      links: [
+                        {
+                          type: 'github',
+                          url: 'https://github.com/mohammaiIqbalMaulana/streamlit-ml-app',
+                          label: 'GitHub'
+                        },
+                        {
+                          type: 'demo',
+                          url: 'https://your-streamlit-app.streamlit.app',
+                          label: 'Try App'
+                        }
+                      ]
                     },
                     {
                       title: 'Python Fundamentals & Praktikum (CLI/Notebook Projects)',
-                      description: 'In addition to large projects, there are also exercises and practicals focused on Python fundamentals, such as a CLI system for payroll validation, data processing, and experiments in Google Colab. These practicals reinforce programming fundamentals, explore popular libraries, and apply them to simple case studies.',
-                      tech: ['Python', 'Pandas', 'NumPy', 'Matplotlib']
+                      description: 'In addition to large projects, there are also exercises and practicals focused on Python fundamentals...',
+                      tech: ['Python', 'Pandas', 'NumPy', 'Matplotlib'],
+                      links: [
+                        {
+                          type: 'github',
+                          url: 'https://github.com/mohammaiIqbalMaulana/python-fundamentals',
+                          label: 'View Projects'
+                        }
+                      ]
                     },
                     {
                       title: 'Template Matching (Image Detection)',
-                      description: 'This project uses template matching with OpenCV to detect specific objects in images. The system works by matching template patterns to the main image to locate the desired object. This project demonstrates the basic application of computer vision in digital image processing.',
-                      tech: ['Python', 'OpenCV', 'NumPy']
+                      description: 'This project uses template matching with OpenCV to detect specific objects in images...',
+                      tech: ['Python', 'OpenCV', 'NumPy'],
+                      links: [
+                        {
+                          type: 'colab',
+                          url: 'https://colab.research.google.com/drive/your-template-matching-id',
+                          label: 'Open Notebook'
+                        }
+                      ]
                     },
                     {
                       title: 'Cropping Makhluk Hidup (Image Processing)',
-                      description: 'A simple program for cropping specific portions of images of living things. This project emphasizes image manipulation with Python as a first step in further processing, while also developing an understanding of using image processing libraries.',
-                      tech: ['Python', 'Pillow', 'NumPy']
+                      description: 'A simple program for cropping specific portions of images of living things...',
+                      tech: ['Python', 'Pillow', 'NumPy'],
+                      links: [
+                        {
+                          type: 'github',
+                          url: 'https://github.com/mohammaiIqbalMaulana/image-cropping',
+                          label: 'Source'
+                        }
+                      ]
                     },
                     {
                       title: 'Analisis Kompleksitas Algoritma',
-                      description: 'This notebook focuses on time complexity analysis for evaluating algorithm efficiency. Containing simple function implementations and performance experiments, this project trains program efficiency analysis skills in various scenarios.',
-                      tech: ['Python', 'Jupyter Notebook']
+                      description: 'This notebook focuses on time complexity analysis for evaluating algorithm efficiency...',
+                      tech: ['Python', 'Jupyter Notebook'],
+                      links: [
+                        {
+                          type: 'colab',
+                          url: 'https://colab.research.google.com/drive/algorithm-complexity-analysis',
+                          label: 'View Analysis'
+                        }
+                      ]
                     },
                     {
                       title: 'Image Classification with CNN',
-                      description: 'This project builds a Convolutional Neural Network (CNN) model for image classification using TensorFlow and Keras. The dataset is processed using augmentation techniques, then the model is trained to produce an evaluation in the form of a confusion matrix and a classification report. This project demonstrates the application of deep learning to computer vision using a simple yet effective CNN architecture.',
-                      tech: ['Python', 'TensorFlow', 'Keras', 'OpenCV', 'NumPy']
+                      description: 'This project builds a Convolutional Neural Network (CNN) model for image classification...',
+                      tech: ['Python', 'TensorFlow', 'Keras', 'OpenCV', 'NumPy'],
+                      links: [
+                        {
+                          type: 'colab',
+                          url: 'https://colab.research.google.com/drive/cnn-image-classification',
+                          label: 'Training Notebook'
+                        },
+                        {
+                          type: 'github',
+                          url: 'https://github.com/mohammaiIqbalMaulana/cnn-image-classification',
+                          label: 'Complete Code'
+                        }
+                      ]
                     },
                     {
                       title: 'Payroll System (Perhitungan Gaji)',
-                      description: 'This project creates an OOP-based payroll calculation system in Python. The program allows employee data input, bonus settings, and deductions, as well as displaying payslips in tabular format using PrettyTable. This system demonstrates the application of class concepts, methods, and data validation to manage employee payroll calculations in an organized manner.',
-                      tech: ['Python', 'OOP', 'PrettyTable']
+                      description: 'This project creates an OOP-based payroll calculation system in Python...',
+                      tech: ['Python', 'OOP', 'PrettyTable'],
+                      links: [
+                        {
+                          type: 'github',
+                          url: 'https://github.com/mohammaiIqbalMaulana/payroll-system',
+                          label: 'Source Code'
+                        }
+                      ]
                     },
                     {
                       title: 'Hospital Payroll Management System',
-                      description: 'A simple application for a hospital payroll system created in an interactive notebook. The system allows for adding employee data, calculating monthly salaries, and displaying reports. The program features input validation and a class-based management structure. This project combines OOP implementation and practical data management in a hospital system simulation.',
-                      tech: ['Python', 'OOP', 'Pandas']
+                      description: 'A simple application for a hospital payroll system created in an interactive notebook...',
+                      tech: ['Python', 'OOP', 'Pandas'],
+                      links: [
+                        {
+                          type: 'colab',
+                          url: 'https://colab.research.google.com/drive/hospital-payroll-system',
+                          label: 'Interactive Demo'
+                        }
+                      ]
                     }
                   ].slice(0, showAllProjects ? undefined : 7).map((project, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 30, scale: 0.85 }}
-                        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{
-                          duration: 0.3,
-                          delay: index * 0.04,
-                          type: "spring",
-                          stiffness: 120,
-                          damping: 15
-                        }}
-                        viewport={{ once: true, margin: "-50px" }}
-                        whileHover={{
-                          y: -12,
-                          scale: 1.05,
-                          rotateX: 5,
-                          rotateY: 2,
-                          transition: { duration: 0.4, type: "spring", stiffness: 300 }
-                        }}
-                        className="bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-900/20 dark:to-fuchsia-900/20 rounded-lg shadow-sm p-4 sm:p-6 hover:shadow-2xl transition-all duration-0 cursor-pointer group relative overflow-hidden border border-violet-100 dark:border-violet-800"
-                      >
-
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 30, scale: 0.85 }}
+                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                      transition={{
+                        duration: 0.3,
+                        delay: index * 0.04,
+                        type: "spring",
+                        stiffness: 120,
+                        damping: 15
+                      }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      whileHover={{
+                        y: -12,
+                        scale: 1.05,
+                        rotateX: 5,
+                        rotateY: 2,
+                        transition: { duration: 0.4, type: "spring", stiffness: 300 }
+                      }}
+                      className="bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-900/20 dark:to-fuchsia-900/20 rounded-lg shadow-sm p-4 sm:p-6 hover:shadow-2xl transition-all duration-0 cursor-pointer group relative overflow-hidden border border-violet-100 dark:border-violet-800"
+                    >
                       <div className="h-full flex flex-col">
                         <h3 className="text-lg sm:text-xl font-semibold text-violet-900 dark:text-violet-100 mb-2 group-hover:text-violet-700 dark:group-hover:text-violet-300 transition-colors relative z-10">
                           {project.title}
@@ -1221,7 +1343,9 @@ const [formData, setFormData] = useState({
                         <p className="text-sm sm:text-base text-violet-600 dark:text-violet-400 mb-4 flex-grow leading-relaxed relative z-10">
                           {project.description}
                         </p>
-                        <div className="flex flex-wrap gap-2 mt-auto">
+                        
+                        {/* Tech Stack */}
+                        <div className="flex flex-wrap gap-2 mb-4">
                           {project.tech.map((tech, techIndex) => (
                             <motion.span
                               key={techIndex}
@@ -1242,19 +1366,80 @@ const [formData, setFormData] = useState({
                           ))}
                         </div>
 
-                        {/* Enhanced Background Effects */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-violet-400/10 to-fuchsia-400/10 dark:from-violet-600/20 dark:to-fuchsia-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-0 rounded-lg"></div>
+                        {/* Project Links - Only show on hover */}
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          whileHover={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3, ease: "easeOut" }}
+                          className="opacity-0 group-hover:opacity-100 transition-all duration-300 relative z-20"
+                        >
+                          <div className="flex flex-wrap gap-2 pt-3 border-t border-violet-200/50 dark:border-violet-700/50">
+                            {project.links?.map((link, linkIndex) => {
+                              const getLinkIcon = (type: string) => {
+                                switch(type) {
+                                  case 'github':
+                                    return <Github size={14} />
+                                  case 'demo':
+                                    return <Globe size={14} />
+                                  case 'colab':
+                                    return <Code size={14} />
+                                  default:
+                                    return <ArrowRight size={14} />
+                                }
+                              }
 
-                        {/* Glow Effect */}
-                        <div className="absolute -inset-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 rounded-lg blur opacity-0 group-hover:opacity-20 transition-opacity duration-0"></div>
+                              const getLinkStyle = (type: string) => {
+                                switch(type) {
+                                  case 'github':
+                                    return 'bg-gray-600 hover:bg-gray-700 text-white'
+                                  case 'demo':
+                                    return 'bg-blue-500 hover:bg-blue-600 text-white'
+                                  case 'colab':
+                                    return 'bg-orange-500 hover:bg-orange-600 text-white'
+                                  default:
+                                    return 'bg-violet-500 hover:bg-violet-600 text-white'
+                                }
+                              }
 
-                        {/* Shimmer Effect */}
-                        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-violet-200/30 dark:via-violet-400/20 to-transparent rounded-lg"></div>
+                              return (
+                                <motion.a
+                                  key={linkIndex}
+                                  href={link.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={(e) => e.stopPropagation()} // Prevent card click interference
+                                  whileHover={{ 
+                                    scale: 1.05, 
+                                    y: -2,
+                                    transition: { duration: 0.2 } 
+                                  }}
+                                  whileTap={{ scale: 0.95 }}
+                                  className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md ${getLinkStyle(link.type)}`}
+                                  initial={{ opacity: 0, x: -10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ duration: 0.3, delay: linkIndex * 0.1 }}
+                                >
+                                  {getLinkIcon(link.type)}
+                                  <span>{link.label}</span>
+                                </motion.a>
+                              )
+                            })}
+                          </div>
+                        </motion.div>
+
+                        {/* Enhanced Background Effects - Only active on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-violet-400/10 to-fuchsia-400/10 dark:from-violet-600/20 dark:to-fuchsia-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+
+                        {/* Glow Effect - Only active on hover */}
+                        <div className="absolute -inset-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 rounded-lg blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+
+                        {/* Shimmer Effect - Only active on hover */}
+                        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-violet-200/30 dark:via-violet-400/20 to-transparent rounded-lg opacity-0 group-hover:opacity-100"></div>
                       </div>
                     </motion.div>
                   ))}
                 </motion.div>
-              </div>
+                </div>
                     {/* Show More Button */}
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
