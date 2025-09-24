@@ -19,7 +19,6 @@ const SinglePageAppContent: React.FC = () => {
   const [isHeaderVisible, setIsHeaderVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const { theme, toggleTheme } = useTheme()
-  const [showConnectOptions, setShowConnectOptions] = useState(false)
 
   // Contact form state
 const [formData, setFormData] = useState({
