@@ -1877,20 +1877,162 @@ const [formData, setFormData] = useState({
 
           </main>
 
-          {/* Scroll to Top Button */}
-          <motion.button
-            initial={{ opacity: 0, scale: 0 }}
+          {/* Enhanced Scroll to Top Button */}
+          <motion.div
+            className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50"
+            initial={{ opacity: 0, scale: 0, y: 20 }}
             animate={{
               opacity: showScrollTop ? 1 : 0,
-              scale: showScrollTop ? 1 : 0
+              scale: showScrollTop ? 1 : 0,
+              y: showScrollTop ? 0 : 20
             }}
-            transition={{ duration: 0.3 }}
-            onClick={scrollToTop}
-            className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-2 sm:p-3 bg-primary-500 hover:bg-primary-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
-            aria-label="Scroll to top"
+            transition={{
+              type: "spring",
+              stiffness: 260,
+              damping: 20,
+              duration: 0.6
+            }}
           >
-            <ChevronUp size={20} className="sm:w-6 sm:h-6" />
-          </motion.button>
+            <motion.button
+              onClick={scrollToTop}
+              className="relative group cursor-pointer"
+              whileHover={{
+                scale: 1.1,
+                rotate: [0, -5, 5, 0],
+                transition: { duration: 0.4, type: "spring", stiffness: 300 }
+              }}
+              whileTap={{
+                scale: 0.95,
+                transition: { duration: 0.1 }
+              }}
+              aria-label="Scroll to top"
+            >
+              {/* Progress Ring Background */}
+              <div className="absolute inset-0 rounded-full">
+                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <path
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                    className="text-primary-300/30 dark:text-primary-700/30"
+                  />
+                  {/* Animated Progress Ring */}
+                  <motion.path
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke="url(#scrollProgressGradient)"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: scrollProgress / 100 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="drop-shadow-sm"
+                  />
+                  <defs>
+                    <linearGradient id="scrollProgressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#3B82F6" />
+                      <stop offset="50%" stopColor="#8B5CF6" />
+                      <stop offset="100%" stopColor="#EC4899" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+
+              {/* Main Button */}
+              <div className="relative w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 hover:from-primary-400 hover:via-primary-500 hover:to-primary-600 text-white rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center justify-center overflow-hidden group-hover:shadow-primary-500/25">
+
+                {/* Animated Background Effects */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300"
+                  initial={{ scale: 0 }}
+                  whileHover={{ scale: 1.5 }}
+                  transition={{ duration: 0.4 }}
+                />
+
+                {/* Ripple Effect */}
+                <motion.div
+                  className="absolute inset-0 bg-white/30 rounded-full"
+                  initial={{ scale: 0, opacity: 0.8 }}
+                  whileTap={{ scale: 2, opacity: 0 }}
+                  transition={{ duration: 0.6 }}
+                />
+
+                {/* Icon with Animation */}
+                <motion.div
+                  animate={{
+                    y: [0, -2, 0],
+                    rotate: [0, 5, -5, 0]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  className="relative z-10"
+                >
+                  <ChevronUp size={20} className="sm:w-6 sm:h-6" />
+                </motion.div>
+
+                {/* Floating Particles */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {[...Array(6)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute w-1 h-1 bg-white/60 rounded-full"
+                      style={{
+                        top: `${20 + Math.random() * 60}%`,
+                        left: `${20 + Math.random() * 60}%`,
+                      }}
+                      animate={{
+                        y: [0, -10, 0],
+                        opacity: [0.3, 1, 0.3],
+                        scale: [0.5, 1, 0.5]
+                      }}
+                      transition={{
+                        duration: 1.5 + Math.random() * 0.5,
+                        delay: i * 0.1,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    />
+                  ))}
+                </div>
+
+                {/* Glow Effect */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+
+                {/* Pulsing Ring */}
+                <motion.div
+                  className="absolute -inset-2 border-2 border-primary-400/50 rounded-full"
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.5, 0, 0.5]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+              </div>
+
+              {/* Tooltip */}
+              <motion.div
+                className="absolute bottom-full right-0 mb-2 px-2 py-1 bg-secondary-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none z-20"
+                initial={{ y: 5, opacity: 0 }}
+                whileHover={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.2 }}
+              >
+                Back to top
+                <div className="absolute top-full right-4 transform -translate-x-1/2 border-4 border-transparent border-t-secondary-900"></div>
+              </motion.div>
+            </motion.button>
+          </motion.div>
 
           {/* Enhanced Footer */}
           <footer className="bg-secondary-900 dark:bg-secondary-950 py-8 sm:py-12 relative overflow-hidden">
