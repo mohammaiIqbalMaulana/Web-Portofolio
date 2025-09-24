@@ -19,6 +19,12 @@ const SinglePageAppContent: React.FC = () => {
   const [isHeaderVisible, setIsHeaderVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const { theme, toggleTheme } = useTheme()
+  const [newsletterData, setNewsletterData] = useState({
+    email: '',
+    source: 'portfolio-footer'
+  })
+  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [newsletterMessage, setNewsletterMessage] = useState('')
 
   // Contact form state
 const [formData, setFormData] = useState({
@@ -70,6 +76,103 @@ const [formData, setFormData] = useState({
         top: Math.max(0, elementPosition),
         behavior: 'smooth'
       })
+    }
+  }
+
+  // Handle Newsletter Subscription
+  const validateNewsletterEmail = (email: string): boolean => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  }
+
+  const handleNewsletterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewsletterData({
+      ...newsletterData,
+      email: e.target.value
+    })
+    // Clear status when user types
+    if (newsletterStatus !== 'idle') {
+      setNewsletterStatus('idle')
+      setNewsletterMessage('')
+    }
+  }
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!validateNewsletterEmail(newsletterData.email)) {
+      setNewsletterStatus('error')
+      setNewsletterMessage('Please enter a valid email address')
+      return
+    }
+
+    setNewsletterStatus('loading')
+
+    try {
+      console.log('Newsletter Config:', {
+        SERVICE_ID: EMAILJS_CONFIG.SERVICE_ID,
+        NEWSLETTER_TEMPLATE_ID: EMAILJS_CONFIG.NEWSLETTER_TEMPLATE_ID,
+        PUBLIC_KEY: EMAILJS_CONFIG.PUBLIC_KEY ? 'EXISTS' : 'MISSING'
+      })
+
+      const templateParams = {
+        subscriber_email: newsletterData.email,
+        subscription_date: new Date().toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        source: newsletterData.source,
+        to_name: 'Mohammad Iqbal',
+        to_email: 'iqbalmaulana14042005@gmail.com'
+      }
+
+      console.log('Newsletter templateParams:', templateParams)
+
+      const response = await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.NEWSLETTER_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_CONFIG.PUBLIC_KEY
+      )
+
+      console.log('Newsletter success:', response)
+
+      setNewsletterStatus('success')
+      setNewsletterMessage('Thank you for subscribing! You\'ll receive updates about new projects.')
+      setNewsletterData({ email: '', source: 'portfolio-footer' })
+
+      setTimeout(() => {
+        setNewsletterStatus('idle')
+        setNewsletterMessage('')
+      }, 8000)
+
+    } catch (error: any) {
+      console.error('Newsletter error details:', {
+        error: error,
+        message: error?.message,
+        status: error?.status,
+        text: error?.text
+      })
+      
+      let errorMessage = 'Something went wrong. Please try again.'
+      
+      if (error?.status === 400) {
+        errorMessage = 'Invalid email format. Please check and try again.'
+      } else if (error?.status === 401) {
+        errorMessage = 'Service authentication failed. Please try again later.'
+      } else if (error?.status === 404) {
+        errorMessage = 'Service temporarily unavailable.'
+      }
+      
+      setNewsletterStatus('error')
+      setNewsletterMessage(errorMessage)
+      
+      setTimeout(() => {
+        setNewsletterStatus('idle')
+        setNewsletterMessage('')
+      }, 8000)
     }
   }
 
@@ -229,7 +332,7 @@ const [formData, setFormData] = useState({
 
     try {
       // Check if EmailJS credentials are configured
-      const { SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY } = EMAILJS_CONFIG
+    const { SERVICE_ID, CONTACT_TEMPLATE_ID, PUBLIC_KEY } = EMAILJS_CONFIG
 
       // Prepare email template parameters
       const templateParams = {
@@ -248,7 +351,7 @@ const [formData, setFormData] = useState({
       // Send email using EmailJS
       await emailjs.send(
         SERVICE_ID,
-        TEMPLATE_ID,
+        CONTACT_TEMPLATE_ID,
         templateParams,
         PUBLIC_KEY
       )
@@ -1629,21 +1732,66 @@ const [formData, setFormData] = useState({
                     <p className="text-secondary-300 text-sm sm:text-base">Subscribe to get notified about new projects and updates</p>
                   </div>
 
-                  <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                    <input
-                      type="email"
-                      placeholder="Enter your email"
-                      className="flex-1 px-4 py-3 bg-secondary-800/50 border border-secondary-700 rounded-lg text-white placeholder-secondary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
-                    />
-                    <motion.button
-                      type="submit"
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-medium rounded-lg transition-all duration-0 shadow-lg hover:shadow-xl"
-                    >
-                      Subscribe
-                    </motion.button>
-                  </form>
+                    <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                      <div className="flex-1 relative">
+                        <input
+                          type="email"
+                          value={newsletterData.email}
+                          onChange={handleNewsletterChange}
+                          placeholder="Enter your email"
+                          disabled={newsletterStatus === 'loading'}
+                          className={`w-full px-4 py-3 bg-secondary-800/50 border rounded-lg text-white placeholder-secondary-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-300 ${
+                            newsletterStatus === 'error' 
+                              ? 'border-red-500 focus:ring-red-500' 
+                              : 'border-secondary-700 focus:ring-primary-500'
+                          } ${newsletterStatus === 'loading' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          required
+                        />
+                        
+                        {/* Status indicator */}
+                        {newsletterStatus === 'loading' && (
+                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                              className="w-4 h-4 border-2 border-primary-400 border-t-transparent rounded-full"
+                            />
+                          </div>
+                        )}
+                      </div>
+                      
+                      <motion.button
+                        type="submit"
+                        disabled={newsletterStatus === 'loading' || !newsletterData.email}
+                        whileHover={newsletterStatus !== 'loading' ? { scale: 1.05, y: -2 } : {}}
+                        whileTap={newsletterStatus !== 'loading' ? { scale: 0.95 } : {}}
+                        className={`px-6 py-3 font-medium rounded-lg transition-all duration-300 shadow-lg ${
+                          newsletterStatus === 'loading' || !newsletterData.email
+                            ? 'bg-secondary-600 text-secondary-400 cursor-not-allowed'
+                            : 'bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white hover:shadow-xl'
+                        }`}
+                      >
+                        {newsletterStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
+                      </motion.button>
+                    </form>
+
+                    {/* Status Message */}
+                    <AnimatePresence>
+                      {newsletterMessage && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          className={`mt-3 text-center text-sm ${
+                            newsletterStatus === 'success' 
+                              ? 'text-green-400' 
+                              : 'text-red-400'
+                          }`}
+                        >
+                          {newsletterMessage}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                 </div>
               </motion.div>
 
