@@ -55,10 +55,10 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onToggle, onNavig
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
               transition={{ duration: 0.3 }}
-              className="fixed top-0 right-0 z-[44] w-full max-w-[280px] h-auto bg-secondary-50/70 dark:bg-secondary-900/70 backdrop-blur-md shadow-2xl lg:hidden rounded-bl-lg border-l border-secondary-200/30 dark:border-secondary-700/30"
+              className="fixed top-0 right-0 z-[55] w-full max-w-[280px] h-auto bg-secondary-50/70 dark:bg-secondary-900/70 backdrop-blur-md shadow-2xl lg:hidden rounded-bl-lg border-l border-secondary-200/30 dark:border-secondary-700/30"
               style={{
-                top: 'calc(64px + env(safe-area-inset-top, 0px))',
-                maxHeight: 'calc(100vh - 120px - env(safe-area-inset-top, 0px))'
+                top: 'calc(4rem + 0.25rem + env(safe-area-inset-top, 0px))',
+                maxHeight: 'calc(100vh - 7rem - env(safe-area-inset-top, 0px))'
               }}
               data-menu-panel
             >
