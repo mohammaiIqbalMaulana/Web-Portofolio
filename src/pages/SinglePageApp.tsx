@@ -31,7 +31,7 @@ const SinglePageAppContent: React.FC = () => {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null)
-  const [, setFocusedField] = useState<string | null>(null)
+  const [focusedField, setFocusedField] = useState<string | null>(null)
 
   // Handle scroll to show/hide scroll-to-top button and header styling
   useEffect(() => {

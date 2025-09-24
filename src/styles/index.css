@@ -103,8 +103,7 @@ body {
 
 /* Focus styles */
 *:focus-visible {
-  outline: 2px solid var(--primary-500);
+  outline: 2px solid var(--amber-500);
   outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--amber-200);
 }
-
-
