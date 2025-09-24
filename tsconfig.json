@@ -34,5 +34,5 @@
     "declaration": true,
     "outDir": "./dist"
   },
-  "include": ["vite.config.ts"]
+  "include": ["src", "vite.config.ts"]
 }

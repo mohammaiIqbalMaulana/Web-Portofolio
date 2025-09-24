@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowRight, Download, Github, Instagram, Youtube, Music2, Linkedin, Mail, ChevronUp, Moon, Sun, Send, CheckCircle, AlertCircle, Loader2, Code, Database, Palette, Zap, Globe, Cpu, Layers, Sparkles } from 'lucide-react'
+import { ArrowRight, Download, Github, Instagram, Youtube, Music2, Linkedin, Mail, ChevronUp, Moon, Sun, CheckCircle, AlertCircle, Loader2, Code, Database, Palette, Zap, Globe, Cpu, Layers, Sparkles } from 'lucide-react'
 import { ThemeProvider, useTheme } from '../contexts/ThemeContext'
 import { AnimationProvider } from '../contexts/AnimationContext'
 import TypingAnimation from '../components/TypingAnimation'
@@ -31,7 +31,7 @@ const SinglePageAppContent: React.FC = () => {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null)
-  const [focusedField, setFocusedField] = useState<string | null>(null)
+  const [, setFocusedField] = useState<string | null>(null)
 
   // Handle scroll to show/hide scroll-to-top button and header styling
   useEffect(() => {
@@ -202,10 +202,14 @@ const SinglePageAppContent: React.FC = () => {
       errors.email = 'Please enter a valid email address'
     }
 
+    if (!formData.subject.trim()) {
+      errors.subject = 'Please select an expertise area'
+    }
+
     if (!formData.message.trim()) {
-      errors.message = 'Message is required'
+      errors.message = 'Project details are required'
     } else if (formData.message.trim().length < 10) {
-      errors.message = 'Message must be at least 10 characters long'
+      errors.message = 'Project details must be at least 10 characters long'
     }
 
     setFormErrors(errors)
@@ -232,11 +236,12 @@ const SinglePageAppContent: React.FC = () => {
         from_email: formData.email,
         to_name: 'Mohammad Iqbal',
         to_email: 'iqbalmaulana14042005@gmail.com',
-        subject: `Portfolio Contact: ${formData.name}`,
+        subject: `${formData.subject ? formData.subject : 'General Inquiry'} from Portfolio Contact: ${formData.name}`,
         message: `
           Name: ${formData.name}
           Email: ${formData.email}
-          WhatsApp: ${formData.whatsapp || 'Not Filled'}
+          Phone: ${formData.whatsapp || 'Not Provided'}
+          Interested In: ${formData.subject || 'Not Specified'}
           Message:
           ${formData.message}
         `,
@@ -244,7 +249,7 @@ const SinglePageAppContent: React.FC = () => {
       }
 
       // Send email using EmailJS
-      const result = await emailjs.send(
+      await emailjs.send(
         SERVICE_ID,
         TEMPLATE_ID,
         templateParams,
@@ -1471,15 +1476,14 @@ const SinglePageAppContent: React.FC = () => {
                             What Expertise You're Interested In *
                           </label>
                           <select
-                            name="message"
-                            value={formData.message}
+                            name="subject"
+                            value={formData.subject}
                             onChange={handleInputChange}
-                            onFocus={() => handleFocus('message')}
+                            onFocus={() => handleFocus('subject')}
                             onBlur={handleBlur}
-                            className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-white transition-all duration-300 ${
-                              formErrors.message
-                                ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
-                                : 'border-secondary-300 dark:border-secondary-600'
+                            className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white dark:bg-secondary-700 text-secondary-900 dark:text-white transition-all duration-300 ${formErrors.subject
+                              ? 'border-red-500 dark:border-red-400 focus:ring-red-500'
+                              : 'border-secondary-300 dark:border-secondary-600'
                             }`}
                           >
                             <option value="">Select a service</option>
@@ -1490,8 +1494,8 @@ const SinglePageAppContent: React.FC = () => {
                             <option value="Consultation">Consultation</option>
                             <option value="Other">Other</option>
                           </select>
-                          {formErrors.message && (
-                            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.message}</p>
+                          {formErrors.subject && (
+                            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.subject}</p>
                           )}
                         </motion.div>
 

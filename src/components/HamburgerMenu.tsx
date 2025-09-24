@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../contexts/ThemeContext'
-import { Github, Linkedin, Instagram, Moon, Sun, } from 'lucide-react'
+import { Github, Linkedin, Instagram, Moon, Sun } from 'lucide-react'
 import '../styles/hamburger.css'
 
 interface HamburgerMenuProps {
@@ -36,7 +36,7 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onToggle, onNavig
         name="hamburger"
         type="button"
         onClick={onToggle}
-        className={`fixed right-4 top-4 block lg:hidden z-[45] p-2 rounded-lg bg-white/20 dark:bg-secondary-900/20 backdrop-blur-md border border-white/30 dark:border-secondary-700/30 shadow-lg transition-all duration-0 ${isOpen ? 'hamburger-active' : ''}`}
+        className={`fixed right-4 top-4 block lg:hidden z-[45] p-2 rounded-lg bg-white/20 dark:bg-secondary-900/20 backdrop-blur-md border border-white/30 dark:border-secondary-700/30 shadow-lg transition-all duration-300 ${isOpen ? 'hamburger-active' : ''}`}
         aria-label="Toggle menu"
         style={{ marginTop: 'env(safe-area-inset-top, 0px)' }}
       >
@@ -54,7 +54,7 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onToggle, onNavig
               initial={{ opacity: 0, y: -20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              transition={{ duration: 0 }}
+              transition={{ duration: 0.3 }}
               className="fixed top-0 right-0 z-[44] w-full max-w-[280px] h-auto bg-secondary-50/70 dark:bg-secondary-900/70 backdrop-blur-md shadow-2xl lg:hidden rounded-bl-lg border-l border-secondary-200/30 dark:border-secondary-700/30"
               style={{
                 top: 'calc(64px + env(safe-area-inset-top, 0px))',
@@ -66,12 +66,12 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onToggle, onNavig
                 {/* Navigation Links */}
                 <nav className="px-4 py-6">
                   <ul className="space-y-1">
-                    {navItems.map((item, index) => (
+                    {navItems.map((item) => (
                       <motion.li
                         key={item.id}
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0}}
+                        transition={{ duration: 1}}
                       >
                         <motion.button
                           onClick={() => {
