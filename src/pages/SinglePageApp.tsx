@@ -504,7 +504,7 @@ const SinglePageAppContent: React.FC = () => {
                         whileTap={{ scale: 0.95 }}
                       >
                         <span className="relative z-10">View My Work</span>
-                        <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 group-hover:-translate-y-0.5 transition-all duration-0 relative z-10" />
+                        <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 group-hover:-translate-y-0.5 transition-all duration-300 relative z-10" />
 
                         {/* Enhanced Background Effects */}
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-0"></div>
@@ -525,7 +525,7 @@ const SinglePageAppContent: React.FC = () => {
                         }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        <Download className="mr-2 w-4 h-4 group-hover:translate-y-[-2px] group-hover:rotate-12 transition-all duration-0 relative z-20" />
+                        <Download className="mr-2 w-4 h-4 group-hover:translate-y-[-2px] group-hover:rotate-12 transition-all duration-300 relative z-20" />
                         <span className="relative z-20">Download CV</span>
 
                         {/* Enhanced Background Effects */}
