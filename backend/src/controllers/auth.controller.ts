@@ -26,10 +26,11 @@ export const authController = {
       }
 
       res.cookie('auth_token', result.token, getJWTCookieOptions());
-      
+
       res.json({
         success: true,
         admin: result.admin,
+        token: result.token,
         message: 'Login successful'
       });
     } catch (error) {

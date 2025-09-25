@@ -42,7 +42,7 @@ const [formData, setFormData] = useState({
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null)
-  const [focusedField, setFocusedField] = useState<string | null>(null)
+  const [, setFocusedField] = useState<string | null>(null)
 
   // Fetch projects from API
   useEffect(() => {
