@@ -1,3 +1,4 @@
+// prisma/schema.prisma - CLEAN VERSION (no duplicates)
 generator client {
   provider = "prisma-client-js"
 }
