@@ -9,7 +9,12 @@ export const loginSchema = z.object({
 export const createProjectSchema = z.object({
   title: z.string().min(1, 'Title is required').max(255),
   description: z.string().optional(),
+  title_en: z.string().optional(),
+  description_en: z.string().optional(),
   tech: z.array(z.string()).min(1, 'At least one technology required'),
+  github_url: z.string().url().optional().or(z.literal('')),
+  live_url: z.string().url().optional().or(z.literal('')),
+  image_url: z.string().url().optional().or(z.literal('')),
   links: z.array(z.object({
     type: z.string(),
     url: z.string().url(),

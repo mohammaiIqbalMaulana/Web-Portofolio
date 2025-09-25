@@ -7,8 +7,20 @@ import { AuthRequest } from '../types/auth';
 export const projectController = {
   getAll: async (req: Request, res: Response) => {
     try {
+      const lang = req.query.lang as string;
       const projects = await projectService.getAllProjects();
-      res.json(projects);
+
+      // If lang is 'en', translate fields
+      if (lang === 'en') {
+        const translatedProjects = projects.map(project => ({
+          ...project,
+          title: project.title_en || project.title,
+          description: project.description_en || project.description,
+        }));
+        res.json(translatedProjects);
+      } else {
+        res.json(projects);
+      }
     } catch (error: unknown) {
       res.status(500).json({ error: (error as Error).message });
     }

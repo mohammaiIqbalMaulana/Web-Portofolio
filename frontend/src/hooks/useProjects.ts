@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { apiService, Project } from '../services/api';
 
 export const useProjects = () => {
+  const { i18n } = useTranslation();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -12,7 +14,7 @@ export const useProjects = () => {
       try {
         setLoading(true);
         setError(null);
-        const fetchedProjects = await apiService.getProjects();
+        const fetchedProjects = await apiService.getProjects(i18n.language);
         setProjects(fetchedProjects);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load projects');
@@ -21,7 +23,7 @@ export const useProjects = () => {
       }
     };
     fetchProjects();
-  }, []);
+  }, [i18n.language]);
 
   const toggleShowAllProjects = () => {
     const projectsSection = document.getElementById('projects');

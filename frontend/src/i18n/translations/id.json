@@ -1,0 +1,116 @@
+{
+  "hero": {
+    "greeting": "Halo, Nama Saya",
+    "description": "Saya sedang belajar dan mengembangkan diri di bidang teknologi informasi, khususnya dalam pengembangan web dan desain UI/UX dan sekaligus sebagai pembuat konten. Sekarang sangat bersemangat untuk menciptakan solusi digital yang inovatif dan memberikan dampak positif.",
+    "roles": ["Full Stack Developer", "UI/UX Designer", "Problem Solver", "Influencer"],
+    "viewWork": "Lihat Karya Saya",
+    "downloadCV": "Unduh CV"
+  },
+  "about": {
+    "title": "Tentang Saya",
+    "subtitle": "Ketahui lebih banyak tentang perjalanan, keterampilan, dan apa yang mendorong saya untuk menciptakan pengalaman digital yang menakjubkan.",
+    "passion": "Tertarik dengan Teknologi & Membangun hal-hal Penting",
+    "description": "Saya telah menempuh pendidikan di Universitas Muhammadiyah Semarang sejak tahun 2023. Selama masa studi, saya mendapatkan dasar-dasar pemrograman Java dan telah mengerjakan berbagai program menggunakan Java dan Python. Di luar perkuliahan, saya juga memperdalam keterampilan saya sebagai pengembang full-stack menggunakan Node.js, termasuk menyelesaikan dua proyek berbasis web selama magang. Pengalaman gabungan ini telah memberi saya dasar dalam membangun aplikasi dari backend hingga frontend, sekaligus mengembangkan pemahaman yang lebih luas tentang konsep pemrograman. Selain akademis dan teknologi, saya juga aktif sebagai influencer di TikTok dan YouTube, yang semakin mengasah keterampilan komunikasi, kreativitas konten, dan interaksi saya dengan audiens digital.",
+    "learnMore": "Pelajari lebih lanjut tentang karya saya",
+    "stats": {
+      "projects": "Proyek Terselesaikan",
+      "experience": "Tahun Pengalaman",
+      "clients": "Tanggapan Klien",
+      "satisfaction": "Kepuasan Klien"
+    }
+  },
+  "skills": {
+    "title": "Keterampilan & Keahlian",
+    "description": "Gambaran umum yang komprehensif mengenai keterampilan teknis saya dan teknologi yang saya gunakan untuk mewujudkan ide.",
+    "alwaysLearning": "Selalu belajar dan mengeksplorasi teknologi baru untuk tetap menjadi yang terdepan dalam lanskap teknologi yang terus berkembang.",
+    "categories": ["Semua", "Frontend", "Backend", "Bahasa Pemrograman", "Database"],
+    "skills": {
+      "laravel": "Kerangka kerja PHP, alat bawaan untuk pengembangan web yang cepat",
+      "tailwind": "CSS modern dengan animasi dan desain responsif",
+      "javascript": "Fitur ES6+ dan manipulasi DOM",
+      "react": "Pengembangan UI berbasis komponen",
+      "nodejs": "JavaScript dan API sisi server",
+      "express": "Pengembangan RESTful API",
+      "mysql": "Desain dan kueri basis data SQL",
+      "typescript": "JS yang aman terhadap tipe"
+    }
+  },
+  "projects": {
+    "title": "Proyek Unggulan",
+    "subtitle": "Sebuah pameran karya terbaru saya, yang menampilkan aplikasi web, aplikasi seluler, dan solusi kreatif yang dibuat dengan teknologi modern.",
+    "noProjects": "Tidak ada proyek yang tersedia saat ini.",
+    "showMore": "Tampilkan Lebih Banyak Proyek",
+    "showLess": "Tampilkan Lebih Sedikit",
+    "cta": "Tertarik bekerja sama? Mari kita bahas proyek Anda selanjutnya."
+  },
+  "contact": {
+    "title": "Hubungi Saya",
+    "subtitle": "Punya proyek di pikiran atau hanya ingin menyapa? Jangan ragu untuk menghubungi!",
+    "formTitle": "Kirim Pesan",
+    "name": "Nama Anda",
+    "nameLabel": "Nama",
+    "namePlaceholder": "Masukkan nama lengkap Anda",
+    "email": "Email Anda",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Masukkan alamat email Anda",
+    "whatsapp": "WhatsApp",
+    "whatsappLabel": "WhatsApp",
+    "whatsappPlaceholder": "Masukkan nomor WhatsApp Anda",
+    "location": "Lokasi",
+    "locationLabel": "Lokasi",
+    "locationPlaceholder": "Masukkan lokasi Anda",
+    "service": "Jenis Layanan",
+    "serviceLabel": "Jenis Layanan",
+    "servicePlaceholder": "Pilih layanan",
+    "message": "Pesan Anda",
+    "messageLabel": "Pesan",
+    "messagePlaceholder": "Ceritakan tentang proyek Anda...",
+    "sendButton": "Kirim Pesan",
+    "sending": "Mengirim...",
+    "successMessage": "Pesan berhasil dikirim!",
+    "errorMessage": "Gagal mengirim pesan. Silakan coba lagi.",
+    "contactInfoTitle": "Informasi Kontak",
+    "contactInfoDescription": "Jangan ragu untuk menghubungi melalui saluran berikut.",
+    "emailTitle": "Email",
+    "phoneTitle": "Telepon",
+    "locationTitle": "Lokasi",
+    "additionalTitle": "Mari Bekerja Sama",
+    "additionalDescription": "Saya selalu terbuka untuk mendiskusikan peluang baru dan proyek menarik.",
+    "serviceOptions": [
+      { "value": "web-development", "label": "Pengembangan Web" },
+      { "value": "mobile-app", "label": "Pengembangan Aplikasi Mobile" },
+      { "value": "ui-ux-design", "label": "Desain UI/UX" },
+      { "value": "consultation", "label": "Konsultasi Teknis" },
+      { "value": "maintenance", "label": "Pemeliharaan Website" },
+      { "value": "other", "label": "Lainnya" }
+    ]
+  },
+  "footer": {
+    "brand": "Portofolio",
+    "description": "Pengembang full-stack yang penuh semangat menciptakan pengalaman digital yang indah dan fungsional. Mari kita bangun sesuatu yang luar biasa bersama.",
+    "quickLinksTitle": "Tautan Cepat",
+    "servicesTitle": "Layanan",
+    "services": [
+      "Pengembangan Web",
+      "Aplikasi Mobile",
+      "Desain UI/UX",
+      "Konsultasi",
+      "Pemeliharaan"
+    ],
+    "newsletterTitle": "Tetap Update",
+    "newsletterDescription": "Dapatkan pemberitahuan tentang proyek dan pembaruan baru. Berlangganan newsletter saya.",
+    "newsletterPlaceholder": "Masukkan email Anda",
+    "newsletterButton": "Berlangganan",
+    "copyright": "© {year} Mohammad Iqbal Maulana. Hak cipta dilindungi undang-undang.",
+    "madeWith": "Dibuat dengan ❤️ dan banyak ☕"
+  },
+  "common": {
+    "home": "Beranda",
+    "about": "Tentang",
+    "skills": "Keterampilan",
+    "projects": "Proyek",
+    "contact": "Kontak",
+    "english": "English",
+    "indonesian": "Bahasa Indonesia"
+  }
+}

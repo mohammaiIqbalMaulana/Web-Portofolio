@@ -1,78 +1,87 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Code, Palette, Database, Network, Cpu, ServerCog } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { SkillCard } from '../ui/SkillCard';
 import { Skill } from '../../types';
 
 export const SkillsSection: React.FC = () => {
-  const skills: Skill[] = [
+  const { t } = useTranslation();
+
+  const skillsData = [
     {
       name: 'Laravel',
+      key: 'laravel',
       level: 90,
-      category: 'Backend',
+      categoryKey: 2, // Backend (1: Frontend, 2: Backend, 3: Programming Language, 4: Database)
       icon: ServerCog,
-      color: 'from-orange-500 to-red-500',
-      description: 'Kerangka kerja PHP, alat bawaan untuk pengembangan web yang cepat'
+      color: 'from-orange-500 to-red-500'
     },
     {
       name: 'Tailwind CSS',
+      key: 'tailwind',
       level: 95,
-      category: 'Frontend',
+      categoryKey: 1, // Frontend
       icon: Palette,
-      color: 'from-blue-500 to-blue-600',
-      description: 'CSS modern dengan animasi dan desain responsif'
+      color: 'from-blue-500 to-blue-600'
     },
     {
       name: 'JavaScript',
+      key: 'javascript',
       level: 85,
-      category: 'Bahasa Pemrograman',
+      categoryKey: 3, // Programming Language
       icon: Code,
-      color: 'from-yellow-400 to-yellow-600',
-      description: 'Fitur ES6+ dan manipulasi DOM'
+      color: 'from-yellow-400 to-yellow-600'
     },
     {
       name: 'React',
+      key: 'react',
       level: 80,
-      category: 'Frontend',
+      categoryKey: 1, // Frontend
       icon: Code,
-      color: 'from-cyan-400 to-blue-500',
-      description: 'Pengembangan UI berbasis komponen'
+      color: 'from-cyan-400 to-blue-500'
     },
     {
       name: 'Node.js',
+      key: 'nodejs',
       level: 100,
-      category: 'Backend',
+      categoryKey: 2, // Backend
       icon: Cpu,
-      color: 'from-green-500 to-green-600',
-      description: 'JavaScript dan API sisi server'
+      color: 'from-green-500 to-green-600'
     },
     {
       name: 'Express.js',
+      key: 'express',
       level: 95,
-      category: 'Backend',
+      categoryKey: 2, // Backend
       icon: Network,
-      color: 'from-red-600 to-red-700',
-      description: 'Pengembangan RESTful API'
+      color: 'from-red-600 to-red-700'
     },
     {
       name: 'MySQL',
+      key: 'mysql',
       level: 90,
-      category: 'Database',
+      categoryKey: 4, // Database
       icon: Database,
-      color: 'from-green-600 to-green-700',
-      description: 'Desain dan kueri basis data SQL'
+      color: 'from-green-600 to-green-700'
     },
     {
       name: 'TypeScript',
+      key: 'typescript',
       level: 85,
-      category: 'LANGUAGE',
+      categoryKey: 3, // Programming Language
       icon: Code,
-      color: 'from-orange-600 to-red-600',
-      description: 'JS yang aman terhadap tipe'
+      color: 'from-orange-600 to-red-600'
     }
   ];
 
-  const categories = ['All', 'Frontend', 'Backend', 'Bahasa Pemrograman', 'Database'];
+  const skills: Skill[] = skillsData.map(skill => ({
+    ...skill,
+    category: t(`skills.categories.${skill.categoryKey}`),
+    description: t(`skills.skills.${skill.key}`)
+  }));
+
+  const categories = t('skills.categories', { returnObjects: true }) as string[];
 
   return (
     <section id="skills" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-amber-50 via-orange-50/20 to-yellow-50/30 dark:from-secondary-900 dark:via-amber-900/5 dark:to-yellow-900/10 relative overflow-hidden" style={{ transition: 'none' }}>
@@ -93,10 +102,10 @@ export const SkillsSection: React.FC = () => {
           className="text-center mb-12 sm:mb-16"
         >
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary-900 dark:text-secondary-100 mb-4">
-            Skills & Expertise
+            {t('skills.title')}
           </h2>
           <p className="text-base sm:text-lg text-secondary-600 dark:text-secondary-400 max-w-2xl mx-auto">
-            Gambaran umum yang komprehensif mengenai keterampilan teknis saya dan teknologi yang saya gunakan untuk mewujudkan ide.
+            {t('skills.description')}
           </p>
         </motion.div>
 
@@ -122,7 +131,7 @@ export const SkillsSection: React.FC = () => {
           className="mt-12 sm:mt-16 text-center"
         >
           <p className="text-secondary-600 dark:text-secondary-400 mb-6">
-            Selalu belajar dan mengeksplorasi teknologi baru untuk tetap menjadi yang terdepan dalam lanskap teknologi yang terus berkembang.
+            {t('skills.alwaysLearning')}
           </p>
           <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
             {categories.slice(1).map((category, index) => (

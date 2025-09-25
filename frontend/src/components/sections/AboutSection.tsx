@@ -1,16 +1,18 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/Button';
 import { useScroll } from '../../hooks/useScroll';
 
 export const AboutSection: React.FC = () => {
+  const { t } = useTranslation();
   const { scrollToSection } = useScroll();
 
   const stats = [
-    { number: '10+', label: 'Proyek Terselesaikan' },
-    { number: '1+', label: 'Tahun Pengalaman' },
-    { number: '5+', label: 'Tanggapan Klien' },
-    { number: '90%', label: 'Kepuasan Klien' },
+    { number: '10+', label: t('about.stats.projects') },
+    { number: '1+', label: t('about.stats.experience') },
+    { number: '5+', label: t('about.stats.clients') },
+    { number: '90%', label: t('about.stats.satisfaction') },
   ];
 
   return (
@@ -32,10 +34,10 @@ export const AboutSection: React.FC = () => {
           className="text-center mb-12 sm:mb-16"
         >
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary-900 dark:text-secondary-100 mb-4">
-            About Me
+            {t('about.title')}
           </h2>
           <p className="text-base sm:text-lg text-secondary-600 dark:text-secondary-400 max-w-2xl mx-auto">
-            Ketahui lebih banyak tentang perjalanan, keterampilan, dan apa yang mendorong saya untuk menciptakan pengalaman digital yang menakjubkan.
+            {t('about.subtitle')}
           </p>
         </motion.div>
 
@@ -47,18 +49,17 @@ export const AboutSection: React.FC = () => {
             viewport={{ once: true }}
           >
             <h3 className="text-xl sm:text-2xl font-bold text-secondary-900 dark:text-secondary-100 mb-4">
-              Tertarik dengan Teknologi <br/>
-              & Membangun hal-hal Penting
+              {t('about.passion')}
             </h3>
             <p className="text-secondary-600 dark:text-secondary-400 mb-6 leading-relaxed">
-              Saya telah menempuh pendidikan di Universitas Muhammadiyah Semarang sejak tahun 2023. Selama masa studi, saya mendapatkan dasar-dasar pemrograman Java dan telah mengerjakan berbagai program menggunakan Java dan Python. Di luar perkuliahan, saya juga memperdalam keterampilan saya sebagai pengembang full-stack menggunakan Node.js, termasuk menyelesaikan dua proyek berbasis web selama magang. Pengalaman gabungan ini telah memberi saya dasar dalam membangun aplikasi dari backend hingga frontend, sekaligus mengembangkan pemahaman yang lebih luas tentang konsep pemrograman. Selain akademis dan teknologi, saya juga aktif sebagai influencer di TikTok dan YouTube, yang semakin mengasah keterampilan komunikasi, kreativitas konten, dan interaksi saya dengan audiens digital.
+              {t('about.description')}
             </p>
             <Button
               onClick={() => scrollToSection('projects')}
               variant="green"
               icon="arrow"
             >
-              Learn more about my work
+              {t('about.learnMore')}
             </Button>
           </motion.div>
 

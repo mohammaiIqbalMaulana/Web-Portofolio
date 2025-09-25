@@ -1,10 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { ProjectCard } from '../ui/ProjectCard';
 import { Button } from '../ui/Button';
 import { useProjects } from '../../hooks/useProjects';
 
 export const ProjectsSection: React.FC = () => {
+  const { t } = useTranslation();
   const { projects, loading, error, showAllProjects, toggleShowAllProjects } = useProjects();
 
   if (loading) {
@@ -13,7 +15,7 @@ export const ProjectsSection: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600 mx-auto"></div>
-            <p className="mt-4 text-secondary-600 dark:text-secondary-400">Loading projects...</p>
+            <p className="mt-4 text-secondary-600 dark:text-secondary-400">{t('projects.loading', { defaultValue: 'Loading projects...' })}</p>
           </div>
         </div>
       </section>
@@ -25,7 +27,7 @@ export const ProjectsSection: React.FC = () => {
       <section id="projects" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-violet-50 via-purple-50/20 to-fuchsia-50/30 dark:from-secondary-900 dark:via-violet-900/5 dark:to-fuchsia-900/10 relative overflow-hidden" style={{ transition: 'none' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
-            <p className="text-red-600 dark:text-red-400">Error loading projects: {error}</p>
+            <p className="text-red-600 dark:text-red-400">{t('projects.error', { defaultValue: 'Error loading projects' })}: {error}</p>
           </div>
         </div>
       </section>
@@ -51,10 +53,10 @@ export const ProjectsSection: React.FC = () => {
           className="text-center mb-12 sm:mb-16"
         >
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary-900 dark:text-secondary-100 mb-4">
-            Featured Projects
+            {t('projects.title')}
           </h2>
           <p className="text-base sm:text-lg text-secondary-600 dark:text-secondary-400 max-w-2xl mx-auto">
-            Sebuah pameran karya terbaru saya, yang menampilkan aplikasi web, aplikasi seluler, dan solusi kreatif yang dibuat dengan teknologi modern.
+            {t('projects.subtitle')}
           </p>
         </motion.div>
 
@@ -66,7 +68,7 @@ export const ProjectsSection: React.FC = () => {
             viewport={{ once: true }}
             className="text-center"
           >
-            <p className="text-secondary-600 dark:text-secondary-400">No projects available at the moment.</p>
+            <p className="text-secondary-600 dark:text-secondary-400">{t('projects.noProjects')}</p>
           </motion.div>
         ) : (
           <motion.div
@@ -97,7 +99,7 @@ export const ProjectsSection: React.FC = () => {
               variant="purple"
               icon={showAllProjects ? 'up' : 'down'}
             >
-              {showAllProjects ? 'Show Less' : 'Show More Projects'}
+              {showAllProjects ? t('projects.showLess') : t('projects.showMore')}
             </Button>
           </motion.div>
         )}
@@ -111,7 +113,7 @@ export const ProjectsSection: React.FC = () => {
           className="text-center mt-12 sm:mt-16"
         >
           <p className="text-secondary-600 dark:text-secondary-400 mb-6">
-            Tertarik bekerja sama? Mari kita bahas proyek Anda selanjutnya.
+            {t('projects.cta')}
           </p>
         </motion.div>
       </div>

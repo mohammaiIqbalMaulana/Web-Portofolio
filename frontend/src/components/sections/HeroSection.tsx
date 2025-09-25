@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Github, Instagram, Youtube, Music2, Linkedin } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import TypingAnimation from '../TypingAnimation';
 import ProfileImage from '../ProfileImage';
 import { Button } from '../ui/Button';
@@ -8,6 +9,7 @@ import { SocialLink } from '../ui/SocialLink';
 import { useScroll } from '../../hooks/useScroll';
 
 export const HeroSection: React.FC = () => {
+  const { t } = useTranslation();
   const { scrollToSection } = useScroll();
 
   const handleDownloadCV = () => {
@@ -63,7 +65,7 @@ export const HeroSection: React.FC = () => {
             {/* Name with typing animation */}
             <div className="mb-4 sm:mb-6">
               <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-6xl font-bold text-secondary-900 dark:text-secondary-100 mb-2 leading-tight">
-                Halo, Nama Saya{' '}
+                {t('hero.greeting')}{' '}
                 <TypingAnimation
                   texts={['Mohammad Iqbal M']}
                   speed={150}
@@ -77,7 +79,7 @@ export const HeroSection: React.FC = () => {
             {/* Description with typing animation */}
             <div className="mb-6 sm:mb-8">
               <TypingAnimation
-                texts={['Full Stack Developer', 'UI/UX Designer', 'Problem Solver', 'Influencer']}
+                texts={t('hero.roles', { returnObjects: true }) as string[]}
                 speed={100}
                 delay={2000}
                 className="text-lg sm:text-xl md:text-xl lg:text-3xl text-secondary-600 dark:text-secondary-400 block"
@@ -92,7 +94,7 @@ export const HeroSection: React.FC = () => {
               transition={{ duration: 0.8, delay: 0.8 }}
               className="text-base sm:text-lg text-secondary-600 dark:text-secondary-400 mb-8 sm:mb-12 leading-relaxed"
             >
-              Saya sedang belajar dan mengembangkan diri di bidang teknologi informasi, khususnya dalam pengembangan web dan desain UI/UX dan sekaligus sebagai pembuat konten. Sekarang sangat bersemangat untuk menciptakan solusi digital yang inovatif dan memberikan dampak positif.
+              {t('hero.description')}
             </motion.p>
 
             {/* Action Buttons */}
@@ -107,7 +109,7 @@ export const HeroSection: React.FC = () => {
                 variant="primary"
                 icon="arrow"
               >
-                View My Work
+                {t('hero.viewWork')}
               </Button>
 
               <Button
@@ -115,7 +117,7 @@ export const HeroSection: React.FC = () => {
                 variant="outline"
                 icon="download"
               >
-                Download CV
+                {t('hero.downloadCV')}
               </Button>
             </motion.div>
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -18,6 +18,8 @@ import { apiService, Project } from '../../services/api';
 interface ProjectForm {
   title: string;
   description: string;
+  title_en: string;
+  description_en: string;
   technologies: string;
   github_url: string;
   live_url: string;
@@ -29,23 +31,48 @@ const AdminDashboard: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Modal states
   const [showModal, setShowModal] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   // Form state
   const [formData, setFormData] = useState<ProjectForm>({
     title: '',
     description: '',
+    title_en: '',
+    description_en: '',
     technologies: '',
     github_url: '',
     live_url: '',
     image_url: ''
   });
-  
+
   const [formErrors, setFormErrors] = useState<Partial<ProjectForm>>({});
+
+  // Translation state
+  const [isTranslating, setIsTranslating] = useState(false);
+  const translateTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Translation function
+  const translateText = useCallback(async (text: string, from: 'id' | 'en', to: 'id' | 'en') => {
+    if (!text.trim()) return '';
+
+    try {
+      const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`);
+
+      if (!response.ok) {
+        throw new Error('Translation failed');
+      }
+
+      const data = await response.json();
+      return data.responseData?.translatedText || '';
+    } catch (error) {
+      console.error('Translation error:', error);
+      return '';
+    }
+  }, []);
 
   // Load projects
   useEffect(() => {
@@ -80,6 +107,8 @@ const AdminDashboard: React.FC = () => {
     setFormData({
       title: '',
       description: '',
+      title_en: '',
+      description_en: '',
       technologies: '',
       github_url: '',
       live_url: '',
@@ -96,15 +125,49 @@ const AdminDashboard: React.FC = () => {
 
   const openEditModal = (project: Project) => {
     setEditingProject(project);
-    setFormData({
+    const formData = {
       title: project.title,
       description: project.description,
+      title_en: project.title_en || '',
+      description_en: project.description_en || '',
       technologies: project.tech.join(', '),
       github_url: project.github_url || '',
       live_url: project.live_url || '',
       image_url: project.image_url || ''
-    });
+    };
+
+    // Auto-translate missing fields
+    const autoTranslate = async () => {
+      setIsTranslating(true);
+      try {
+        if (!formData.title_en && formData.title) {
+          const translated = await translateText(formData.title, 'id', 'en');
+          if (translated) formData.title_en = translated;
+        }
+        if (!formData.description_en && formData.description) {
+          const translated = await translateText(formData.description, 'id', 'en');
+          if (translated) formData.description_en = translated;
+        }
+        if (!formData.title && formData.title_en) {
+          const translated = await translateText(formData.title_en, 'en', 'id');
+          if (translated) formData.title = translated;
+        }
+        if (!formData.description && formData.description_en) {
+          const translated = await translateText(formData.description_en, 'en', 'id');
+          if (translated) formData.description = translated;
+        }
+      } catch (error) {
+        console.error('Auto-translation failed:', error);
+      } finally {
+        setIsTranslating(false);
+      }
+    };
+
+    setFormData(formData);
     setShowModal(true);
+
+    // Auto-translate after modal opens
+    autoTranslate();
   };
 
   const closeModal = () => {
@@ -115,31 +178,98 @@ const AdminDashboard: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
+
     // Clear error when user types
     if (formErrors[name as keyof ProjectForm]) {
       setFormErrors(prev => ({ ...prev, [name]: undefined }));
+    }
+
+    // Auto-translation logic
+    if (translateTimerRef.current) {
+      clearTimeout(translateTimerRef.current);
+    }
+
+    if (value.trim()) {
+      translateTimerRef.current = setTimeout(async () => {
+        setIsTranslating(true);
+        try {
+          if (name === 'title' && !formData.title_en.trim()) {
+            const translated = await translateText(value, 'id', 'en');
+            if (translated) {
+              setFormData(prev => ({ ...prev, title_en: translated }));
+            }
+          } else if (name === 'description' && !formData.description_en.trim()) {
+            const translated = await translateText(value, 'id', 'en');
+            if (translated) {
+              setFormData(prev => ({ ...prev, description_en: translated }));
+            }
+          } else if (name === 'title_en' && !formData.title.trim()) {
+            const translated = await translateText(value, 'en', 'id');
+            if (translated) {
+              setFormData(prev => ({ ...prev, title: translated }));
+            }
+          } else if (name === 'description_en' && !formData.description.trim()) {
+            const translated = await translateText(value, 'en', 'id');
+            if (translated) {
+              setFormData(prev => ({ ...prev, description: translated }));
+            }
+          }
+        } catch (error) {
+          console.error('Auto-translation failed:', error);
+        } finally {
+          setIsTranslating(false);
+        }
+      }, 200); // 200ms debounce
     }
   };
 
   const validateForm = (): boolean => {
     const errors: Partial<ProjectForm> = {};
-    
+
     if (!formData.title.trim()) errors.title = 'Title is required';
     if (!formData.description.trim()) errors.description = 'Description is required';
     if (!formData.technologies.trim()) errors.technologies = 'Technologies are required';
-    
+
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    // Auto-translate missing fields before validation
+    setIsTranslating(true);
+    try {
+      const updates: Partial<ProjectForm> = {};
+      if (formData.title && !formData.title_en) {
+        const translated = await translateText(formData.title, 'id', 'en');
+        if (translated) updates.title_en = translated;
+      }
+      if (formData.description && !formData.description_en) {
+        const translated = await translateText(formData.description, 'id', 'en');
+        if (translated) updates.description_en = translated;
+      }
+      if (formData.title_en && !formData.title) {
+        const translated = await translateText(formData.title_en, 'en', 'id');
+        if (translated) updates.title = translated;
+      }
+      if (formData.description_en && !formData.description) {
+        const translated = await translateText(formData.description_en, 'en', 'id');
+        if (translated) updates.description = translated;
+      }
+      if (Object.keys(updates).length > 0) {
+        setFormData(prev => ({ ...prev, ...updates }));
+      }
+    } catch (error) {
+      console.error('Translation failed on submit:', error);
+    } finally {
+      setIsTranslating(false);
+    }
+
     if (!validateForm()) return;
-    
+
     setIsSubmitting(true);
-    
+
     try {
       const projectData = {
         ...formData,
@@ -151,7 +281,7 @@ const AdminDashboard: React.FC = () => {
       } else {
         await apiService.createProject(projectData);
       }
-      
+
       await fetchProjects();
       closeModal();
     } catch (err) {
@@ -163,7 +293,7 @@ const AdminDashboard: React.FC = () => {
 
   const handleDelete = async (project: Project) => {
     if (!confirm(`Are you sure you want to delete "${project.title}"?`)) return;
-    
+
     try {
       await apiService.deleteProject(project.id);
       await fetchProjects();
@@ -197,7 +327,7 @@ const AdminDashboard: React.FC = () => {
                 Admin Dashboard
               </h1>
             </div>
-            
+
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => navigate('/')}
@@ -243,7 +373,7 @@ const AdminDashboard: React.FC = () => {
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Projects</h2>
             <p className="text-gray-600 dark:text-gray-400">Manage your portfolio projects</p>
           </div>
-          
+
           <motion.button
             onClick={openCreateModal}
             whileHover={{ scale: 1.02 }}
@@ -283,7 +413,7 @@ const AdminDashboard: React.FC = () => {
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                 {project.title}
               </h3>
-              
+
               <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3">
                 {project.description}
               </p>
@@ -338,7 +468,7 @@ const AdminDashboard: React.FC = () => {
                   <Edit2 className="w-4 h-4" />
                   <span>Edit</span>
                 </button>
-                
+
                 <button
                   onClick={() => handleDelete(project)}
                   className="flex-1 flex items-center justify-center space-x-2 px-3 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
@@ -381,7 +511,7 @@ const AdminDashboard: React.FC = () => {
                 className="fixed inset-0 bg-black bg-opacity-50"
                 onClick={closeModal}
               />
-              
+
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -406,7 +536,7 @@ const AdminDashboard: React.FC = () => {
                   {/* Title */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Project Title *
+                      Project Title (ID) *
                     </label>
                     <input
                       type="text"
@@ -416,7 +546,7 @@ const AdminDashboard: React.FC = () => {
                       className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${
                         formErrors.title ? 'border-red-500' : 'border-gray-300'
                       }`}
-                      placeholder="Enter project title"
+                      placeholder="Enter project title in Indonesian"
                     />
                     {formErrors.title && (
                       <p className="text-red-500 text-xs mt-1">{formErrors.title}</p>
@@ -426,7 +556,7 @@ const AdminDashboard: React.FC = () => {
                   {/* Description */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Description *
+                      Description (ID) *
                     </label>
                     <textarea
                       name="description"
@@ -436,11 +566,55 @@ const AdminDashboard: React.FC = () => {
                       className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white resize-none ${
                         formErrors.description ? 'border-red-500' : 'border-gray-300'
                       }`}
-                      placeholder="Describe your project"
+                      placeholder="Describe your project in Indonesian"
                     />
                     {formErrors.description && (
                       <p className="text-red-500 text-xs mt-1">{formErrors.description}</p>
                     )}
+                  </div>
+
+                  {/* Title EN */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Project Title (EN)
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name="title_en"
+                        value={formData.title_en}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white"
+                        placeholder="Enter project title in English"
+                      />
+                      {isTranslating && (
+                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                          <Loader2 className="w-4 h-4 animate-spin text-purple-500" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Description EN */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Description (EN)
+                    </label>
+                    <div className="relative">
+                      <textarea
+                        name="description_en"
+                        value={formData.description_en}
+                        onChange={handleInputChange}
+                        rows={3}
+                        className="w-full px-3 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white resize-none"
+                        placeholder="Describe your project in English"
+                      />
+                      {isTranslating && (
+                        <div className="absolute right-3 top-3">
+                          <Loader2 className="w-4 h-4 animate-spin text-purple-500" />
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   {/* Technologies */}

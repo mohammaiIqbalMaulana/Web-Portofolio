@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import { verifyJWT } from '../utils/jwt';
 import { prisma } from '../config/database';
 import { AuthRequest } from '../types/auth';
-import { JWTPayload } from '../utils/jwt';
 
 export const authenticateAdmin = async (
   req: AuthRequest,

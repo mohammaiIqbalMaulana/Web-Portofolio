@@ -8,6 +8,8 @@ export interface Project {
   github_url?: string;
   live_url?: string;
   image_url?: string;
+  title_en?: string;
+  description_en?: string;
   created_at: string;
   updated_at: string;
 }
@@ -102,8 +104,9 @@ class ApiService {
   }
 
   // Projects methods
-  async getProjects(): Promise<Project[]> {
-    return this.request<Project[]>('/projects');
+  async getProjects(lang?: string): Promise<Project[]> {
+    const query = lang ? `?lang=${lang}` : '';
+    return this.request<Project[]>(`/projects${query}`);
   }
 
   async getProject(id: number): Promise<Project> {
@@ -125,9 +128,40 @@ class ApiService {
   }
 
   async deleteProject(id: number): Promise<void> {
-    return this.request<void>(`/projects/${id}`, {
+    const url = `${this.baseURL}/projects/${id}`;
+
+    const config: RequestInit = {
       method: 'DELETE',
-    });
+      headers: {
+        'Content-Type': 'application/json',
+        ...(this.token && { Authorization: `Bearer ${this.token}` }),
+      },
+      credentials: 'include',
+    };
+
+    try {
+      const response = await fetch(url, config);
+
+      if (response.ok) {
+        // 204 No Content - successful deletion, no body to parse
+        return;
+      }
+
+      // Try to parse error response as JSON, fallback to status text
+      let errorMessage = `HTTP error! status: ${response.status}`;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.error || errorMessage;
+      } catch {
+        // If JSON parsing fails, use status text
+        errorMessage = response.statusText || errorMessage;
+      }
+
+      throw new Error(errorMessage);
+    } catch (error) {
+      console.error(`API Error (/projects/${id}):`, error);
+      throw error;
+    }
   }
 
   // Health check

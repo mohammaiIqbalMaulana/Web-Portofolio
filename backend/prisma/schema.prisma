@@ -15,17 +15,22 @@ model Admin {
   displayName String?  @map("display_name") @db.VarChar(150)
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
-  
+
   projects Project[] @relation("ProjectCreator")
-  
+
   @@map("admins")
 }
 
 model Project {
   id          Int      @id @default(autoincrement())
   title       String   @db.VarChar(255)
+  title_en    String?  @db.VarChar(255)
   description String?  @db.Text
+  description_en String?  @db.Text
   tech        Json     // ["Node.js", "Express", "MySQL"]
+  github_url  String?  @db.VarChar(500)
+  live_url    String?  @db.VarChar(500)
+  image_url   String?  @db.VarChar(500)
   links       Json     // [{"type":"github","url":"...","label":"View Code"}]
   images      Json?    // ["/uploads/project1-1.jpg"]
   featured    Boolean  @default(false)
@@ -33,8 +38,8 @@ model Project {
   createdById Int?     @map("created_by")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
-  
+
   creator Admin? @relation("ProjectCreator", fields: [createdById], references: [id])
-  
+
   @@map("projects")
 }

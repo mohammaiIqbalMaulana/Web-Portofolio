@@ -4,6 +4,7 @@ import SinglePageApp from './pages/SinglePageApp';
 import AdminLogin from './admin/pages/AdminLogin';
 import AdminDashboard from './admin/pages/AdminDashboard';
 import { ProtectedRoute } from './admin/hooks/useAuth';
+import './i18n/index';
 
 const App: React.FC = () => {
   return (

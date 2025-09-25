@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Input } from '../ui/Input';
 import { Textarea } from '../ui/Textarea';
 import { Select } from '../ui/Select';
@@ -8,6 +9,7 @@ import { Button } from '../ui/Button';
 import { useContactForm } from '../../hooks/useContactForm';
 
 export const ContactSection: React.FC = () => {
+  const { t } = useTranslation();
   const {
     formData,
     formErrors,
@@ -20,30 +22,23 @@ export const ContactSection: React.FC = () => {
   const contactInfo = [
     {
       icon: Mail,
-      title: 'Email',
+      title: t('contact.emailTitle'),
       value: 'iqbalmaulana14042005@gmail.com',
     },
     {
       icon: Phone,
-      title: 'Phone',
+      title: t('contact.phoneTitle'),
       value: '+62 881-6564-510',
     },
     {
       icon: MapPin,
-      title: 'Location',
+      title: t('contact.locationTitle'),
       value: 'Semarang, Indonesia',
       href: '#'
     }
   ];
 
-  const serviceOptions = [
-    { value: 'web-development', label: 'Web Development' },
-    { value: 'mobile-app', label: 'Mobile App Development' },
-    { value: 'ui-ux-design', label: 'UI/UX Design' },
-    { value: 'consultation', label: 'Technical Consultation' },
-    { value: 'maintenance', label: 'Website Maintenance' },
-    { value: 'other', label: 'Other' }
-  ];
+  const serviceOptions = t('contact.serviceOptions', { returnObjects: true }) as { value: string; label: string }[];
 
   return (
     <section id="contact" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-rose-50 via-pink-50/20 to-red-50/30 dark:from-secondary-900 dark:via-rose-900/5 dark:to-red-900/10 relative overflow-hidden" style={{ transition: 'none' }}>
@@ -64,10 +59,10 @@ export const ContactSection: React.FC = () => {
           className="text-center mb-12 sm:mb-16"
         >
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary-900 dark:text-secondary-100 mb-4">
-            Get In Touch
+            {t('contact.title')}
           </h2>
           <p className="text-base sm:text-lg text-secondary-600 dark:text-secondary-400 max-w-2xl mx-auto">
-            Siap mewujudkan ide Anda? Mari diskusikan proyek Anda dan ciptakan sesuatu yang luar biasa bersama.
+            {t('contact.subtitle')}
           </p>
         </motion.div>
 
@@ -81,7 +76,7 @@ export const ContactSection: React.FC = () => {
             className="bg-white dark:bg-secondary-800 rounded-lg shadow-lg p-6 sm:p-8 border border-secondary-200 dark:border-secondary-700"
           >
             <h3 className="text-xl font-bold text-secondary-900 dark:text-secondary-100 mb-6">
-              Send me a message
+              {t('contact.formTitle')}
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -91,8 +86,8 @@ export const ContactSection: React.FC = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="Nama Lengkap"
-                  label="Name"
+                  placeholder={t('contact.namePlaceholder')}
+                  label={t('contact.nameLabel')}
                   required
                   error={formErrors.name}
                 />
@@ -102,8 +97,8 @@ export const ContactSection: React.FC = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  placeholder="nama.email@example.com"
-                  label="Email"
+                  placeholder={t('contact.emailPlaceholder')}
+                  label={t('contact.emailLabel')}
                   required
                   error={formErrors.email}
                 />
@@ -115,8 +110,8 @@ export const ContactSection: React.FC = () => {
                   name="whatsapp"
                   value={formData.whatsapp}
                   onChange={handleInputChange}
-                  placeholder="+62 812-3456-7890"
-                  label="WhatsApp (Optional)"
+                  placeholder={t('contact.whatsappPlaceholder')}
+                  label={t('contact.whatsappLabel')}
                 />
 
                 <Input
@@ -124,8 +119,8 @@ export const ContactSection: React.FC = () => {
                   name="location"
                   value={formData.location}
                   onChange={handleInputChange}
-                  placeholder="Kota, Negara"
-                  label="Location (Optional)"
+                  placeholder={t('contact.locationPlaceholder')}
+                  label={t('contact.locationLabel')}
                 />
               </div>
 
@@ -133,7 +128,7 @@ export const ContactSection: React.FC = () => {
                 name="expertise"
                 value={formData.expertise}
                 onChange={handleInputChange}
-                label="Service Needed"
+                label={t('contact.serviceLabel')}
                 required
                 options={serviceOptions}
                 error={formErrors.expertise}
@@ -143,8 +138,8 @@ export const ContactSection: React.FC = () => {
                 name="message"
                 value={formData.message}
                 onChange={handleInputChange}
-                placeholder="Ceritakan kepada saya tentang proyek Anda, jadwal waktu, anggaran, dan persyaratan spesifik apa pun..."
-                label="Project Details"
+                placeholder={t('contact.messagePlaceholder')}
+                label={t('contact.messageLabel')}
                 required
                 rows={5}
                 error={formErrors.message}
@@ -156,7 +151,7 @@ export const ContactSection: React.FC = () => {
                 disabled={isSubmitting}
                 className="w-full min-w-[180px]"
               >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
+                {isSubmitting ? t('contact.sending') : t('contact.sendButton')}
               </Button>
 
               {submitStatus === 'success' && (
@@ -165,7 +160,7 @@ export const ContactSection: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   className="text-green-600 dark:text-green-400 text-center font-medium"
                 >
-                  Message sent successfully! I'll get back to you soon.
+                  {t('contact.successMessage')}
                 </motion.div>
               )}
 
@@ -175,7 +170,7 @@ export const ContactSection: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   className="text-red-600 dark:text-red-400 text-center font-medium"
                 >
-                  Failed to send message. Please try again or contact me directly.
+                  {t('contact.errorMessage')}
                 </motion.div>
               )}
             </form>
@@ -191,10 +186,10 @@ export const ContactSection: React.FC = () => {
           >
             <div>
               <h3 className="text-xl font-bold text-secondary-900 dark:text-secondary-100 mb-6">
-                Contact Information
+                {t('contact.contactInfoTitle')}
               </h3>
               <p className="text-secondary-600 dark:text-secondary-400 mb-8">
-                Jangan ragu untuk menghubungi saya melalui saluran ini. Saya selalu terbuka untuk membahas peluang baru dan proyek menarik. Jangan ragu untuk menghubungi saya melalui saluran ini. Saya selalu terbuka untuk membahas peluang baru dan proyek menarik.
+                {t('contact.contactInfoDescription')}
               </p>
             </div>
 
@@ -243,10 +238,10 @@ export const ContactSection: React.FC = () => {
               className="bg-gradient-to-r from-rose-50 to-pink-50 dark:from-rose-900/20 dark:to-pink-900/20 rounded-lg p-6 border border-rose-200 dark:border-rose-800"
             >
               <h4 className="font-semibold text-secondary-900 dark:text-secondary-100 mb-2">
-                Mari Membangun Sesuatu yang Menakjubkan Bersama!
+                {t('contact.additionalTitle')}
               </h4>
               <p className="text-secondary-600 dark:text-secondary-400 text-sm">
-                Apakah Anda memiliki visi yang jelas atau hanya sebuah ide, saya di sini untuk membantu mewujudkannya. Mari kita berkolaborasi dan menciptakan sesuatu yang luar biasa bersama.
+                {t('contact.additionalDescription')}
               </p>
             </motion.div>
           </motion.div>

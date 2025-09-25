@@ -1,0 +1,116 @@
+{
+  "hero": {
+    "greeting": "Hello, My Name Is",
+    "description": "I am currently studying and developing myself in the field of information technology, particularly in web development and UI/UX design, while also being a content creator. I am very excited to create innovative digital solutions that make a positive impact.",
+    "roles": ["Full Stack Developer", "UI/UX Designer", "Problem Solver", "Influencer"],
+    "viewWork": "View My Work",
+    "downloadCV": "Download CV"
+  },
+  "about": {
+    "title": "About Me",
+    "subtitle": "Know more about my journey, skills, and what drives me to create amazing digital experiences.",
+    "passion": "Passionate about Technology & Building Important Things",
+    "description": "I have been pursuing my education at Universitas Muhammadiyah Semarang since 2023. During my studies, I have gained the basics of Java programming and have worked on various programs using Java and Python. Outside of college, I have also deepened my skills as a full-stack developer using Node.js, including completing two web-based projects during an internship. This combined experience has given me a foundation in building applications from backend to frontend, while developing a broader understanding of programming concepts. Besides academics and technology, I am also active as an influencer on TikTok and YouTube, which further hones my communication skills, content creativity, and interaction with digital audiences.",
+    "learnMore": "Learn more about my work",
+    "stats": {
+      "projects": "Completed Projects",
+      "experience": "Years of Experience",
+      "clients": "Client Responses",
+      "satisfaction": "Client Satisfaction"
+    }
+  },
+  "skills": {
+    "title": "Skills & Expertise",
+    "description": "A comprehensive overview of my technical skills and the technologies I use to bring ideas to life.",
+    "alwaysLearning": "Always learning and exploring new technologies to stay ahead in the ever-evolving tech landscape.",
+    "categories": ["All", "Frontend", "Backend", "Programming Language", "Database"],
+    "skills": {
+      "laravel": "PHP framework, built-in tools for rapid web development",
+      "tailwind": "Modern CSS with animations and responsive design",
+      "javascript": "ES6+ features and DOM manipulation",
+      "react": "Component-based UI development",
+      "nodejs": "JavaScript and server-side APIs",
+      "express": "RESTful API development",
+      "mysql": "SQL database design and queries",
+      "typescript": "Type-safe JS"
+    }
+  },
+  "projects": {
+    "title": "Featured Projects",
+    "subtitle": "A showcase of my latest works, featuring web applications, mobile apps, and creative solutions built with modern technology.",
+    "noProjects": "No projects available at the moment.",
+    "showMore": "Show More Projects",
+    "showLess": "Show Less",
+    "cta": "Interested in collaborating? Let's discuss your next project."
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "subtitle": "Have a project in mind or just want to say hello? Feel free to reach out!",
+    "formTitle": "Send Message",
+    "name": "Your Name",
+    "nameLabel": "Name",
+    "namePlaceholder": "Enter your full name",
+    "email": "Your Email",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter your email address",
+    "whatsapp": "WhatsApp",
+    "whatsappLabel": "WhatsApp",
+    "whatsappPlaceholder": "Enter your WhatsApp number",
+    "location": "Location",
+    "locationLabel": "Location",
+    "locationPlaceholder": "Enter your location",
+    "service": "Service Type",
+    "serviceLabel": "Service Type",
+    "servicePlaceholder": "Select a service",
+    "message": "Your Message",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell us about your project...",
+    "sendButton": "Send Message",
+    "sending": "Sending...",
+    "successMessage": "Message sent successfully!",
+    "errorMessage": "Failed to send message. Please try again.",
+    "contactInfoTitle": "Contact Information",
+    "contactInfoDescription": "Feel free to reach out through any of these channels.",
+    "emailTitle": "Email",
+    "phoneTitle": "Phone",
+    "locationTitle": "Location",
+    "additionalTitle": "Let's Work Together",
+    "additionalDescription": "I'm always open to discussing new opportunities and interesting projects.",
+    "serviceOptions": [
+      { "value": "web-development", "label": "Web Development" },
+      { "value": "mobile-app", "label": "Mobile App Development" },
+      { "value": "ui-ux-design", "label": "UI/UX Design" },
+      { "value": "consultation", "label": "Technical Consultation" },
+      { "value": "maintenance", "label": "Website Maintenance" },
+      { "value": "other", "label": "Other" }
+    ]
+  },
+  "footer": {
+    "brand": "Portfolio",
+    "description": "Passionate full-stack developer creating beautiful and functional digital experiences. Let's build something amazing together.",
+    "quickLinksTitle": "Quick Links",
+    "servicesTitle": "Services",
+    "services": [
+      "Web Development",
+      "Mobile Apps",
+      "UI/UX Design",
+      "Consultation",
+      "Maintenance"
+    ],
+    "newsletterTitle": "Stay Updated",
+    "newsletterDescription": "Get notified about new projects and updates. Subscribe to my newsletter.",
+    "newsletterPlaceholder": "Enter your email",
+    "newsletterButton": "Subscribe",
+    "copyright": "© {year} Mohammad Iqbal Maulana. All rights reserved.",
+    "madeWith": "Made with ❤️ and lots of ☕"
+  },
+  "common": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "contact": "Contact",
+    "english": "English",
+    "indonesian": "Indonesian"
+  }
+}

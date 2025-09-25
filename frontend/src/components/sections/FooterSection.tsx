@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, Instagram, Youtube, Music2, Linkedin, Heart, ArrowUp } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { SocialLink } from '../ui/SocialLink';
 import { useScroll } from '../../hooks/useScroll';
 import { useNewsletter } from '../../hooks/useNewsletter';
@@ -8,6 +9,7 @@ import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 
 export const FooterSection: React.FC = () => {
+  const { t } = useTranslation();
   const { showScrollTop, scrollToTop } = useScroll();
   const {
     newsletterData,
@@ -26,20 +28,14 @@ export const FooterSection: React.FC = () => {
   ];
 
   const quickLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' },
+    { name: t('common.home'), href: '#home' },
+    { name: t('common.about'), href: '#about' },
+    { name: t('common.skills'), href: '#skills' },
+    { name: t('common.projects'), href: '#projects' },
+    { name: t('common.contact'), href: '#contact' },
   ];
 
-  const services = [
-    'Web Development',
-    'Mobile Apps',
-    'UI/UX Design',
-    'Consultation',
-    'Maintenance'
-  ];
+  const services = t('footer.services', { returnObjects: true }) as string[];
 
   return (
     <footer className="bg-gradient-to-br from-secondary-900 via-secondary-800 to-secondary-900 text-white relative overflow-hidden">
@@ -60,11 +56,10 @@ export const FooterSection: React.FC = () => {
               <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center shadow-sm">
                 <span className="text-white font-bold text-lg">P</span>
               </div>
-              <span className="font-bold text-xl">Portofolio</span>
+              <span className="font-bold text-xl">{t('footer.brand')}</span>
             </div>
             <p className="text-secondary-300 mb-6 leading-relaxed">
-              Pengembang full-stack yang penuh semangat menciptakan pengalaman digital yang indah dan fungsional.
-              Mari kita bangun sesuatu yang luar biasa bersama.
+              {t('footer.description')}
             </p>
 
             {/* Social Links */}
@@ -88,7 +83,7 @@ export const FooterSection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('footer.quickLinksTitle')}</h3>
             <ul className="space-y-2">
               {quickLinks.map((link, index) => (
                 <motion.li
@@ -116,7 +111,7 @@ export const FooterSection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-lg font-semibold mb-4">Services</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('footer.servicesTitle')}</h3>
             <ul className="space-y-2">
               {services.map((service, index) => (
                 <motion.li
@@ -143,9 +138,9 @@ export const FooterSection: React.FC = () => {
           className="mt-12 pt-8 border-t border-secondary-700"
         >
           <div className="max-w-md mx-auto text-center">
-            <h3 className="text-lg font-semibold mb-2">Stay Updated</h3>
+            <h3 className="text-lg font-semibold mb-2">{t('footer.newsletterTitle')}</h3>
             <p className="text-secondary-300 mb-4">
-              Dapatkan pemberitahuan tentang proyek dan pembaruan baru. Ayo berlangganan newsletter saya.
+              {t('footer.newsletterDescription')}
             </p>
 
             <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
@@ -154,7 +149,7 @@ export const FooterSection: React.FC = () => {
                 name="email"
                 value={newsletterData.email}
                 onChange={handleNewsletterChange}
-                placeholder="Masukan email anda"
+                placeholder={t('footer.newsletterPlaceholder')}
                 className="flex-1"
                 focusRingColor="blue"
                 disabled={newsletterStatus === 'loading'}
@@ -165,7 +160,7 @@ export const FooterSection: React.FC = () => {
                 disabled={newsletterStatus === 'loading' || !newsletterData.email.trim()}
                 size="sm"
               >
-                {newsletterStatus === 'loading' ? '...' : 'Subscribe'}
+                {newsletterStatus === 'loading' ? '...' : t('footer.newsletterButton')}
               </Button>
             </form>
 
@@ -194,11 +189,11 @@ export const FooterSection: React.FC = () => {
           className="mt-12 pt-8 border-t border-secondary-700 flex flex-col sm:flex-row justify-between items-center"
         >
           <div className="text-secondary-400 text-sm mb-4 sm:mb-0">
-            © {new Date().getFullYear()} Mohammad Iqbal Maulana. All rights reserved.
+            {t('footer.copyright', { year: new Date().getFullYear() })}
           </div>
 
           <div className="flex items-center text-secondary-400 text-sm">
-            Made with <Heart className="w-4 h-4 mx-1 text-red-500 fill-current" /> and lots of ☕
+            {t('footer.madeWith')} <Heart className="w-4 h-4 mx-1 text-red-500 fill-current" />
           </div>
         </motion.div>
       </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Sun, Languages } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../contexts/ThemeContext';
 import HamburgerMenu from '../HamburgerMenu';
 import { useScroll } from '../../hooks/useScroll';
@@ -8,6 +9,7 @@ import { useScroll } from '../../hooks/useScroll';
 export const HeaderSection: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { t, i18n } = useTranslation();
   const { isScrolled, isHeaderVisible, scrollProgress, scrollToSection } = useScroll();
 
   // Handle click outside hamburger menu
@@ -31,12 +33,17 @@ export const HeaderSection: React.FC = () => {
     }
   }, [isMenuOpen]);
 
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'id' : 'en';
+    i18n.changeLanguage(newLang);
+  };
+
   const navItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'about', label: 'About' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'home', label: t('common.home') },
+    { id: 'about', label: t('common.about') },
+    { id: 'skills', label: t('common.skills') },
+    { id: 'projects', label: t('common.projects') },
+    { id: 'contact', label: t('common.contact') },
   ];
 
   return (
@@ -107,8 +114,46 @@ export const HeaderSection: React.FC = () => {
             ))}
           </nav>
 
-          {/* Theme Toggle & Hamburger Menu - Right side */}
+          {/* Language Toggle, Theme Toggle & Hamburger Menu - Right side */}
           <div className="flex items-center space-x-2 sm:space-x-3">
+            {/* Language Toggle */}
+            <motion.button
+              whileHover={{
+                scale: 1.1,
+                rotate: 180,
+                transition: { type: "spring", stiffness: 300 }
+              }}
+              whileTap={{ scale: 0.9 }}
+              onClick={toggleLanguage}
+              className="hidden lg:flex p-2 rounded-lg bg-secondary-100 dark:bg-secondary-800 text-secondary-700 dark:text-secondary-300 hover:bg-secondary-200 dark:hover:bg-secondary-700 transition-all duration-0 shadow-sm hover:shadow-lg relative overflow-hidden group"
+              aria-label="Toggle language"
+              initial={{ opacity: 0, rotate: -180 }}
+              animate={{ opacity: 1, rotate: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <motion.div
+                key={i18n.language}
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="relative z-10"
+              >
+                <Languages size={20} />
+              </motion.div>
+
+              {/* Enhanced background effects */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-400 opacity-0 group-hover:opacity-20 transition-opacity duration-0 rounded-lg"
+                initial={{ scale: 0 }}
+                whileHover={{ scale: 1 }}
+                transition={{ duration: 0.2 }}
+              />
+
+              {/* Glow effect */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-green-400 to-blue-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+            </motion.button>
+
             {/* Enhanced Theme Toggle - Hidden on mobile/tablet when hamburger menu is visible */}
             <motion.button
               whileHover={{
