@@ -9,6 +9,7 @@ import HamburgerMenu from '../components/HamburgerMenu'
 import emailjs from '@emailjs/browser'
 import { EMAILJS_CONFIG } from '../config/emailjs'
 import '../styles/hamburger.css'
+import { apiService, Project } from '../services/api';
 
 const SinglePageAppContent: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -25,6 +26,9 @@ const SinglePageAppContent: React.FC = () => {
   })
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [newsletterMessage, setNewsletterMessage] = useState('')
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Contact form state
 const [formData, setFormData] = useState({
@@ -39,6 +43,23 @@ const [formData, setFormData] = useState({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null)
   const [focusedField, setFocusedField] = useState<string | null>(null)
+
+  // Fetch projects from API
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const fetchedProjects = await apiService.getProjects();
+        setProjects(fetchedProjects);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load projects');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProjects();
+  }, []);
 
   // Handle scroll to show/hide scroll-to-top button and header styling
   useEffect(() => {
@@ -1120,201 +1141,22 @@ const [formData, setFormData] = useState({
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                   className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
                 >
-                  {[
-                    {
-                      title: 'System Information App',
-                      description: 'The System Information App is a full-stack web-based application built with Node.js (Express.js), MySQL, and Bootstrap 5 to support issue monitoring and news report management...',
-                      tech: ['Node.js', 'Express.js', 'Bootstrap', 'CKEditor', 'MySQL'],
-                      links: [
-                        {
-                          type: 'github',
-                          url: 'https://github.com/mohammaiIqbalMaulana/system-information-app',
-                          label: 'View Code'
-                        },
-                        {
-                          type: 'demo',
-                          url: 'https://system-info-demo.vercel.app',
-                          label: 'Live Demo'
-                        }
-                      ]
-                    },
-                    {
-                      title: 'System Development Tracking Social Media Account',
-                      description: 'The Social Media Account Development Tracking System is a website used to comprehensively manage TikTok account data...',
-                      tech: ['Node.js', 'Express.js', 'Bootstrap', 'SweetAlert', 'AJAX', 'MySQL'],
-                      links: [
-                        {
-                          type: 'github',
-                          url: 'https://github.com/mohammaiIqbalMaulana/social-media-tracker',
-                          label: 'Source Code'
-                        }
-                      ]
-                    },
-                    {
-                      title: 'Hospital Management System (Java GUI)',
-                      description: 'A simple Java GUI-based application with CRUD features for managing hospital data...',
-                      tech: ['Java', 'Swing', 'JDBC', 'MySQL'],
-                      links: [
-                        {
-                          type: 'github',
-                          url: 'https://github.com/mohammaiIqbalMaulana/hospital-management-java',
-                          label: 'GitHub Repo'
-                        }
-                      ]
-                    },
-                    {
-                      title: 'Object Scanner with YOLO (Real-time Detection)',
-                      description: 'This project leverages YOLOv8 to perform real-time object detection through a camera...',
-                      tech: ['Python', 'YOLOv8', 'OpenCV', 'NumPy'],
-                      links: [
-                        {
-                          type: 'colab',
-                          url: 'https://colab.research.google.com/drive/your-notebook-id',
-                          label: 'Open in Colab'
-                        },
-                        {
-                          type: 'github',
-                          url: 'https://github.com/mohammaiIqbalMaulana/yolo-object-detection',
-                          label: 'Source Code'
-                        }
-                      ]
-                    },
-                    {
-                      title: 'Personal Portfolio Website',
-                      description: 'A personal portfolio website built with React and Tailwind CSS...',
-                      tech: ['React', 'Node.js', 'Tailwind CSS', 'TypeScript'],
-                      links: [
-                        {
-                          type: 'github',
-                          url: 'https://github.com/mohammaiIqbalMaulana/portfolio',
-                          label: 'Source Code'
-                        },
-                        {
-                          type: 'demo',
-                          url: 'https://iqbal-portfolio.vercel.app',
-                          label: 'Live Site'
-                        }
-                      ]
-                    },
-                    {
-                      title: 'Rock Paper Scissors Classification (CNN)',
-                      description: 'An image classification project uses a Convolutional Neural Network (CNN)...',
-                      tech: ['Python', 'TensorFlow', 'Keras', 'OpenCV', 'NumPy'],
-                      links: [
-                        {
-                          type: 'colab',
-                          url: 'https://colab.research.google.com/drive/your-rps-notebook-id',
-                          label: 'Run in Colab'
-                        }
-                      ]
-                    },
-                    {
-                      title: 'Streamlit Web App',
-                      description: 'A Streamlit-based project for creating interactive web applications...',
-                      tech: ['Python', 'Streamlit', 'Pandas', 'NumPy'],
-                      links: [
-                        {
-                          type: 'github',
-                          url: 'https://github.com/mohammaiIqbalMaulana/streamlit-ml-app',
-                          label: 'GitHub'
-                        },
-                        {
-                          type: 'demo',
-                          url: 'https://your-streamlit-app.streamlit.app',
-                          label: 'Try App'
-                        }
-                      ]
-                    },
-                    {
-                      title: 'Python Fundamentals & Praktikum (CLI/Notebook Projects)',
-                      description: 'In addition to large projects, there are also exercises and practicals focused on Python fundamentals...',
-                      tech: ['Python', 'Pandas', 'NumPy', 'Matplotlib'],
-                      links: [
-                        {
-                          type: 'github',
-                          url: 'https://github.com/mohammaiIqbalMaulana/python-fundamentals',
-                          label: 'View Projects'
-                        }
-                      ]
-                    },
-                    {
-                      title: 'Template Matching (Image Detection)',
-                      description: 'This project uses template matching with OpenCV to detect specific objects in images...',
-                      tech: ['Python', 'OpenCV', 'NumPy'],
-                      links: [
-                        {
-                          type: 'colab',
-                          url: 'https://colab.research.google.com/drive/your-template-matching-id',
-                          label: 'Open Notebook'
-                        }
-                      ]
-                    },
-                    {
-                      title: 'Cropping Makhluk Hidup (Image Processing)',
-                      description: 'A simple program for cropping specific portions of images of living things...',
-                      tech: ['Python', 'Pillow', 'NumPy'],
-                      links: [
-                        {
-                          type: 'github',
-                          url: 'https://github.com/mohammaiIqbalMaulana/image-cropping',
-                          label: 'Source'
-                        }
-                      ]
-                    },
-                    {
-                      title: 'Analisis Kompleksitas Algoritma',
-                      description: 'This notebook focuses on time complexity analysis for evaluating algorithm efficiency...',
-                      tech: ['Python', 'Jupyter Notebook'],
-                      links: [
-                        {
-                          type: 'colab',
-                          url: 'https://colab.research.google.com/drive/algorithm-complexity-analysis',
-                          label: 'View Analysis'
-                        }
-                      ]
-                    },
-                    {
-                      title: 'Image Classification with CNN',
-                      description: 'This project builds a Convolutional Neural Network (CNN) model for image classification...',
-                      tech: ['Python', 'TensorFlow', 'Keras', 'OpenCV', 'NumPy'],
-                      links: [
-                        {
-                          type: 'colab',
-                          url: 'https://colab.research.google.com/drive/cnn-image-classification',
-                          label: 'Training Notebook'
-                        },
-                        {
-                          type: 'github',
-                          url: 'https://github.com/mohammaiIqbalMaulana/cnn-image-classification',
-                          label: 'Complete Code'
-                        }
-                      ]
-                    },
-                    {
-                      title: 'Payroll System (Perhitungan Gaji)',
-                      description: 'This project creates an OOP-based payroll calculation system in Python...',
-                      tech: ['Python', 'OOP', 'PrettyTable'],
-                      links: [
-                        {
-                          type: 'github',
-                          url: 'https://github.com/mohammaiIqbalMaulana/payroll-system',
-                          label: 'Source Code'
-                        }
-                      ]
-                    },
-                    {
-                      title: 'Hospital Payroll Management System',
-                      description: 'A simple application for a hospital payroll system created in an interactive notebook...',
-                      tech: ['Python', 'OOP', 'Pandas'],
-                      links: [
-                        {
-                          type: 'colab',
-                          url: 'https://colab.research.google.com/drive/hospital-payroll-system',
-                          label: 'Interactive Demo'
-                        }
-                      ]
-                    }
-                  ].slice(0, showAllProjects ? undefined : 7).map((project, index) => (
+                  {loading ? (
+                    <div className="col-span-full text-center py-12">
+                      <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-violet-400"></div>
+                      <p className="text-violet-600 dark:text-violet-400 mt-4">Loading projects...</p>
+                    </div>
+                  ) : error ? (
+                    <div className="col-span-full text-center py-12">
+                      <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-6 max-w-md mx-auto">
+                        <p className="text-red-300">Error: {error}</p>
+                      </div>
+                    </div>
+                  ) : projects.length === 0 ? (
+                    <div className="col-span-full text-center py-12">
+                      <p className="text-violet-600 dark:text-violet-400">No projects found.</p>
+                    </div>
+                  ) : projects.slice(0, showAllProjects ? undefined : 7).map((project, index) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, y: 30, scale: 0.85 }}
@@ -1337,16 +1179,16 @@ const [formData, setFormData] = useState({
                       className="bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-900/20 dark:to-fuchsia-900/20 rounded-lg shadow-sm p-4 sm:p-6 hover:shadow-2xl transition-all duration-0 cursor-pointer group relative overflow-hidden border border-violet-100 dark:border-violet-800"
                     >
                       <div className="h-full flex flex-col">
-                        <h3 className="text-lg sm:text-xl font-semibold text-violet-900 dark:text-violet-100 mb-2 group-hover:text-violet-700 dark:group-hover:text-violet-300 transition-colors relative z-10">
+                        <h3 className="text-lg sm:text-xl font-semibold text-violet-900 dark:text-violet-100 mb-2">
                           {project.title}
                         </h3>
-                        <p className="text-sm sm:text-base text-violet-600 dark:text-violet-400 mb-4 flex-grow leading-relaxed relative z-10">
+                        <p className="text-sm sm:text-base text-violet-600 dark:text-violet-400 mb-4">
                           {project.description}
                         </p>
                         
                         {/* Tech Stack */}
                         <div className="flex flex-wrap gap-2 mb-4">
-                          {project.tech.map((tech, techIndex) => (
+                          {project.tech?.map((tech, techIndex) => (
                             <motion.span
                               key={techIndex}
                               initial={{ opacity: 0, scale: 0.8 }}
@@ -1361,12 +1203,12 @@ const [formData, setFormData] = useState({
                               }}
                               className="px-2 sm:px-3 py-1 bg-violet-100 dark:bg-violet-800 text-violet-800 dark:text-violet-200 text-xs sm:text-sm rounded-full hover:bg-violet-200 dark:hover:bg-violet-700 transition-all duration-0 relative z-10"
                             >
-                              {tech}
+                              {tech.trim()}
                             </motion.span>
                           ))}
                         </div>
 
-                        {/* Project Links - Only show on hover */}
+                        {/* Project Links */}
                         <motion.div
                           initial={{ opacity: 0, y: 20 }}
                           whileHover={{ opacity: 1, y: 0 }}
@@ -1374,56 +1216,49 @@ const [formData, setFormData] = useState({
                           className="opacity-0 group-hover:opacity-100 transition-all duration-300 relative z-20"
                         >
                           <div className="flex flex-wrap gap-2 pt-3 border-t border-violet-200/50 dark:border-violet-700/50">
-                            {project.links?.map((link, linkIndex) => {
-                              const getLinkIcon = (type: string) => {
-                                switch(type) {
-                                  case 'github':
-                                    return <Github size={14} />
-                                  case 'demo':
-                                    return <Globe size={14} />
-                                  case 'colab':
-                                    return <Code size={14} />
-                                  default:
-                                    return <ArrowRight size={14} />
-                                }
-                              }
+                            {project.github_url && (
+                              <motion.a
+                                href={project.github_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                whileHover={{ 
+                                  scale: 1.05, 
+                                  y: -2,
+                                  transition: { duration: 0.2 } 
+                                }}
+                                whileTap={{ scale: 0.95 }}
+                                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md bg-gray-600 hover:bg-gray-700 text-white"
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.3, delay: 0 }}
+                              >
+                                <Github size={14} />
+                                <span>GitHub</span>
+                              </motion.a>
+                            )}
 
-                              const getLinkStyle = (type: string) => {
-                                switch(type) {
-                                  case 'github':
-                                    return 'bg-gray-600 hover:bg-gray-700 text-white'
-                                  case 'demo':
-                                    return 'bg-blue-500 hover:bg-blue-600 text-white'
-                                  case 'colab':
-                                    return 'bg-orange-500 hover:bg-orange-600 text-white'
-                                  default:
-                                    return 'bg-violet-500 hover:bg-violet-600 text-white'
-                                }
-                              }
-
-                              return (
-                                <motion.a
-                                  key={linkIndex}
-                                  href={link.url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  onClick={(e) => e.stopPropagation()} // Prevent card click interference
-                                  whileHover={{ 
-                                    scale: 1.05, 
-                                    y: -2,
-                                    transition: { duration: 0.2 } 
-                                  }}
-                                  whileTap={{ scale: 0.95 }}
-                                  className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md ${getLinkStyle(link.type)}`}
-                                  initial={{ opacity: 0, x: -10 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{ duration: 0.3, delay: linkIndex * 0.1 }}
-                                >
-                                  {getLinkIcon(link.type)}
-                                  <span>{link.label}</span>
-                                </motion.a>
-                              )
-                            })}
+                            {project.live_url && (
+                              <motion.a
+                                href={project.live_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                whileHover={{ 
+                                  scale: 1.05, 
+                                  y: -2,
+                                  transition: { duration: 0.2 } 
+                                }}
+                                whileTap={{ scale: 0.95 }}
+                                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md bg-blue-500 hover:bg-blue-600 text-white"
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.3, delay: 0.1 }}
+                              >
+                                <Globe size={14} />
+                                <span>Live Demo</span>
+                              </motion.a>
+                            )}
                           </div>
                         </motion.div>
 

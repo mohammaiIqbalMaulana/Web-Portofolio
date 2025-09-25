@@ -61,8 +61,8 @@ app.get('/api/test', (req, res) => {
 });
 
 // API Routes - ADD THESE LINES
-app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/auth', authRoutes);
 
 // 404 handler untuk API routes
 app.use('/api/*', (req, res) => {
