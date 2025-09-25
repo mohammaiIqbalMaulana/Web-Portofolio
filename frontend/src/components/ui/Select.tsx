@@ -48,7 +48,7 @@ export const Select: React.FC<SelectProps> = ({
         } ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${value ? 'has-value' : ''}`}
         required={required}
       >
-        <option value="">Select a service</option>
+        <option value="">Pilih Layanan</option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>{option.label}</option>
         ))}

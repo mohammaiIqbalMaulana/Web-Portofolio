@@ -67,7 +67,7 @@ export const ContactSection: React.FC = () => {
             Get In Touch
           </h2>
           <p className="text-base sm:text-lg text-secondary-600 dark:text-secondary-400 max-w-2xl mx-auto">
-            Ready to bring your ideas to life? Let's discuss your project and create something amazing together.
+            Siap mewujudkan ide Anda? Mari diskusikan proyek Anda dan ciptakan sesuatu yang luar biasa bersama.
           </p>
         </motion.div>
 
@@ -91,7 +91,7 @@ export const ContactSection: React.FC = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="Your full name"
+                  placeholder="Nama Lengkap"
                   label="Name"
                   required
                   error={formErrors.name}
@@ -102,7 +102,7 @@ export const ContactSection: React.FC = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  placeholder="your.email@example.com"
+                  placeholder="nama.email@example.com"
                   label="Email"
                   required
                   error={formErrors.email}
@@ -124,7 +124,7 @@ export const ContactSection: React.FC = () => {
                   name="location"
                   value={formData.location}
                   onChange={handleInputChange}
-                  placeholder="City, Country"
+                  placeholder="Kota, Negara"
                   label="Location (Optional)"
                 />
               </div>
@@ -143,7 +143,7 @@ export const ContactSection: React.FC = () => {
                 name="message"
                 value={formData.message}
                 onChange={handleInputChange}
-                placeholder="Tell me about your project, timeline, budget, and any specific requirements..."
+                placeholder="Ceritakan kepada saya tentang proyek Anda, jadwal waktu, anggaran, dan persyaratan spesifik apa pun..."
                 label="Project Details"
                 required
                 rows={5}
@@ -152,7 +152,7 @@ export const ContactSection: React.FC = () => {
 
               <Button
                 type="submit"
-                variant="red"
+                variant="outlinered"
                 disabled={isSubmitting}
                 className="w-full min-w-[180px]"
               >
@@ -194,7 +194,7 @@ export const ContactSection: React.FC = () => {
                 Contact Information
               </h3>
               <p className="text-secondary-600 dark:text-secondary-400 mb-8">
-                Feel free to reach out through any of these channels. I'm always open to discussing new opportunities and interesting projects.
+                Jangan ragu untuk menghubungi saya melalui saluran ini. Saya selalu terbuka untuk membahas peluang baru dan proyek menarik. Jangan ragu untuk menghubungi saya melalui saluran ini. Saya selalu terbuka untuk membahas peluang baru dan proyek menarik.
               </p>
             </div>
 
@@ -243,10 +243,10 @@ export const ContactSection: React.FC = () => {
               className="bg-gradient-to-r from-rose-50 to-pink-50 dark:from-rose-900/20 dark:to-pink-900/20 rounded-lg p-6 border border-rose-200 dark:border-rose-800"
             >
               <h4 className="font-semibold text-secondary-900 dark:text-secondary-100 mb-2">
-                Let's Build Something Amazing
+                Mari Membangun Sesuatu yang Menakjubkan Bersama!
               </h4>
               <p className="text-secondary-600 dark:text-secondary-400 text-sm">
-                Whether you have a clear vision or just an idea, I'm here to help turn it into reality. Let's collaborate and create something extraordinary together.
+                Apakah Anda memiliki visi yang jelas atau hanya sebuah ide, saya di sini untuk membantu mewujudkannya. Mari kita berkolaborasi dan menciptakan sesuatu yang luar biasa bersama.
               </p>
             </motion.div>
           </motion.div>

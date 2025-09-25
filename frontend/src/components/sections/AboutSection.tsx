@@ -7,10 +7,10 @@ export const AboutSection: React.FC = () => {
   const { scrollToSection } = useScroll();
 
   const stats = [
-    { number: '10+', label: 'Projects Completed' },
-    { number: '2', label: 'Years Experience' },
-    { number: '5', label: 'Happy Clients' },
-    { number: '90%', label: 'Client Satisfaction' },
+    { number: '10+', label: 'Proyek Terselesaikan' },
+    { number: '1+', label: 'Tahun Pengalaman' },
+    { number: '5+', label: 'Tanggapan Klien' },
+    { number: '90%', label: 'Kepuasan Klien' },
   ];
 
   return (
@@ -35,7 +35,7 @@ export const AboutSection: React.FC = () => {
             About Me
           </h2>
           <p className="text-base sm:text-lg text-secondary-600 dark:text-secondary-400 max-w-2xl mx-auto">
-            Get to know more about my journey, skills, and what drives me to create amazing digital experiences.
+            Ketahui lebih banyak tentang perjalanan, keterampilan, dan apa yang mendorong saya untuk menciptakan pengalaman digital yang menakjubkan.
           </p>
         </motion.div>
 
@@ -47,10 +47,11 @@ export const AboutSection: React.FC = () => {
             viewport={{ once: true }}
           >
             <h3 className="text-xl sm:text-2xl font-bold text-secondary-900 dark:text-secondary-100 mb-4">
-              Passionate with Technologies & Building what matters
+              Tertarik dengan Teknologi <br/>
+              & Membangun hal-hal Penting
             </h3>
             <p className="text-secondary-600 dark:text-secondary-400 mb-6 leading-relaxed">
-              I have been studying at Muhammadiyah University of Semarang since 2023. During my studies, I gained a foundation in Java programming and have worked on various programs using both Java and Python. Outside of class, I also deepened my skills as a full-stack developer using Node.js, including completing two web-based projects during my internship. This combined experience has given me a foundation in building applications from the backend to the frontend, while also developing a broader understanding of programming concepts. In addition to academics and technology, I am also active as an influencer on TikTok and YouTube, further honing my communication skills, content creativity, and engagement with digital audiences.
+              Saya telah menempuh pendidikan di Universitas Muhammadiyah Semarang sejak tahun 2023. Selama masa studi, saya mendapatkan dasar-dasar pemrograman Java dan telah mengerjakan berbagai program menggunakan Java dan Python. Di luar perkuliahan, saya juga memperdalam keterampilan saya sebagai pengembang full-stack menggunakan Node.js, termasuk menyelesaikan dua proyek berbasis web selama magang. Pengalaman gabungan ini telah memberi saya dasar dalam membangun aplikasi dari backend hingga frontend, sekaligus mengembangkan pemahaman yang lebih luas tentang konsep pemrograman. Selain akademis dan teknologi, saya juga aktif sebagai influencer di TikTok dan YouTube, yang semakin mengasah keterampilan komunikasi, kreativitas konten, dan interaksi saya dengan audiens digital.
             </p>
             <Button
               onClick={() => scrollToSection('projects')}

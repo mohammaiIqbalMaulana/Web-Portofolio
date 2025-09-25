@@ -69,7 +69,7 @@ export const HeaderSection: React.FC = () => {
               <span className="text-white font-bold text-lg">P</span>
             </div>
             <span className="font-bold text-lg sm:text-xl text-secondary-900 dark:text-secondary-100">
-              Portfolio
+              Portofolio
             </span>
           </motion.button>
 

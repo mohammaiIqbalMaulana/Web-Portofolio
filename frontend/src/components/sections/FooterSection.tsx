@@ -60,11 +60,11 @@ export const FooterSection: React.FC = () => {
               <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center shadow-sm">
                 <span className="text-white font-bold text-lg">P</span>
               </div>
-              <span className="font-bold text-xl">Portfolio</span>
+              <span className="font-bold text-xl">Portofolio</span>
             </div>
             <p className="text-secondary-300 mb-6 leading-relaxed">
-              Passionate full-stack developer creating beautiful, functional digital experiences.
-              Let's build something amazing together.
+              Pengembang full-stack yang penuh semangat menciptakan pengalaman digital yang indah dan fungsional.
+              Mari kita bangun sesuatu yang luar biasa bersama.
             </p>
 
             {/* Social Links */}
@@ -145,7 +145,7 @@ export const FooterSection: React.FC = () => {
           <div className="max-w-md mx-auto text-center">
             <h3 className="text-lg font-semibold mb-2">Stay Updated</h3>
             <p className="text-secondary-300 mb-4">
-              Get notified about new projects and updates
+              Dapatkan pemberitahuan tentang proyek dan pembaruan baru. Ayo berlangganan newsletter saya.
             </p>
 
             <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
@@ -154,7 +154,7 @@ export const FooterSection: React.FC = () => {
                 name="email"
                 value={newsletterData.email}
                 onChange={handleNewsletterChange}
-                placeholder="Enter your email"
+                placeholder="Masukan email anda"
                 className="flex-1"
                 focusRingColor="blue"
                 disabled={newsletterStatus === 'loading'}

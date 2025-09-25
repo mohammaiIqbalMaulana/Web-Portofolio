@@ -63,9 +63,9 @@ export const HeroSection: React.FC = () => {
             {/* Name with typing animation */}
             <div className="mb-4 sm:mb-6">
               <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-6xl font-bold text-secondary-900 dark:text-secondary-100 mb-2 leading-tight">
-                Hi, My Name{' '}
+                Halo, Nama Saya{' '}
                 <TypingAnimation
-                  texts={['Mohammad Iqbal']}
+                  texts={['Mohammad Iqbal M']}
                   speed={150}
                   className="text-primary-600 dark:text-primary-400"
                   cursorClassName="bg-primary-600 dark:bg-primary-400"
@@ -92,8 +92,7 @@ export const HeroSection: React.FC = () => {
               transition={{ duration: 0.8, delay: 0.8 }}
               className="text-base sm:text-lg text-secondary-600 dark:text-secondary-400 mb-8 sm:mb-12 leading-relaxed"
             >
-              I create beautiful, functional, and user-centered digital experiences.
-              Passionate about clean code, innovative solutions, and bringing ideas to life.
+              Saya sedang belajar dan mengembangkan diri di bidang teknologi informasi, khususnya dalam pengembangan web dan desain UI/UX dan sekaligus sebagai pembuat konten. Sekarang sangat bersemangat untuk menciptakan solusi digital yang inovatif dan memberikan dampak positif.
             </motion.p>
 
             {/* Action Buttons */}

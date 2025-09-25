@@ -54,7 +54,7 @@ export const ProjectsSection: React.FC = () => {
             Featured Projects
           </h2>
           <p className="text-base sm:text-lg text-secondary-600 dark:text-secondary-400 max-w-2xl mx-auto">
-            A showcase of my recent work, featuring web applications, mobile apps, and creative solutions built with modern technologies.
+            Sebuah pameran karya terbaru saya, yang menampilkan aplikasi web, aplikasi seluler, dan solusi kreatif yang dibuat dengan teknologi modern.
           </p>
         </motion.div>
 
@@ -111,7 +111,7 @@ export const ProjectsSection: React.FC = () => {
           className="text-center mt-12 sm:mt-16"
         >
           <p className="text-secondary-600 dark:text-secondary-400 mb-6">
-            Interested in working together? Let's discuss your next project.
+            Tertarik bekerja sama? Mari kita bahas proyek Anda selanjutnya.
           </p>
         </motion.div>
       </div>

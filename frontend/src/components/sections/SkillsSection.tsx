@@ -12,7 +12,7 @@ export const SkillsSection: React.FC = () => {
       category: 'Backend',
       icon: ServerCog,
       color: 'from-orange-500 to-red-500',
-      description: 'PHP framework, built-in tools for rapid web development'
+      description: 'Kerangka kerja PHP, alat bawaan untuk pengembangan web yang cepat'
     },
     {
       name: 'Tailwind CSS',
@@ -20,15 +20,15 @@ export const SkillsSection: React.FC = () => {
       category: 'Frontend',
       icon: Palette,
       color: 'from-blue-500 to-blue-600',
-      description: 'Modern CSS with animations and responsive design'
+      description: 'CSS modern dengan animasi dan desain responsif'
     },
     {
       name: 'JavaScript',
       level: 85,
-      category: 'Language',
+      category: 'Bahasa Pemrograman',
       icon: Code,
       color: 'from-yellow-400 to-yellow-600',
-      description: 'ES6+ features and DOM manipulation'
+      description: 'Fitur ES6+ dan manipulasi DOM'
     },
     {
       name: 'React',
@@ -36,7 +36,7 @@ export const SkillsSection: React.FC = () => {
       category: 'Frontend',
       icon: Code,
       color: 'from-cyan-400 to-blue-500',
-      description: 'Component-based UI development'
+      description: 'Pengembangan UI berbasis komponen'
     },
     {
       name: 'Node.js',
@@ -44,7 +44,7 @@ export const SkillsSection: React.FC = () => {
       category: 'Backend',
       icon: Cpu,
       color: 'from-green-500 to-green-600',
-      description: 'Server-side JavaScript and APIs'
+      description: 'JavaScript dan API sisi server'
     },
     {
       name: 'Express.js',
@@ -52,7 +52,7 @@ export const SkillsSection: React.FC = () => {
       category: 'Backend',
       icon: Network,
       color: 'from-red-600 to-red-700',
-      description: 'RESTful API development'
+      description: 'Pengembangan RESTful API'
     },
     {
       name: 'MySQL',
@@ -60,7 +60,7 @@ export const SkillsSection: React.FC = () => {
       category: 'Database',
       icon: Database,
       color: 'from-green-600 to-green-700',
-      description: 'SQL database design and queries'
+      description: 'Desain dan kueri basis data SQL'
     },
     {
       name: 'TypeScript',
@@ -68,11 +68,11 @@ export const SkillsSection: React.FC = () => {
       category: 'LANGUAGE',
       icon: Code,
       color: 'from-orange-600 to-red-600',
-      description: 'Type-safe JavaScript development'
+      description: 'JS yang aman terhadap tipe'
     }
   ];
 
-  const categories = ['All', 'Frontend', 'Backend', 'Language', 'Database'];
+  const categories = ['All', 'Frontend', 'Backend', 'Bahasa Pemrograman', 'Database'];
 
   return (
     <section id="skills" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-amber-50 via-orange-50/20 to-yellow-50/30 dark:from-secondary-900 dark:via-amber-900/5 dark:to-yellow-900/10 relative overflow-hidden" style={{ transition: 'none' }}>
@@ -96,7 +96,7 @@ export const SkillsSection: React.FC = () => {
             Skills & Expertise
           </h2>
           <p className="text-base sm:text-lg text-secondary-600 dark:text-secondary-400 max-w-2xl mx-auto">
-            A comprehensive overview of my technical skills and the technologies I work with to bring ideas to life.
+            Gambaran umum yang komprehensif mengenai keterampilan teknis saya dan teknologi yang saya gunakan untuk mewujudkan ide.
           </p>
         </motion.div>
 
@@ -122,7 +122,7 @@ export const SkillsSection: React.FC = () => {
           className="mt-12 sm:mt-16 text-center"
         >
           <p className="text-secondary-600 dark:text-secondary-400 mb-6">
-            Always learning and exploring new technologies to stay ahead in the ever-evolving tech landscape.
+            Selalu belajar dan mengeksplorasi teknologi baru untuk tetap menjadi yang terdepan dalam lanskap teknologi yang terus berkembang.
           </p>
           <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
             {categories.slice(1).map((category, index) => (

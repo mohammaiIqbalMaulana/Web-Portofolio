@@ -5,7 +5,7 @@ import { ArrowRight, Download, ArrowDown, ArrowUp } from 'lucide-react';
 interface ButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
-  variant?: 'primary' | 'secondary' | 'outline' | 'green' | 'red' | 'purple';
+  variant?: 'primary' | 'secondary' | 'outline' | 'green' | 'red' | 'purple' | 'outlinered';
   size?: 'sm' | 'md' | 'lg';
   icon?: 'arrow' | 'download' | 'down' | 'up';
   disabled?: boolean;
@@ -37,7 +37,8 @@ export const Button: React.FC<ButtonProps> = ({
     green: "bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white",
     red: "bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white",
     purple: "bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white",
-    outline: "border-2 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+    outline: "border-2 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20",
+    outlinered: "border-2 border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20"
   };
 
   const sizeClasses = {
@@ -95,6 +96,29 @@ export const Button: React.FC<ButtonProps> = ({
           <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-blue-200/30 dark:via-blue-400/20 to-transparent"></div>
         </>
       )}
+
+      {!disabled && variant === 'outlinered' && (
+        <>
+          <div className="absolute inset-0 bg-gradient-to-r from-red-50 to-rose-50 dark:from-red-900/20 dark:to-rose-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-red-200/30 dark:via-red-400/20 to-transparent"></div>
+        </>
+      )}
+
+      {!disabled && variant === 'red' && (
+        <>
+          <div className="absolute inset-0 bg-gradient-to-r from-red-400 to-rose-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-rose-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+          <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+        </>
+      )}
+
+      {!disabled && variant === 'purple' && (
+        <>
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+          <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+        </>
+      )}
     </>
   );
 
@@ -114,6 +138,8 @@ export const Button: React.FC<ButtonProps> = ({
         ? "0 10px 30px rgba(139, 92, 280, 0.2)"
         : variant === 'outline'
         ? "0 20px 40px rgba(59, 130, 246, 0.3)"
+        : variant === 'outlinered'
+        ? "0 20px 40px rgba(248, 113, 113, 0.3)"
         : "none"
     },
     whileTap: disabled ? {} : { scale: 0.95 }
