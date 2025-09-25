@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Github, Globe } from 'lucide-react';
-import { Project } from '../../services/api';
+import { Project, BACKEND_URL } from '../../services/api';
+import { useTranslation } from 'react-i18next';
 
 interface ProjectCardProps {
   project: Project;
@@ -9,6 +10,14 @@ interface ProjectCardProps {
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
+  const { t } = useTranslation();
+  const getFullUrl = (path: string) => {
+    if (path.startsWith('http')) {
+      return path;
+    }
+    return `${BACKEND_URL}${path}`;
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30, scale: 0.85 }}
@@ -60,14 +69,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
           ))}
         </div>
 
-        {/* Project Links */}
+        {/* Project Links & Media - All appear on hover */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileHover={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
           className="opacity-0 group-hover:opacity-100 transition-all duration-300 relative z-20"
         >
-          <div className="flex flex-wrap gap-2 pt-3 border-t border-violet-200/50 dark:border-violet-700/50">
+          {/* Links */}
+          <div className="flex flex-wrap gap-2 pt-3 border-t border-violet-200/50 dark:border-violet-700/50 pb-3">
             {project.github_url && (
               <motion.a
                 href={project.github_url}
@@ -112,6 +122,82 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
               </motion.a>
             )}
           </div>
+
+          {/* Images Section - Only if images exist */}
+          {project.images && project.images.length > 0 && (
+            <div className="pt-3 border-t border-violet-200/50 dark:border-violet-700/50 pb-3">
+              <h4 className="text-sm font-medium text-violet-800 dark:text-violet-200 mb-2">{t('projects.images')}:</h4>
+              <div className="flex flex-wrap gap-2">
+                {project.images.slice(0, 3).map((image, imgIndex) => (
+                  <motion.a
+                    key={imgIndex}
+                    href={getFullUrl(image)}
+                    download
+                    onClick={(e) => e.stopPropagation()}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="relative w-16 h-16 rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800 group"
+                  >
+                    <img
+                      src={getFullUrl(image)}
+                      alt={`${project.title} image ${imgIndex + 1}`}
+                      className="w-full h-full object-cover group-hover:opacity-80 transition-opacity"
+                      onError={(e) => {
+                        const img = e.currentTarget as HTMLImageElement;
+                        const parent = img.parentElement;
+                        if (parent) {
+                          img.style.display = 'none';
+                          const errorDiv = parent.querySelector('.error-placeholder') as HTMLElement;
+                          if (errorDiv) {
+                            errorDiv.style.display = 'flex';
+                          }
+                        }
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
+                      <span className="text-white text-xs">{t('projects.see')}</span>
+                    </div>
+                      <div className="absolute inset-0 bg-gray-300 dark:bg-gray-600 flex items-center justify-center error-placeholder" style={{display: 'none'}}>
+                        <span className="text-gray-600 dark:text-gray-400 text-xs">{t('projects.imageNotAvailable')}</span>
+                      </div>
+                  </motion.a>
+                ))}
+                {project.images.length > 3 && (
+                  <motion.span
+                    whileHover={{ scale: 1.05 }}
+                    className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-md flex items-center justify-center text-xs font-medium text-gray-600 dark:text-gray-400"
+                  >
+                    +{project.images.length - 3}
+                  </motion.span>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Files Section - Only if files exist */}
+          {project.files && project.files.length > 0 && (
+            <div className="pt-3 border-t border-violet-200/50 dark:border-violet-700/50">
+              <h4 className="text-sm font-medium text-violet-800 dark:text-violet-200 mb-2">{t('projects.files')}:</h4>
+              <div className="space-y-1">
+                {project.files.map((file, fileIndex) => (
+                  <motion.a
+                    key={fileIndex}
+                    href={getFullUrl(file.path)}
+                    download={file.label || `file-${fileIndex + 1}`}
+                    onClick={(e) => e.stopPropagation()}
+                    whileHover={{ x: 4 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="flex items-center space-x-2 text-xs text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition-colors"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span className="w-1.5 h-1.5 bg-violet-400 rounded-full"></span>
+                    <span>{file.label || `${t('projects.file')} ${fileIndex + 1}`}</span>
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+          )}
         </motion.div>
 
         {/* Enhanced Background Effects - Only active on hover */}

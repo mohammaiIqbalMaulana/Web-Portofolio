@@ -41,7 +41,12 @@
     "noProjects": "No projects available at the moment.",
     "showMore": "Show More Projects",
     "showLess": "Show Less",
-    "cta": "Interested in collaborating? Let's discuss your next project."
+    "cta": "Interested in collaborating? Let's discuss your next project.",
+    "images": "Images",
+    "see": "See",
+    "files": "Files",
+    "file": "File",
+    "imageNotAvailable": "Image not available"
   },
   "contact": {
     "title": "Get In Touch",

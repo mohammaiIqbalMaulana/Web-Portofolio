@@ -1,4 +1,6 @@
 // src/services/api.ts
+export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
+
 export interface Project {
   id: number;
   title: string;
@@ -42,7 +44,7 @@ export interface ApiError {
 }
 
 class ApiService {
-  private baseURL = '/api';
+  private baseURL = `${BACKEND_URL}/api`;
   private token: string | null = null;
 
   constructor() {

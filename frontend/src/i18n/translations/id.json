@@ -41,7 +41,12 @@
     "noProjects": "Tidak ada proyek yang tersedia saat ini.",
     "showMore": "Tampilkan Lebih Banyak Proyek",
     "showLess": "Tampilkan Lebih Sedikit",
-    "cta": "Tertarik bekerja sama? Mari kita bahas proyek Anda selanjutnya."
+    "cta": "Tertarik bekerja sama? Mari kita bahas proyek Anda selanjutnya.",
+    "images": "Gambar",
+    "see": "Lihat",
+    "files": "File",
+    "file": "File",
+    "imageNotAvailable": "Gambar tidak tersedia"
   },
   "contact": {
     "title": "Hubungi Saya",

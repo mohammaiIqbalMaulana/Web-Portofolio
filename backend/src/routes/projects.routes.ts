@@ -19,15 +19,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB limit
-  fileFilter: (req, file, cb) => {
-    // Allow images and archives
-    if (file.mimetype.startsWith('image/') || file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
-      cb(null, true);
-    } else {
-      cb(new Error('Invalid file type'));
-    }
-  }
+  limits: { fileSize: 50 * 1024 * 1024 } // 50MB limit
 });
 
 // Public routes
