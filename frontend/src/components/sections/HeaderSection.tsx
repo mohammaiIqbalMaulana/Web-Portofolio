@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Moon, Sun, Languages } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -45,6 +45,7 @@ export const HeaderSection: React.FC = () => {
     { id: 'projects', label: t('common.projects') },
     { id: 'contact', label: t('common.contact') },
   ];
+
 
   return (
     <header className={`fixed top-0 left-0 z-40 w-full transition-all duration-300 ${
@@ -116,42 +117,65 @@ export const HeaderSection: React.FC = () => {
 
           {/* Language Toggle, Theme Toggle & Hamburger Menu - Right side */}
           <div className="flex items-center space-x-2 sm:space-x-3">
-            {/* Language Toggle */}
+            {/* Language Toggle - Now visible on all screens, smaller on mobile */}
             <motion.button
               whileHover={{
-                scale: 1.1,
-                rotate: 180,
-                transition: { type: "spring", stiffness: 300 }
+                scale: 1.05,
+                y: -2,
+                transition: { type: "spring", stiffness: 400, damping: 17 }
               }}
-              whileTap={{ scale: 0.9 }}
+              whileTap={{ scale: 0.95 }}
               onClick={toggleLanguage}
-              className="hidden lg:flex p-2 rounded-lg bg-secondary-100 dark:bg-secondary-800 text-secondary-700 dark:text-secondary-300 hover:bg-secondary-200 dark:hover:bg-secondary-700 transition-all duration-0 shadow-sm hover:shadow-lg relative overflow-hidden group"
-              aria-label="Toggle language"
-              initial={{ opacity: 0, rotate: -180 }}
-              animate={{ opacity: 1, rotate: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              className="hidden lg:flex flex-col items-center p-2 rounded-xl bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20 text-secondary-700 dark:text-secondary-300 hover:from-indigo-100 hover:to-blue-100 dark:hover:from-indigo-800 dark:hover:to-blue-800 transition-all duration-300 shadow-md hover:shadow-xl relative overflow-hidden group border border-indigo-200/50 dark:border-indigo-800/50"
+              title={`Switch to ${i18n.language === 'en' ? 'ID' : 'EN'} language`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <motion.div
-                key={i18n.language}
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="relative z-10"
-              >
-                <Languages size={20} />
-              </motion.div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={i18n.language}
+                  initial={{ scale: 0.8, rotate: -180, opacity: 0 }}
+                  animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                  exit={{ scale: 0.8, rotate: 180, opacity: 0 }}
+                  transition={{ duration: 0.4, type: "spring", stiffness: 300 }}
+                  className="relative z-10 mb-1"
+                >
+                  <Languages size={18} className="transition-colors duration-300" />
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Language Label */}
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={i18n.language}
+                  className="text-xs font-semibold tracking-wide text-indigo-600 dark:text-indigo-400"
+                  initial={{ y: 5, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -5, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {i18n.language.toUpperCase()}
+                </motion.span>
+              </AnimatePresence>
 
               {/* Enhanced background effects */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-400 opacity-0 group-hover:opacity-20 transition-opacity duration-0 rounded-lg"
-                initial={{ scale: 0 }}
+                className="absolute inset-0 bg-gradient-to-r from-indigo-400 via-purple-400 to-blue-400 opacity-0 group-hover:opacity-10 rounded-xl"
+                initial={{ scale: 0.8 }}
                 whileHover={{ scale: 1 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.3, type: "spring" }}
               />
 
               {/* Glow effect */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-green-400 to-blue-400 rounded-lg blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 via-purple-400 to-blue-400 rounded-xl blur opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+
+              {/* Active state indicator */}
+              <motion.div
+                className="absolute top-1 right-1 w-2 h-2 bg-green-400 rounded-full opacity-0"
+                animate={{ opacity: i18n.language === 'en' ? 1 : 0.5 }}
+                transition={{ duration: 0.2 }}
+              />
             </motion.button>
 
             {/* Enhanced Theme Toggle - Hidden on mobile/tablet when hamburger menu is visible */}

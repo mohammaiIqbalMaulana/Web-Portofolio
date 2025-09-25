@@ -1,7 +1,8 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../contexts/ThemeContext'
-import { Github, Linkedin, Instagram, Moon, Sun } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { Github, Linkedin, Instagram, Moon, Sun, Languages } from 'lucide-react'
 import '../styles/hamburger.css'
 
 interface HamburgerMenuProps {
@@ -12,6 +13,12 @@ interface HamburgerMenuProps {
 
 const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onToggle, onNavigate }) => {
   const { theme, toggleTheme } = useTheme()
+  const { i18n } = useTranslation()
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'id' : 'en'
+    i18n.changeLanguage(newLang)
+  }
 
   const navItems = [
     { id: 'home', label: 'Home' },
@@ -99,6 +106,17 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onToggle, onNavig
                       className="p-2 rounded-lg bg-secondary-100 dark:bg-secondary-800 text-secondary-700 dark:text-secondary-300 hover:bg-secondary-200 dark:hover:bg-secondary-700 transition-colors"
                     >
                       {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+                    </button>
+                  </div>
+
+                  {/* Language Toggle */}
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-sm font-medium text-secondary-600 dark:text-secondary-400">Language</span>
+                    <button
+                      onClick={toggleLanguage}
+                      className="p-2 rounded-lg bg-secondary-100 dark:bg-secondary-800 text-secondary-700 dark:text-secondary-300 hover:bg-secondary-200 dark:hover:bg-secondary-700 transition-colors"
+                    >
+                      <Languages size={16} />
                     </button>
                   </div>
 
