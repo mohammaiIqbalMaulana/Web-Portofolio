@@ -73,18 +73,18 @@ app.use('/api/*', (req, res) => {
 });
 
 // Global error handler
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: unknown, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error('❌ Error:', err);
-  
-  const status = err.status || err.statusCode || 500;
-  const message = process.env.NODE_ENV === 'production' 
-    ? 'Internal Server Error' 
-    : err.message || 'Something went wrong';
-    
+
+  const status = (err as any)?.status || (err as any)?.statusCode || 500;
+  const message = process.env.NODE_ENV === 'production'
+    ? 'Internal Server Error'
+    : (err as Error)?.message || 'Something went wrong';
+
   res.status(status).json({
     error: message,
-    ...(process.env.NODE_ENV === 'development' && { 
-      stack: err.stack,
+    ...(process.env.NODE_ENV === 'development' && {
+      stack: (err as Error)?.stack,
       timestamp: new Date().toISOString()
     })
   });

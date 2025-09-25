@@ -2,18 +2,15 @@
 import { Request, Response } from 'express';
 import { projectService } from '../services/projects.service';
 import { createProjectSchema, updateProjectSchema } from '../utils/validator';
-
-interface AuthRequest extends Request {
-  admin?: { id: number; username: string; displayName?: string };
-}
+import { AuthRequest } from '../types/auth';
 
 export const projectController = {
   getAll: async (req: Request, res: Response) => {
     try {
       const projects = await projectService.getAllProjects();
       res.json(projects);
-    } catch (error: any) {
-      res.status(500).json({ error: error.message });
+    } catch (error: unknown) {
+      res.status(500).json({ error: (error as Error).message });
     }
   },
 
@@ -27,8 +24,8 @@ export const projectController = {
       }
       
       res.json(project);
-    } catch (error: any) {
-      res.status(500).json({ error: error.message });
+    } catch (error: unknown) {
+      res.status(500).json({ error: (error as Error).message });
     }
   },
 
@@ -48,8 +45,8 @@ export const projectController = {
       });
 
       res.status(201).json(project);
-    } catch (error: any) {
-      res.status(500).json({ error: error.message });
+    } catch (error: unknown) {
+      res.status(500).json({ error: (error as Error).message });
     }
   },
 
@@ -72,8 +69,8 @@ export const projectController = {
       }
 
       res.json(project);
-    } catch (error: any) {
-      res.status(500).json({ error: error.message });
+    } catch (error: unknown) {
+      res.status(500).json({ error: (error as Error).message });
     }
   },
 
@@ -87,8 +84,8 @@ export const projectController = {
       }
       
       res.status(204).send();
-    } catch (error: any) {
-      res.status(500).json({ error: error.message });
+    } catch (error: unknown) {
+      res.status(500).json({ error: (error as Error).message });
     }
   }
 };

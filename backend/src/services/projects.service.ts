@@ -1,5 +1,6 @@
 // src/services/projects.service.ts
 import { prisma } from '../config/database';
+import { Prisma } from '@prisma/client';
 
 export const projectService = {
   getAllProjects: async () => {
@@ -16,15 +17,15 @@ export const projectService = {
     return prisma.project.findUnique({ where: { id } });
   },
 
-  createProject: async (data: any) => {
+  createProject: async (data: Prisma.ProjectUncheckedCreateInput) => {
     return prisma.project.create({ data });
   },
 
-  updateProject: async (id: number, data: any) => {
+  updateProject: async (id: number, data: Prisma.ProjectUncheckedUpdateInput) => {
     try {
       return await prisma.project.update({ where: { id }, data });
-    } catch (error: any) {
-      if (error.code === 'P2025') return null;
+    } catch (error: unknown) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') return null;
       throw error;
     }
   },
@@ -33,8 +34,8 @@ export const projectService = {
     try {
       await prisma.project.delete({ where: { id } });
       return true;
-    } catch (error: any) {
-      if (error.code === 'P2025') return false;
+    } catch (error: unknown) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') return false;
       throw error;
     }
   }
