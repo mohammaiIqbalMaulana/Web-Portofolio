@@ -8,6 +8,17 @@ export interface Project {
   github_url?: string;
   live_url?: string;
   image_url?: string;
+  links?: Array<{
+    type: 'github' | 'colab' | 'demo' | 'other';
+    url: string;
+    label: string;
+  }>;
+  images?: string[];
+  files?: Array<{
+    type: string;
+    path: string;
+    label: string;
+  }>;
   title_en?: string;
   description_en?: string;
   created_at: string;
@@ -120,11 +131,65 @@ class ApiService {
     });
   }
 
+  async createProjectWithFiles(formData: FormData): Promise<Project> {
+    const url = `${this.baseURL}/projects`;
+
+    const config: RequestInit = {
+      method: 'POST',
+      headers: {
+        ...(this.token && { Authorization: `Bearer ${this.token}` }),
+      },
+      credentials: 'include',
+      body: formData,
+    };
+
+    try {
+      const response = await fetch(url, config);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || `HTTP error! status: ${response.status}`);
+      }
+
+      return data;
+    } catch (error) {
+      console.error(`API Error (/projects):`, error);
+      throw error;
+    }
+  }
+
   async updateProject(id: number, project: Partial<Project>): Promise<Project> {
     return this.request<Project>(`/projects/${id}`, {
       method: 'PUT',
       body: JSON.stringify(project),
     });
+  }
+
+  async updateProjectWithFiles(id: number, formData: FormData): Promise<Project> {
+    const url = `${this.baseURL}/projects/${id}`;
+
+    const config: RequestInit = {
+      method: 'PUT',
+      headers: {
+        ...(this.token && { Authorization: `Bearer ${this.token}` }),
+      },
+      credentials: 'include',
+      body: formData,
+    };
+
+    try {
+      const response = await fetch(url, config);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || `HTTP error! status: ${response.status}`);
+      }
+
+      return data;
+    } catch (error) {
+      console.error(`API Error (/projects/${id}):`, error);
+      throw error;
+    }
   }
 
   async deleteProject(id: number): Promise<void> {

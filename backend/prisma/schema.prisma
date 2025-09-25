@@ -1,4 +1,4 @@
-// prisma/schema.prisma - CLEAN VERSION (no duplicates)
+ // prisma/schema.prisma - CLEAN VERSION (no duplicates)
 generator client {
   provider = "prisma-client-js"
 }
@@ -33,6 +33,7 @@ model Project {
   image_url   String?  @db.VarChar(500)
   links       Json     // [{"type":"github","url":"...","label":"View Code"}]
   images      Json?    // ["/uploads/project1-1.jpg"]
+  files       Json?    // [{"type":"zip","path":"/uploads/projects/1/app.zip","label":"Download APK"}]
   featured    Boolean  @default(false)
   sortOrder   Int      @default(0) @map("sort_order")
   createdById Int?     @map("created_by")

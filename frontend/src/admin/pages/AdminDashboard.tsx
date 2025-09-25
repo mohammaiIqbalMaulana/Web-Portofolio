@@ -11,7 +11,9 @@ import {
   ExternalLink,
   Github,
   Loader2,
-  AlertCircle
+  AlertCircle,
+  Upload,
+  Minus
 } from 'lucide-react';
 import { apiService, Project } from '../../services/api';
 
@@ -24,6 +26,12 @@ interface ProjectForm {
   github_url: string;
   live_url: string;
   image_url: string;
+}
+
+interface LinkItem {
+  type: 'github' | 'colab' | 'demo' | 'other';
+  url: string;
+  label: string;
 }
 
 const AdminDashboard: React.FC = () => {
@@ -50,6 +58,11 @@ const AdminDashboard: React.FC = () => {
   });
 
   const [formErrors, setFormErrors] = useState<Partial<ProjectForm>>({});
+
+  // New form state for enhanced features
+  const [links, setLinks] = useState<LinkItem[]>([]);
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   // Translation state
   const [isTranslating, setIsTranslating] = useState(false);
@@ -116,6 +129,9 @@ const AdminDashboard: React.FC = () => {
     });
     setFormErrors({});
     setEditingProject(null);
+    setLinks([]);
+    setSelectedImages([]);
+    setSelectedFiles([]);
   };
 
   const openCreateModal = () => {
@@ -135,6 +151,22 @@ const AdminDashboard: React.FC = () => {
       live_url: project.live_url || '',
       image_url: project.image_url || ''
     };
+
+    // Populate links if they exist
+    if (project.links && Array.isArray(project.links)) {
+      setLinks(project.links.map(link => ({
+        type: link.type as LinkItem['type'],
+        url: link.url,
+        label: link.label
+      })));
+    } else {
+      setLinks([]);
+    }
+
+    // Note: For editing, we don't populate selectedImages and selectedFiles
+    // as they represent new files to upload, not existing ones
+    setSelectedImages([]);
+    setSelectedFiles([]);
 
     // Auto-translate missing fields
     const autoTranslate = async () => {
@@ -273,13 +305,42 @@ const AdminDashboard: React.FC = () => {
     try {
       const projectData = {
         ...formData,
-        tech: formData.technologies.split(',').map(t => t.trim())
+        tech: formData.technologies.split(',').map(t => t.trim()),
+        links: links.filter(link => link.url.trim() && link.label.trim())
       };
 
-      if (editingProject) {
-        await apiService.updateProject(editingProject.id, projectData);
+      // Check if we have files to upload
+      const hasFiles = selectedImages.length > 0 || selectedFiles.length > 0;
+
+      if (hasFiles) {
+        // Use FormData for file uploads
+        const formDataToSend = new FormData();
+
+        // Add project data as JSON string
+        formDataToSend.append('data', JSON.stringify(projectData));
+
+        // Add images
+        selectedImages.forEach((file) => {
+          formDataToSend.append(`images`, file);
+        });
+
+        // Add files
+        selectedFiles.forEach((file) => {
+          formDataToSend.append(`files`, file);
+        });
+
+        if (editingProject) {
+          await apiService.updateProjectWithFiles(editingProject.id, formDataToSend);
+        } else {
+          await apiService.createProjectWithFiles(formDataToSend);
+        }
       } else {
-        await apiService.createProject(projectData);
+        // Use regular JSON API
+        if (editingProject) {
+          await apiService.updateProject(editingProject.id, projectData);
+        } else {
+          await apiService.createProject(projectData);
+        }
       }
 
       await fetchProjects();
@@ -681,6 +742,159 @@ const AdminDashboard: React.FC = () => {
                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white"
                       placeholder="https://..."
                     />
+                  </div>
+
+                  {/* Additional Links */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Additional Links
+                    </label>
+                    <div className="space-y-2">
+                      {links.map((link, index) => (
+                        <div key={index} className="flex items-center space-x-2">
+                          <select
+                            value={link.type}
+                            onChange={(e) => {
+                              const newLinks = [...links];
+                              newLinks[index].type = e.target.value as LinkItem['type'];
+                              setLinks(newLinks);
+                            }}
+                            className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700 dark:text-white text-sm"
+                          >
+                            <option value="github">GitHub</option>
+                            <option value="colab">Colab</option>
+                            <option value="demo">Demo</option>
+                            <option value="other">Other</option>
+                          </select>
+                          <input
+                            type="text"
+                            placeholder="Label"
+                            value={link.label}
+                            onChange={(e) => {
+                              const newLinks = [...links];
+                              newLinks[index].label = e.target.value;
+                              setLinks(newLinks);
+                            }}
+                            className="flex-1 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700 dark:text-white text-sm"
+                          />
+                          <input
+                            type="url"
+                            placeholder="URL"
+                            value={link.url}
+                            onChange={(e) => {
+                              const newLinks = [...links];
+                              newLinks[index].url = e.target.value;
+                              setLinks(newLinks);
+                            }}
+                            className="flex-1 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700 dark:text-white text-sm"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setLinks(links.filter((_, i) => i !== index))}
+                            className="p-1 text-red-500 hover:text-red-700"
+                          >
+                            <Minus className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={() => setLinks([...links, { type: 'other', url: '', label: '' }])}
+                        className="flex items-center space-x-2 px-3 py-2 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-lg transition-colors"
+                      >
+                        <Plus className="w-4 h-4" />
+                        <span>Add Link</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Image Upload */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Upload Images
+                    </label>
+                    <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4">
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        onChange={(e) => {
+                          const files = Array.from(e.target.files || []);
+                          setSelectedImages([...selectedImages, ...files]);
+                        }}
+                        className="hidden"
+                        id="image-upload"
+                      />
+                      <label
+                        htmlFor="image-upload"
+                        className="flex flex-col items-center justify-center cursor-pointer"
+                      >
+                        <Upload className="w-8 h-8 text-gray-400 mb-2" />
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Click to upload images
+                        </span>
+                      </label>
+                      {selectedImages.length > 0 && (
+                        <div className="mt-4 space-y-2">
+                          {selectedImages.map((file, index) => (
+                            <div key={index} className="flex items-center justify-between bg-gray-50 dark:bg-gray-700 rounded p-2">
+                              <span className="text-sm text-gray-700 dark:text-gray-300">{file.name}</span>
+                              <button
+                                type="button"
+                                onClick={() => setSelectedImages(selectedImages.filter((_, i) => i !== index))}
+                                className="text-red-500 hover:text-red-700"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* File Upload */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Upload Files
+                    </label>
+                    <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4">
+                      <input
+                        type="file"
+                        multiple
+                        onChange={(e) => {
+                          const files = Array.from(e.target.files || []);
+                          setSelectedFiles([...selectedFiles, ...files]);
+                        }}
+                        className="hidden"
+                        id="file-upload"
+                      />
+                      <label
+                        htmlFor="file-upload"
+                        className="flex flex-col items-center justify-center cursor-pointer"
+                      >
+                        <Upload className="w-8 h-8 text-gray-400 mb-2" />
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Click to upload files
+                        </span>
+                      </label>
+                      {selectedFiles.length > 0 && (
+                        <div className="mt-4 space-y-2">
+                          {selectedFiles.map((file, index) => (
+                            <div key={index} className="flex items-center justify-between bg-gray-50 dark:bg-gray-700 rounded p-2">
+                              <span className="text-sm text-gray-700 dark:text-gray-300">{file.name}</span>
+                              <button
+                                type="button"
+                                onClick={() => setSelectedFiles(selectedFiles.filter((_, i) => i !== index))}
+                                className="text-red-500 hover:text-red-700"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   {/* Actions */}
