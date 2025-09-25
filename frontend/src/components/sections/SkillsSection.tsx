@@ -1,22 +1,22 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Code, Palette, Database, Globe } from 'lucide-react';
+import { Code, Palette, Database, Network, Cpu, ServerCog } from 'lucide-react';
 import { SkillCard } from '../ui/SkillCard';
 import { Skill } from '../../types';
 
 export const SkillsSection: React.FC = () => {
   const skills: Skill[] = [
     {
-      name: 'HTML',
-      level: 95,
-      category: 'Frontend',
-      icon: Globe,
+      name: 'Laravel',
+      level: 90,
+      category: 'Backend',
+      icon: ServerCog,
       color: 'from-orange-500 to-red-500',
-      description: 'Semantic markup and accessibility standards'
+      description: 'PHP framework, built-in tools for rapid web development'
     },
     {
-      name: 'CSS',
-      level: 90,
+      name: 'Tailwind CSS',
+      level: 95,
       category: 'Frontend',
       icon: Palette,
       color: 'from-blue-500 to-blue-600',
@@ -42,7 +42,7 @@ export const SkillsSection: React.FC = () => {
       name: 'Node.js',
       level: 100,
       category: 'Backend',
-      icon: Database,
+      icon: Cpu,
       color: 'from-green-500 to-green-600',
       description: 'Server-side JavaScript and APIs'
     },
@@ -50,7 +50,7 @@ export const SkillsSection: React.FC = () => {
       name: 'Express.js',
       level: 95,
       category: 'Backend',
-      icon: Database,
+      icon: Network,
       color: 'from-red-600 to-red-700',
       description: 'RESTful API development'
     },
@@ -65,14 +65,14 @@ export const SkillsSection: React.FC = () => {
     {
       name: 'TypeScript',
       level: 85,
-      category: 'Tools',
+      category: 'LANGUAGE',
       icon: Code,
       color: 'from-orange-600 to-red-600',
       description: 'Type-safe JavaScript development'
     }
   ];
 
-  const categories = ['All', 'Frontend', 'Backend', 'Language', 'Tools', 'Database'];
+  const categories = ['All', 'Frontend', 'Backend', 'Language', 'Database'];
 
   return (
     <section id="skills" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-amber-50 via-orange-50/20 to-yellow-50/30 dark:from-secondary-900 dark:via-amber-900/5 dark:to-yellow-900/10 relative overflow-hidden" style={{ transition: 'none' }}>

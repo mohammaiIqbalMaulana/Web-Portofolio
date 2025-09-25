@@ -112,6 +112,8 @@ export const Button: React.FC<ButtonProps> = ({
         ? "0 20px 40px rgba(248, 113, 113, 0.4)"
         : variant === 'purple'
         ? "0 10px 30px rgba(139, 92, 280, 0.2)"
+        : variant === 'outline'
+        ? "0 20px 40px rgba(59, 130, 246, 0.3)"
         : "none"
     },
     whileTap: disabled ? {} : { scale: 0.95 }
