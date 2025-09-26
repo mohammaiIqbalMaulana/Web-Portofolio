@@ -2,7 +2,7 @@ import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../contexts/ThemeContext'
 import { useTranslation } from 'react-i18next'
-import { Github, Linkedin, Instagram, Moon, Sun, Languages } from 'lucide-react'
+import { Github, Linkedin, Instagram, Moon, Sun } from 'lucide-react'
 import '../styles/hamburger.css'
 
 interface HamburgerMenuProps {
@@ -101,23 +101,27 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onToggle, onNavig
                   {/* Theme Toggle */}
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-sm font-medium text-secondary-600 dark:text-secondary-400">Theme</span>
-                    <button
+                    <motion.button
                       onClick={toggleTheme}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
                       className="p-2 rounded-lg bg-secondary-100 dark:bg-secondary-800 text-secondary-700 dark:text-secondary-300 hover:bg-secondary-200 dark:hover:bg-secondary-700 transition-colors"
                     >
-                      {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
-                    </button>
+                      {theme === 'light' ? <Sun size={16} /> : <Moon size={16} />}
+                    </motion.button>
                   </div>
 
                   {/* Language Toggle */}
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-sm font-medium text-secondary-600 dark:text-secondary-400">Language</span>
-                    <button
+                    <motion.button
                       onClick={toggleLanguage}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
                       className="p-2 rounded-lg bg-secondary-100 dark:bg-secondary-800 text-secondary-700 dark:text-secondary-300 hover:bg-secondary-200 dark:hover:bg-secondary-700 transition-colors"
                     >
-                      <Languages size={16} />
-                    </button>
+                      <span className="text-xs font-bold">{i18n.language.toUpperCase()}</span>
+                    </motion.button>
                   </div>
 
                   {/* Social Links */}
