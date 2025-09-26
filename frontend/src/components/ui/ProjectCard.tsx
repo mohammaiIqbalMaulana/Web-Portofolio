@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Github, Globe } from 'lucide-react';
+import { Github, Globe, FileText, ExternalLink } from 'lucide-react';
 import { Project, BACKEND_URL } from '../../services/api';
 import { useTranslation } from 'react-i18next';
 
@@ -16,6 +16,32 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
       return path;
     }
     return `${BACKEND_URL}${path}`;
+  };
+
+  const getLinkIcon = (type: string) => {
+    switch (type) {
+      case 'github':
+        return <Github size={14} />;
+      case 'colab':
+        return <FileText size={14} />;
+      case 'demo':
+        return <Globe size={14} />;
+      default:
+        return <ExternalLink size={14} />;
+    }
+  };
+
+  const getLinkColor = (type: string) => {
+    switch (type) {
+      case 'github':
+        return 'bg-gray-600 hover:bg-gray-700';
+      case 'colab':
+        return 'bg-orange-500 hover:bg-orange-600';
+      case 'demo':
+        return 'bg-blue-500 hover:bg-blue-600';
+      default:
+        return 'bg-green-500 hover:bg-green-600';
+    }
   };
 
   return (
@@ -121,6 +147,30 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                 <span>Live Demo</span>
               </motion.a>
             )}
+
+            {/* Additional Links */}
+            {project.links && project.links.map((link, linkIndex) => (
+              <motion.a
+                key={linkIndex}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                whileHover={{
+                  scale: 1.05,
+                  y: -2,
+                  transition: { duration: 0.2 }
+                }}
+                whileTap={{ scale: 0.95 }}
+                className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md text-white ${getLinkColor(link.type)}`}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.2 + linkIndex * 0.1 }}
+              >
+                {getLinkIcon(link.type)}
+                <span>{link.label}</span>
+              </motion.a>
+            ))}
           </div>
 
           {/* Images Section - Only if images exist */}

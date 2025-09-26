@@ -15,7 +15,7 @@ import {
   Upload,
   Minus
 } from 'lucide-react';
-import { apiService, Project } from '../../services/api';
+import { apiService, Project, BACKEND_URL } from '../../services/api';
 
 interface ProjectForm {
   title: string;
@@ -63,6 +63,8 @@ const AdminDashboard: React.FC = () => {
   const [links, setLinks] = useState<LinkItem[]>([]);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [currentImages, setCurrentImages] = useState<string[]>([]);
+  const [currentFiles, setCurrentFiles] = useState<any[]>([]);
 
   // Translation state
   const [isTranslating, setIsTranslating] = useState(false);
@@ -86,6 +88,13 @@ const AdminDashboard: React.FC = () => {
       return '';
     }
   }, []);
+
+  const getFullUrl = (path: string) => {
+    if (path.startsWith('http')) {
+      return path;
+    }
+    return `${BACKEND_URL}${path}`;
+  };
 
   // Load projects
   useEffect(() => {
@@ -132,6 +141,8 @@ const AdminDashboard: React.FC = () => {
     setLinks([]);
     setSelectedImages([]);
     setSelectedFiles([]);
+    setCurrentImages([]);
+    setCurrentFiles([]);
   };
 
   const openCreateModal = () => {
@@ -162,6 +173,10 @@ const AdminDashboard: React.FC = () => {
     } else {
       setLinks([]);
     }
+
+    // Populate current images and files
+    setCurrentImages(Array.isArray(project.images) ? project.images : []);
+    setCurrentFiles(Array.isArray(project.files) ? project.files : []);
 
     // Note: For editing, we don't populate selectedImages and selectedFiles
     // as they represent new files to upload, not existing ones
@@ -306,7 +321,9 @@ const AdminDashboard: React.FC = () => {
       const projectData = {
         ...formData,
         tech: formData.technologies.split(',').map(t => t.trim()),
-        links: links.filter(link => link.url.trim() && link.label.trim())
+        links: links.filter(link => link.url.trim() && link.label.trim()),
+        images: currentImages,
+        files: currentFiles
       };
 
       // Check if we have files to upload
@@ -896,6 +913,70 @@ const AdminDashboard: React.FC = () => {
                       )}
                     </div>
                   </div>
+
+                  {/* Current Images (Edit Mode) */}
+                  {editingProject && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Current Images
+                      </label>
+                      {currentImages.length > 0 ? (
+                        <div className="flex flex-wrap gap-2">
+                          {currentImages.map((imgPath, idx) => (
+                            <div key={idx} className="relative group">
+                              <img
+                                src={getFullUrl(imgPath)}
+                                alt={`Current image ${idx + 1}`}
+                                className="w-20 h-20 object-cover rounded-lg border"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = 'https://via.placeholder.com/80?text=No+Image';
+                                }}
+                              />
+                              <button
+                                type="button"
+                                onClick={() => setCurrentImages(prev => prev.filter((_, i) => i !== idx))}
+                                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors opacity-0 group-hover:opacity-100"
+                              >
+                                <X className="w-3 h-3" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-gray-500 text-sm">No current images</p>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Current Files (Edit Mode) */}
+                  {editingProject && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Current Files
+                      </label>
+                      {currentFiles.length > 0 ? (
+                        <div className="space-y-2 max-h-40 overflow-y-auto">
+                          {currentFiles.map((file, idx) => (
+                            <div key={idx} className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                              <div>
+                                <p className="text-sm font-medium text-gray-900 dark:text-white">{file.label}</p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">{file.type} - {file.path}</p>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => setCurrentFiles(prev => prev.filter((_, i) => i !== idx))}
+                                className="text-red-500 hover:text-red-700 p-1 rounded hover:bg-red-100 dark:hover:bg-red-900/20 transition-colors"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-gray-500 text-sm">No current files</p>
+                      )}
+                    </div>
+                  )}
 
                   {/* Actions */}
                   <div className="flex space-x-3 pt-6">
