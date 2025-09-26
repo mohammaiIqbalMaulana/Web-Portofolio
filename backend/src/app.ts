@@ -28,9 +28,9 @@ app.use(helmet({
 
 // CORS
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
+  origin: process.env.NODE_ENV === 'production'
     ? process.env.FRONTEND_URL?.split(',') || []
-    : ['http://localhost:5173', 'http://localhost:3000'],
+    : ['http://localhost:5173', 'http://localhost:3000', 'http://192.168.18.5:3000'],
   credentials: true
 }));
 

@@ -44,7 +44,7 @@ export interface ApiError {
 }
 
 class ApiService {
-  private baseURL = `${BACKEND_URL}/api`;
+  private baseURL = '/api';
   private token: string | null = null;
 
   constructor() {

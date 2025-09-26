@@ -1,0 +1,6 @@
+- [x] Edit backend/src/index.ts to bind to '0.0.0.0'
+- [x] Edit frontend/vite.config.ts to add host: '0.0.0.0'
+- [x] Run backend server with npm run dev
+- [x] Run frontend server with npm run dev
+- [x] Get machine IP address
+- [ ] Provide access instructions

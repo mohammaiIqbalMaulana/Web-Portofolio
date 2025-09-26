@@ -37,15 +37,15 @@ async function startServer() {
     console.log(`📊 Found ${adminCount} admin(s) and ${projectCount} project(s) in database`);
 
     // Start server
-    const server = app.listen(PORT, () => {
+    const server = app.listen(PORT, '0.0.0.0', () => {
       console.log('\n🎉 ====================================');
       console.log(`   Portfolio Backend Server Started`);
       console.log('🎉 ====================================');
-      console.log(`📍 Server URL: http://localhost:${PORT}`);
-      console.log(`🏥 Health Check: http://localhost:${PORT}/api/health`);
-      console.log(`🧪 Test Endpoint: http://localhost:${PORT}/api/test`);
-      console.log(`📊 Projects API: http://localhost:${PORT}/api/projects`);
-      console.log(`🔐 Auth API: http://localhost:${PORT}/api/auth/login`);
+      console.log(`📍 Server URL: http://0.0.0.0:${PORT}`);
+      console.log(`🏥 Health Check: http://0.0.0.0:${PORT}/api/health`);
+      console.log(`🧪 Test Endpoint: http://0.0.0.0:${PORT}/api/test`);
+      console.log(`📊 Projects API: http://0.0.0.0:${PORT}/api/projects`);
+      console.log(`🔐 Auth API: http://0.0.0.0:${PORT}/api/auth/login`);
       console.log(`⏰ Started at: ${new Date().toLocaleString()}`);
       console.log('====================================\n');
       console.log('💡 Ready for API testing!');
