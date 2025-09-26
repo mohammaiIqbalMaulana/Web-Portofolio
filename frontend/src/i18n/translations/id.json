@@ -109,7 +109,7 @@
     "newsletterDescription": "Dapatkan pemberitahuan tentang proyek dan pembaruan baru. Berlangganan newsletter saya.",
     "newsletterPlaceholder": "Masukkan email Anda",
     "newsletterButton": "Berlangganan",
-    "copyright": "© {year} Mohammad Iqbal Maulana. Hak cipta dilindungi undang-undang.",
+    "copyright": "© {{year}} Mohammad Iqbal Maulana. Hak cipta dilindungi undang-undang.",
     "madeWith": "Dibuat dengan ❤️ dan banyak ☕"
   },
   "common": {

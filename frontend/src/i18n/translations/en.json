@@ -109,7 +109,7 @@
     "newsletterDescription": "Get notified about new projects and updates. Subscribe to my newsletter.",
     "newsletterPlaceholder": "Enter your email",
     "newsletterButton": "Subscribe",
-    "copyright": "© {year} Mohammad Iqbal Maulana. All rights reserved.",
+    "copyright": "© {{year}} Mohammad Iqbal Maulana. All rights reserved.",
     "madeWith": "Made with ❤️ and lots of ☕"
   },
   "common": {

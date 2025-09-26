@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, Instagram, Youtube, Music2, Linkedin, Heart, ArrowUp } from 'lucide-react';
+import { Github, Instagram, Youtube, Music2, Linkedin, ArrowUp } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { SocialLink } from '../ui/SocialLink';
 import { useScroll } from '../../hooks/useScroll';
@@ -193,7 +193,7 @@ export const FooterSection: React.FC = () => {
           </div>
 
           <div className="flex items-center text-secondary-400 text-sm">
-            {t('footer.madeWith')} <Heart className="w-4 h-4 mx-1 text-red-500 fill-current" />
+            {t('footer.madeWith')}
           </div>
         </motion.div>
       </div>
