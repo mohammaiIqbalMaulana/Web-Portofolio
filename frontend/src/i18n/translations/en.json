@@ -32,7 +32,10 @@
       "nodejs": "JavaScript and server-side APIs",
       "express": "RESTful API development",
       "mysql": "SQL database design and queries",
-      "typescript": "Type-safe JS"
+      "typescript": "Type-safe JS",
+      "prisma": "ORM for database management",
+      "java": "Object-oriented programming language",
+      "python": "Versatile and easy-to-learn"
     }
   },
   "projects": {

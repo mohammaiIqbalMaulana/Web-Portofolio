@@ -32,7 +32,10 @@
       "nodejs": "JavaScript dan API sisi server",
       "express": "Pengembangan RESTful API",
       "mysql": "Desain dan kueri basis data SQL",
-      "typescript": "JS yang aman terhadap tipe"
+      "typescript": "JS yang aman terhadap tipe",
+      "prisma": "ORM untuk manajemen basis data",
+      "java": "Bahasa pemrograman berorientasi objek",
+      "python": "Mudah dipelajari dan serbaguna"
     }
   },
   "projects": {

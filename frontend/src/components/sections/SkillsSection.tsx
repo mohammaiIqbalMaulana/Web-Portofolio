@@ -72,7 +72,31 @@ export const SkillsSection: React.FC = () => {
       categoryKey: 3, // Programming Language
       icon: Code,
       color: 'from-orange-600 to-red-600'
-    }
+    },
+    {
+      name: 'Java',
+      key: 'java',
+      level: 90,
+      categoryKey: 3, // Programming Language
+      icon: Code,
+      color: 'from-red-600 to-white-600'
+    },
+    {
+      name: 'Prisma',
+      key: 'prisma',
+      level: 70,
+      categoryKey: 4, // Database
+      icon: Database,
+      color: 'from-blue-600 to-blue-600'
+    },
+    {
+      name: 'Python',
+      key: 'python',
+      level: 90,
+      categoryKey: 3, // Programming Language
+      icon: Code,
+      color: 'from-yellow-400 to-blue-600'
+    },
   ];
 
   const skills: Skill[] = skillsData.map(skill => ({
