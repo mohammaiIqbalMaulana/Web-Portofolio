@@ -7,6 +7,7 @@ interface SelectProps {
   onFocus?: () => void;
   onBlur?: () => void;
   label?: string;
+  placeholder?: string;
   error?: string;
   required?: boolean;
   disabled?: boolean;
@@ -21,6 +22,7 @@ export const Select: React.FC<SelectProps> = ({
   onFocus,
   onBlur,
   label,
+  placeholder = 'Select an option',
   error,
   required = false,
   disabled = false,
@@ -48,7 +50,7 @@ export const Select: React.FC<SelectProps> = ({
         } ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${value ? 'has-value' : ''}`}
         required={required}
       >
-        <option value="">Pilih Layanan</option>
+        <option value="">{placeholder}</option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>{option.label}</option>
         ))}

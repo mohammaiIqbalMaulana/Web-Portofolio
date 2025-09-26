@@ -129,6 +129,7 @@ export const ContactSection: React.FC = () => {
                 value={formData.expertise}
                 onChange={handleInputChange}
                 label={t('contact.serviceLabel')}
+                placeholder={t('contact.servicePlaceholder')}
                 required
                 options={serviceOptions}
                 error={formErrors.expertise}
