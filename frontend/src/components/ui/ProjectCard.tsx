@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useTouchToggle } from '../../hooks/useTouchToggle';
 import { useHover } from '../../hooks/useHover';
 import { motion } from 'framer-motion';
 import { Github, Globe, FileText, ExternalLink } from 'lucide-react';
 import { Project, BACKEND_URL } from '../../services/api';
 import { useTranslation } from 'react-i18next';
+import { useAnimation } from '../../contexts/AnimationContext';
 
 interface ProjectCardProps {
   project: Project;
   index: number;
 }
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
+const ProjectCardComponent: React.FC<ProjectCardProps> = ({ project, index }) => {
   const { t } = useTranslation();
   const { isTouchDevice, showContent, toggleContent } = useTouchToggle();
   const { hover, onHoverStart, onHoverEnd } = useHover();
+  const { reducedMotion } = useAnimation();
 
   const getFullUrl = (path: string) => {
     if (path.startsWith('http')) {
@@ -51,9 +53,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30, scale: 0.85 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{
+      initial={reducedMotion ? {} : { opacity: 0, y: 30, scale: 0.85 }}
+      whileInView={reducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
+      transition={reducedMotion ? {} : {
         duration: 0.3,
         delay: index * 0.04,
         type: "spring",
@@ -61,7 +63,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
         damping: 15
       }}
       viewport={{ once: true, margin: "-50px" }}
-      whileHover={isTouchDevice ? {} : {
+      whileHover={reducedMotion || isTouchDevice ? {} : {
         y: -12,
         scale: 1.05,
         rotateX: 5,
@@ -86,11 +88,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
           {project.tech?.map((tech, techIndex) => (
             <motion.span
               key={techIndex}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, delay: index * 0.1 * techIndex * 0.05 }}
+              initial={reducedMotion ? {} : { opacity: 0, scale: 0.8 }}
+              whileInView={reducedMotion ? {} : { opacity: 1, scale: 1 }}
+              transition={reducedMotion ? {} : { duration: 0.4, delay: index * 0.1 * techIndex * 0.05 }}
               viewport={{ once: true }}
-              whileHover={isTouchDevice ? {} : {
+              whileHover={reducedMotion || isTouchDevice ? {} : {
                 scale: 1.1,
                 backgroundColor: "rgb(139 92 246)",
                 color: "white",
@@ -105,12 +107,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
 
         {/* Project Links & Media - Show on hover or when toggled */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isTouchDevice
+          initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
+          animate={reducedMotion
             ? (showContent ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 })
-            : hover
-              ? { opacity: 1, y: 0, transition: { delay: 0.5, duration: 0.2, ease: "easeOut" } }
-              : { opacity: 0, y: 20 }
+            : isTouchDevice
+              ? (showContent ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 })
+              : hover
+                ? { opacity: 1, y: 0, transition: { delay: 0.5, duration: 0.2, ease: "easeOut" } }
+                : { opacity: 0, y: 20 }
           }
           className={`relative z-20
             ${isTouchDevice ? (showContent ? 'opacity-100' : 'opacity-0') : ''}
@@ -124,15 +128,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                whileHover={!isTouchDevice ? {
+                whileHover={!isTouchDevice && !reducedMotion ? {
                   scale: 1.05,
                   y: -2,
                   transition: { duration: 0.2 }
                 } : {}}
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md bg-gray-600 hover:bg-gray-700 text-white"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={reducedMotion ? {} : { opacity: 0, x: -10 }}
+                animate={reducedMotion ? {} : { opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: 0 }}
               >
                 <Github size={14} />
@@ -146,15 +150,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                whileHover={!isTouchDevice ? {
+                whileHover={!isTouchDevice && !reducedMotion ? {
                   scale: 1.05,
                   y: -2,
                   transition: { duration: 0.2 }
                 } : {}}
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md bg-blue-500 hover:bg-blue-600 text-white"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={reducedMotion ? {} : { opacity: 0, x: -10 }}
+                animate={reducedMotion ? {} : { opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: 0.1 }}
               >
                 <Globe size={14} />
@@ -170,15 +174,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                whileHover={!isTouchDevice ? {
+                whileHover={!isTouchDevice && !reducedMotion ? {
                   scale: 1.05,
                   y: -2,
                   transition: { duration: 0.2 }
                 } : {}}
                 whileTap={{ scale: 0.95 }}
                 className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md text-white ${getLinkColor(link.type)}`}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={reducedMotion ? {} : { opacity: 0, x: -10 }}
+                animate={reducedMotion ? {} : { opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: 0.2 + linkIndex * 0.1 }}
               >
                 {getLinkIcon(link.type)}
@@ -198,7 +202,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                     href={getFullUrl(image)}
                     download
                     onClick={(e) => e.stopPropagation()}
-                    whileHover={!isTouchDevice ? { scale: 1.05 } : {}}
+                    whileHover={!isTouchDevice && !reducedMotion ? { scale: 1.05 } : {}}
                     whileTap={{ scale: 0.95 }}
                     className="relative w-16 h-16 rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800 group"
                   >
@@ -206,6 +210,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                       src={getFullUrl(image)}
                       alt={`${project.title} image ${imgIndex + 1}`}
                       className="w-full h-full object-cover group-hover:opacity-80 transition-opacity"
+                      loading="lazy"
                       onError={(e) => {
                         const img = e.currentTarget as HTMLImageElement;
                         const parent = img.parentElement;
@@ -228,7 +233,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                 ))}
                 {project.images.length > 3 && (
                   <motion.span
-                    whileHover={!isTouchDevice ? { scale: 1.05 } : {}}
+                    whileHover={!isTouchDevice && !reducedMotion ? { scale: 1.05 } : {}}
                     className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-md flex items-center justify-center text-xs font-medium text-gray-600 dark:text-gray-400"
                   >
                     +{project.images.length - 3}
@@ -249,7 +254,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                     href={getFullUrl(file.path)}
                     download={file.label || `file-${fileIndex + 1}`}
                     onClick={(e) => e.stopPropagation()}
-                    whileHover={!isTouchDevice ? { x: 4 } : {}}
+                    whileHover={!isTouchDevice && !reducedMotion ? { x: 4 } : {}}
                     whileTap={{ scale: 0.98 }}
                     className="flex items-center space-x-2 text-xs text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition-colors"
                     target="_blank"
@@ -282,3 +287,5 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
     </motion.div>
   );
 };
+
+export const ProjectCard = memo(ProjectCardComponent);

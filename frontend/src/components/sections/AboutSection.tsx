@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/Button';
 import { useScroll } from '../../hooks/useScroll';
+import { useAnimation } from '../../contexts/AnimationContext';
 
-export const AboutSection: React.FC = () => {
+const AboutSectionComponent: React.FC = () => {
   const { t } = useTranslation();
   const { scrollToSection } = useScroll();
+  const { reducedMotion } = useAnimation();
 
   const stats = [
     { number: '10+', label: t('about.stats.projects') },
@@ -19,16 +21,17 @@ export const AboutSection: React.FC = () => {
     <section id="about" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-emerald-50 via-green-50/20 to-teal-50/30 dark:from-secondary-900 dark:via-emerald-900/5 dark:to-teal-900/10 relative overflow-hidden" style={{ transition: 'none' }}>
       {/* Enhanced Background Effects - Green Theme */}
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/40 via-transparent to-teal-50/30 dark:from-emerald-900/15 dark:via-transparent dark:to-teal-900/10"></div>
-      <div className="absolute top-16 left-16 w-80 h-80 bg-emerald-400/15 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-24 right-20 w-64 h-64 bg-teal-400/15 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
-      <div className="absolute top-1/4 right-1/5 w-96 h-96 bg-emerald-500/8 rounded-full blur-3xl animate-pulse" style={{animationDelay: '4s'}}></div>
-      <div className="absolute top-1/3 left-1/4 w-72 h-72 bg-teal-300/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
-      <div className="absolute top-2/3 right-1/3 w-56 h-56 bg-emerald-300/12 rounded-full blur-3xl animate-pulse" style={{animationDelay: '3s'}}></div>
+      {/* Static background elements for better performance */}
+      <div className="absolute top-16 left-16 w-80 h-80 bg-emerald-400/15 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-24 right-20 w-64 h-64 bg-teal-400/15 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/4 right-1/5 w-96 h-96 bg-emerald-500/8 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/3 left-1/4 w-72 h-72 bg-teal-300/10 rounded-full blur-3xl"></div>
+      <div className="absolute top-2/3 right-1/3 w-56 h-56 bg-emerald-300/12 rounded-full blur-3xl"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
+          whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
           className="text-center mb-12 sm:mb-16"
@@ -43,8 +46,8 @@ export const AboutSection: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={reducedMotion ? {} : { opacity: 0, x: -20 }}
+            whileInView={reducedMotion ? {} : { opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
@@ -64,8 +67,8 @@ export const AboutSection: React.FC = () => {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={reducedMotion ? {} : { opacity: 0, x: 20 }}
+            whileInView={reducedMotion ? {} : { opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
             className="grid grid-cols-2 gap-4 sm:gap-6"
@@ -117,3 +120,5 @@ export const AboutSection: React.FC = () => {
     </section>
   );
 };
+
+export const AboutSection = memo(AboutSectionComponent);

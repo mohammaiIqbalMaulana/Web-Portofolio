@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Github, Instagram, Youtube, Music2, Linkedin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -7,10 +7,12 @@ import ProfileImage from '../ProfileImage';
 import { Button } from '../ui/Button';
 import { SocialLink } from '../ui/SocialLink';
 import { useScroll } from '../../hooks/useScroll';
+import { useAnimation } from '../../contexts/AnimationContext';
 
-export const HeroSection: React.FC = () => {
+const HeroSectionComponent: React.FC = () => {
   const { t } = useTranslation();
   const { scrollToSection } = useScroll();
+  const { reducedMotion } = useAnimation();
 
   const handleDownloadCV = () => {
     const cvPath = '/CV_Mohammad Iqbal Maulana.pdf';
@@ -38,30 +40,19 @@ export const HeroSection: React.FC = () => {
     >
       {/* Enhanced Background Effects - Blue Theme */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50/40 via-transparent to-indigo-50/30 dark:from-blue-900/15 dark:via-transparent dark:to-indigo-900/10"></div>
-      <div className="absolute top-10 left-16 w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 bg-blue-400/15 rounded-full blur-3xl animate-pulse"></div>
-      <div
-        className="absolute bottom-28 right-12 w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 bg-indigo-400/15 rounded-full blur-3xl animate-pulse"
-        style={{ animationDelay: '2s' }}
-      ></div>
-      <div
-        className="absolute top-1/3 left-1/6 w-80 h-80 sm:w-96 sm:h-96 md:w-96 md:h-96 bg-blue-500/8 rounded-full blur-3xl animate-pulse"
-        style={{ animationDelay: '4s' }}
-      ></div>
-      <div
-        className="absolute top-1/4 right-1/4 w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 bg-indigo-300/10 rounded-full blur-3xl animate-pulse"
-        style={{ animationDelay: '1s' }}
-      ></div>
-      <div
-        className="absolute top-2/3 left-1/3 w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 bg-blue-300/12 rounded-full blur-3xl animate-pulse"
-        style={{ animationDelay: '3s' }}
-      ></div>
+      {/* Static background elements for better performance */}
+      <div className="absolute top-10 left-16 w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 bg-blue-400/15 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-28 right-12 w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 bg-indigo-400/15 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/3 left-1/6 w-80 h-80 sm:w-96 sm:h-96 md:w-96 md:h-96 bg-blue-500/8 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/4 right-1/4 w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 bg-indigo-300/10 rounded-full blur-3xl"></div>
+      <div className="absolute top-2/3 left-1/3 w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 bg-blue-300/12 rounded-full blur-3xl"></div>
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12 items-center min-h-[80vh]">
           {/* Left Column - Profile Image */}
           <motion.div
-            initial={{ opacity: 0, x: -50, scale: 0.8 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
+            initial={reducedMotion ? {} : { opacity: 0, x: -50, scale: 0.8 }}
+            animate={reducedMotion ? {} : { opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2, type: 'spring', stiffness: 100 }}
             className="flex justify-center lg:justify-end order-1 lg:order-1 mb-6 sm:mb-8 md:mb-10"
           >
@@ -73,8 +64,8 @@ export const HeroSection: React.FC = () => {
 
           {/* Right Column - Name and Description */}
           <motion.div
-            initial={{ opacity: 0, x: 50, scale: 0.8 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
+            initial={reducedMotion ? {} : { opacity: 0, x: 50, scale: 0.8 }}
+            animate={reducedMotion ? {} : { opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4, type: 'spring', stiffness: 100 }}
             className="text-center lg:text-left order-2 lg:order-2 px-2 sm:px-4 md:px-6"
           >
@@ -105,9 +96,9 @@ export const HeroSection: React.FC = () => {
 
             {/* Additional description */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
+              initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
+              animate={reducedMotion ? {} : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
               className="text-sm sm:text-base md:text-lg text-secondary-600 dark:text-secondary-400 mb-6 sm:mb-8 md:mb-10 leading-relaxed"
             >
               {t('hero.description')}
@@ -115,9 +106,9 @@ export const HeroSection: React.FC = () => {
 
             {/* Action Buttons */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
+              initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
+              animate={reducedMotion ? {} : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start items-center mb-6 sm:mb-8 md:mb-10 w-full max-w-md mx-auto lg:mx-0"
             >
               <Button onClick={() => scrollToSection('projects')} variant="primary" icon="arrow" className="w-full sm:w-auto">
@@ -131,9 +122,9 @@ export const HeroSection: React.FC = () => {
 
             {/* Social Links */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.2 }}
+              initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
+              animate={reducedMotion ? {} : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
               className="flex justify-center lg:justify-start items-center gap-3 sm:gap-4 md:gap-6 mt-4"
             >
               {socialLinks.map((social) => (
@@ -146,3 +137,5 @@ export const HeroSection: React.FC = () => {
     </section>
   );
 };
+
+export const HeroSection = memo(HeroSectionComponent);

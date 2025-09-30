@@ -111,11 +111,11 @@ export const SkillsSection: React.FC = () => {
     <section id="skills" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-amber-50 via-orange-50/20 to-yellow-50/30 dark:from-secondary-900 dark:via-amber-900/5 dark:to-yellow-900/10 relative overflow-hidden" style={{ transition: 'none' }}>
       {/* Enhanced Background Effects - Orange Theme */}
       <div className="absolute inset-0 bg-gradient-to-br from-amber-50/40 via-transparent to-yellow-50/30 dark:from-amber-900/15 dark:via-transparent dark:to-yellow-900/10"></div>
-      <div className="absolute top-12 left-24 w-80 h-80 bg-amber-400/15 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-28 right-24 w-64 h-64 bg-orange-400/15 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
-      <div className="absolute top-1/5 right-1/6 w-96 h-96 bg-yellow-500/8 rounded-full blur-3xl animate-pulse" style={{animationDelay: '4s'}}></div>
-      <div className="absolute top-1/2 left-1/6 w-72 h-72 bg-amber-300/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
-      <div className="absolute top-3/4 right-1/4 w-56 h-56 bg-orange-300/12 rounded-full blur-3xl animate-pulse" style={{animationDelay: '3s'}}></div>
+      <div className="absolute top-12 left-24 w-80 h-80 bg-amber-400/15 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-28 right-24 w-64 h-64 bg-orange-400/15 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/5 right-1/6 w-96 h-96 bg-yellow-500/8 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/2 left-1/6 w-72 h-72 bg-amber-300/10 rounded-full blur-3xl"></div>
+      <div className="absolute top-3/4 right-1/4 w-56 h-56 bg-orange-300/12 rounded-full blur-3xl"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div

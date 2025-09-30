@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { ProjectCard } from '../ui/ProjectCard';
 import { Button } from '../ui/Button';
 import { useProjects } from '../../hooks/useProjects';
+import { useAnimation } from '../../contexts/AnimationContext';
 
-export const ProjectsSection: React.FC = () => {
+const ProjectsSectionComponent: React.FC = () => {
   const { t } = useTranslation();
   const { projects, loading, error, showAllProjects, toggleShowAllProjects } = useProjects();
+  const { reducedMotion } = useAnimation();
 
   if (loading) {
     return (
@@ -38,17 +40,18 @@ export const ProjectsSection: React.FC = () => {
     <section id="projects" className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-violet-50 via-purple-50/20 to-fuchsia-50/30 dark:from-secondary-900 dark:via-violet-900/5 dark:to-fuchsia-900/10 relative overflow-hidden" style={{ transition: 'none' }}>
       {/* Enhanced Background Effects - Purple Theme */}
       <div className="absolute inset-0 bg-gradient-to-br from-violet-50/40 via-transparent to-fuchsia-50/30 dark:from-violet-900/15 dark:via-transparent dark:to-fuchsia-900/10"></div>
-      <div className="absolute top-14 left-20 w-80 h-80 bg-violet-400/15 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-26 right-18 w-64 h-64 bg-purple-400/15 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
-      <div className="absolute top-1/6 right-1/7 w-96 h-96 bg-fuchsia-500/8 rounded-full blur-3xl animate-pulse" style={{animationDelay: '4s'}}></div>
-      <div className="absolute top-1/4 left-1/5 w-72 h-72 bg-violet-300/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
-      <div className="absolute top-2/3 right-1/5 w-56 h-56 bg-purple-300/12 rounded-full blur-3xl animate-pulse" style={{animationDelay: '3s'}}></div>
+      {/* Static background elements for better performance */}
+      <div className="absolute top-14 left-20 w-80 h-80 bg-violet-400/15 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-26 right-18 w-64 h-64 bg-purple-400/15 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/6 right-1/7 w-96 h-96 bg-fuchsia-500/8 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/4 left-1/5 w-72 h-72 bg-violet-300/10 rounded-full blur-3xl"></div>
+      <div className="absolute top-2/3 right-1/5 w-56 h-56 bg-purple-300/12 rounded-full blur-3xl"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
+          whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           viewport={{ once: true }}
           className="text-center mb-12 sm:mb-16"
         >
@@ -62,9 +65,9 @@ export const ProjectsSection: React.FC = () => {
 
         {projects.length === 0 ? (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
+            whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
             viewport={{ once: true }}
             className="text-center"
           >
@@ -88,9 +91,9 @@ export const ProjectsSection: React.FC = () => {
         {/* Show More Button */}
         {projects.length > 6 && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
+            whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
             viewport={{ once: true }}
             className="text-center mt-8 sm:mt-12"
           >
@@ -106,9 +109,9 @@ export const ProjectsSection: React.FC = () => {
 
         {/* Call to Action */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
+          whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
           viewport={{ once: true }}
           className="text-center mt-12 sm:mt-16"
         >
@@ -120,3 +123,5 @@ export const ProjectsSection: React.FC = () => {
     </section>
   );
 };
+
+export const ProjectsSection = memo(ProjectsSectionComponent);

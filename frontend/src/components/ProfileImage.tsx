@@ -64,6 +64,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
           src={src}
           alt={alt}
           className="w-full h-full object-cover"
+          loading="lazy"
           animate={!reducedMotion ? {
             scale: isHovered ? 1.1 : 1,
             filter: isHovered ? "brightness(1.15) contrast(1.1) saturate(1.15)" : "brightness(1) contrast(1) saturate(1)"
