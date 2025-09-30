@@ -10,7 +10,7 @@ export const HeaderSection: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { t, i18n } = useTranslation();
-  const { isScrolled, isHeaderVisible, scrollProgress, scrollToSection } = useScroll();
+  const { isScrolled, scrollProgress, scrollToSection } = useScroll();
 
   // Handle click outside hamburger menu
   const handleClickOutside = (event: MouseEvent) => {
@@ -52,7 +52,7 @@ export const HeaderSection: React.FC = () => {
       isScrolled
         ? 'bg-secondary-50/70 dark:bg-secondary-900/70 backdrop-blur-md border-b border-secondary-200/30 dark:border-secondary-800/30 shadow-md'
         : 'bg-transparent border-b-0'
-    } ${isHeaderVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+    }`}>
       {/* Scroll Progress Bar */}
       <motion.div
         className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 relative overflow-hidden"

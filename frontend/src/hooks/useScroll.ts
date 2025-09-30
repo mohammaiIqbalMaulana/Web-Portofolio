@@ -17,12 +17,8 @@ export const useScroll = () => {
       setIsScrolled(currentScrollY > 50);
       setScrollProgress(progress);
 
-      // Hide header when scrolling down, show when scrolling up
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsHeaderVisible(false);
-      } else {
-        setIsHeaderVisible(true);
-      }
+      // Header is always visible when scrolled
+      setIsHeaderVisible(isScrolled);
 
       setLastScrollY(currentScrollY);
     };
