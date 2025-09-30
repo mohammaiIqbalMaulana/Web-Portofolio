@@ -1,4 +1,6 @@
 import React from 'react';
+import { useTouchToggle } from '../../hooks/useTouchToggle';
+import { useHover } from '../../hooks/useHover';
 import { motion } from 'framer-motion';
 import { Github, Globe, FileText, ExternalLink } from 'lucide-react';
 import { Project, BACKEND_URL } from '../../services/api';
@@ -11,6 +13,9 @@ interface ProjectCardProps {
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
   const { t } = useTranslation();
+  const { isTouchDevice, showContent, toggleContent } = useTouchToggle();
+  const { hover, onHoverStart, onHoverEnd } = useHover();
+
   const getFullUrl = (path: string) => {
     if (path.startsWith('http')) {
       return path;
@@ -56,13 +61,16 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
         damping: 15
       }}
       viewport={{ once: true, margin: "-50px" }}
-      whileHover={{
+      whileHover={isTouchDevice ? {} : {
         y: -12,
         scale: 1.05,
         rotateX: 5,
         rotateY: 2,
         transition: { duration: 0.4, type: "spring", stiffness: 300 }
       }}
+      onHoverStart={onHoverStart}
+      onHoverEnd={onHoverEnd}
+      onClick={toggleContent}
       className="bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-900/20 dark:to-fuchsia-900/20 rounded-lg shadow-sm p-4 sm:p-6 hover:shadow-2xl transition-all duration-0 cursor-pointer group relative overflow-hidden border border-violet-100 dark:border-violet-800"
     >
       <div className="h-full flex flex-col">
@@ -82,7 +90,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: index * 0.1 * techIndex * 0.05 }}
               viewport={{ once: true }}
-              whileHover={{
+              whileHover={isTouchDevice ? {} : {
                 scale: 1.1,
                 backgroundColor: "rgb(139 92 246)",
                 color: "white",
@@ -95,12 +103,18 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
           ))}
         </div>
 
-        {/* Project Links & Media - All appear on hover */}
+        {/* Project Links & Media - Show on hover or when toggled */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          whileHover={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className="opacity-0 group-hover:opacity-100 transition-all duration-300 relative z-20"
+          animate={isTouchDevice
+            ? (showContent ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 })
+            : hover
+              ? { opacity: 1, y: 0, transition: { delay: 0.5, duration: 0.2, ease: "easeOut" } }
+              : { opacity: 0, y: 20 }
+          }
+          className={`relative z-20
+            ${isTouchDevice ? (showContent ? 'opacity-100' : 'opacity-0') : ''}
+          `}
         >
           {/* Links */}
           <div className="flex flex-wrap gap-2 pt-3 border-t border-violet-200/50 dark:border-violet-700/50 pb-3">
@@ -110,11 +124,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                whileHover={{
+                whileHover={!isTouchDevice ? {
                   scale: 1.05,
                   y: -2,
                   transition: { duration: 0.2 }
-                }}
+                } : {}}
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md bg-gray-600 hover:bg-gray-700 text-white"
                 initial={{ opacity: 0, x: -10 }}
@@ -132,11 +146,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                whileHover={{
+                whileHover={!isTouchDevice ? {
                   scale: 1.05,
                   y: -2,
                   transition: { duration: 0.2 }
-                }}
+                } : {}}
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md bg-blue-500 hover:bg-blue-600 text-white"
                 initial={{ opacity: 0, x: -10 }}
@@ -156,11 +170,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                whileHover={{
+                whileHover={!isTouchDevice ? {
                   scale: 1.05,
                   y: -2,
                   transition: { duration: 0.2 }
-                }}
+                } : {}}
                 whileTap={{ scale: 0.95 }}
                 className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md text-white ${getLinkColor(link.type)}`}
                 initial={{ opacity: 0, x: -10 }}
@@ -184,7 +198,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                     href={getFullUrl(image)}
                     download
                     onClick={(e) => e.stopPropagation()}
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={!isTouchDevice ? { scale: 1.05 } : {}}
                     whileTap={{ scale: 0.95 }}
                     className="relative w-16 h-16 rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800 group"
                   >
@@ -207,14 +221,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
                       <span className="text-white text-xs">{t('projects.see')}</span>
                     </div>
-                      <div className="absolute inset-0 bg-gray-300 dark:bg-gray-600 flex items-center justify-center error-placeholder" style={{display: 'none'}}>
-                        <span className="text-gray-600 dark:text-gray-400 text-xs">{t('projects.imageNotAvailable')}</span>
-                      </div>
+                    <div className="absolute inset-0 bg-gray-300 dark:bg-gray-600 flex items-center justify-center error-placeholder" style={{display: 'none'}}>
+                      <span className="text-gray-600 dark:text-gray-400 text-xs">{t('projects.imageNotAvailable')}</span>
+                    </div>
                   </motion.a>
                 ))}
                 {project.images.length > 3 && (
                   <motion.span
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={!isTouchDevice ? { scale: 1.05 } : {}}
                     className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-md flex items-center justify-center text-xs font-medium text-gray-600 dark:text-gray-400"
                   >
                     +{project.images.length - 3}
@@ -235,7 +249,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                     href={getFullUrl(file.path)}
                     download={file.label || `file-${fileIndex + 1}`}
                     onClick={(e) => e.stopPropagation()}
-                    whileHover={{ x: 4 }}
+                    whileHover={!isTouchDevice ? { x: 4 } : {}}
                     whileTap={{ scale: 0.98 }}
                     className="flex items-center space-x-2 text-xs text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition-colors"
                     target="_blank"
@@ -250,14 +264,20 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
           )}
         </motion.div>
 
-        {/* Enhanced Background Effects - Only active on hover */}
-        <div className="absolute inset-0 bg-gradient-to-r from-violet-400/10 to-fuchsia-400/10 dark:from-violet-600/20 dark:to-fuchsia-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+        {/* Enhanced Background Effects - Only active on hover or when toggled */}
+        <div className={`absolute inset-0 bg-gradient-to-r from-violet-400/10 to-fuchsia-400/10 dark:from-violet-600/20 dark:to-fuchsia-600/20 rounded-lg transition-opacity duration-300
+          ${isTouchDevice ? (showContent ? 'opacity-100' : 'opacity-0') : 'opacity-0 group-hover:opacity-100'}
+        `}></div>
 
-        {/* Glow Effect - Only active on hover */}
-        <div className="absolute -inset-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 rounded-lg blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+        {/* Glow Effect - Only active on hover or when toggled */}
+        <div className={`absolute -inset-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 rounded-lg blur transition-opacity duration-300
+          ${isTouchDevice ? (showContent ? 'opacity-20' : 'opacity-0') : 'opacity-0 group-hover:opacity-20'}
+        `}></div>
 
-        {/* Shimmer Effect - Only active on hover */}
-        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-violet-200/30 dark:via-violet-400/20 to-transparent rounded-lg opacity-0 group-hover:opacity-100"></div>
+        {/* Shimmer Effect - Only active on hover or when toggled */}
+        <div className={`absolute inset-0 -translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-violet-200/30 dark:via-violet-400/20 to-transparent rounded-lg
+          ${isTouchDevice ? (showContent ? 'opacity-100 translate-x-full' : 'opacity-0 translate-x-0') : 'opacity-0 group-hover:opacity-100 group-hover:translate-x-full'}
+        `}></div>
       </div>
     </motion.div>
   );
