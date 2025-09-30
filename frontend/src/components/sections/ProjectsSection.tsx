@@ -9,7 +9,10 @@ import { useAnimation } from '../../contexts/AnimationContext';
 const ProjectsSectionComponent: React.FC = () => {
   const { t } = useTranslation();
   const { projects, loading, error, showAllProjects, toggleShowAllProjects } = useProjects();
-  const { reducedMotion } = useAnimation();
+  const { reducedMotion, isMobile } = useAnimation();
+
+  // Disable animations on mobile for better performance
+  const disableAnimations = reducedMotion || isMobile;
 
   if (loading) {
     return (
@@ -49,8 +52,8 @@ const ProjectsSectionComponent: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
-          initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
-          whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
+          initial={disableAnimations ? {} : { opacity: 0, y: 20 }}
+          whileInView={disableAnimations ? {} : { opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
           className="text-center mb-12 sm:mb-16"
@@ -65,8 +68,8 @@ const ProjectsSectionComponent: React.FC = () => {
 
         {projects.length === 0 ? (
           <motion.div
-            initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
-            whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
+            initial={disableAnimations ? {} : { opacity: 0, y: 20 }}
+            whileInView={disableAnimations ? {} : { opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
             className="text-center"
@@ -91,8 +94,8 @@ const ProjectsSectionComponent: React.FC = () => {
         {/* Show More Button */}
         {projects.length > 6 && (
           <motion.div
-            initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
-            whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
+            initial={disableAnimations ? {} : { opacity: 0, y: 20 }}
+            whileInView={disableAnimations ? {} : { opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
             viewport={{ once: true }}
             className="text-center mt-8 sm:mt-12"
@@ -109,8 +112,8 @@ const ProjectsSectionComponent: React.FC = () => {
 
         {/* Call to Action */}
         <motion.div
-          initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
-          whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
+          initial={disableAnimations ? {} : { opacity: 0, y: 20 }}
+          whileInView={disableAnimations ? {} : { opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           viewport={{ once: true }}
           className="text-center mt-12 sm:mt-16"

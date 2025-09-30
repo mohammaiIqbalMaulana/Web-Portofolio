@@ -12,7 +12,10 @@ import { useAnimation } from '../../contexts/AnimationContext';
 const HeroSectionComponent: React.FC = () => {
   const { t } = useTranslation();
   const { scrollToSection } = useScroll();
-  const { reducedMotion } = useAnimation();
+  const { reducedMotion, isMobile } = useAnimation();
+
+  // Disable animations on mobile for better performance
+  const disableAnimations = reducedMotion || isMobile;
 
   const handleDownloadCV = () => {
     const cvPath = '/CV_Mohammad Iqbal Maulana.pdf';
@@ -51,8 +54,8 @@ const HeroSectionComponent: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12 items-center min-h-[80vh]">
           {/* Left Column - Profile Image */}
           <motion.div
-            initial={reducedMotion ? {} : { opacity: 0, x: -50, scale: 0.8 }}
-            animate={reducedMotion ? {} : { opacity: 1, x: 0, scale: 1 }}
+            initial={disableAnimations ? {} : { opacity: 0, x: -50, scale: 0.8 }}
+            animate={disableAnimations ? {} : { opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2, type: 'spring', stiffness: 100 }}
             className="flex justify-center lg:justify-end order-1 lg:order-1 mb-6 sm:mb-8 md:mb-10"
           >
@@ -64,8 +67,8 @@ const HeroSectionComponent: React.FC = () => {
 
           {/* Right Column - Name and Description */}
           <motion.div
-            initial={reducedMotion ? {} : { opacity: 0, x: 50, scale: 0.8 }}
-            animate={reducedMotion ? {} : { opacity: 1, x: 0, scale: 1 }}
+            initial={disableAnimations ? {} : { opacity: 0, x: 50, scale: 0.8 }}
+            animate={disableAnimations ? {} : { opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4, type: 'spring', stiffness: 100 }}
             className="text-center lg:text-left order-2 lg:order-2 px-2 sm:px-4 md:px-6"
           >
@@ -96,8 +99,8 @@ const HeroSectionComponent: React.FC = () => {
 
             {/* Additional description */}
             <motion.p
-              initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
-              animate={reducedMotion ? {} : { opacity: 1, y: 0 }}
+              initial={disableAnimations ? {} : { opacity: 0, y: 20 }}
+              animate={disableAnimations ? {} : { opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-sm sm:text-base md:text-lg text-secondary-600 dark:text-secondary-400 mb-6 sm:mb-8 md:mb-10 leading-relaxed"
             >
@@ -106,8 +109,8 @@ const HeroSectionComponent: React.FC = () => {
 
             {/* Action Buttons */}
             <motion.div
-              initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
-              animate={reducedMotion ? {} : { opacity: 1, y: 0 }}
+              initial={disableAnimations ? {} : { opacity: 0, y: 20 }}
+              animate={disableAnimations ? {} : { opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start items-center mb-6 sm:mb-8 md:mb-10 w-full max-w-md mx-auto lg:mx-0"
             >
@@ -122,8 +125,8 @@ const HeroSectionComponent: React.FC = () => {
 
             {/* Social Links */}
             <motion.div
-              initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
-              animate={reducedMotion ? {} : { opacity: 1, y: 0 }}
+              initial={disableAnimations ? {} : { opacity: 0, y: 20 }}
+              animate={disableAnimations ? {} : { opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
               className="flex justify-center lg:justify-start items-center gap-3 sm:gap-4 md:gap-6 mt-4"
             >
