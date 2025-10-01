@@ -297,10 +297,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Mohammad Iqbal Maulana**
 
-- Portfolio: [Your Portfolio URL]
-- LinkedIn: [Your LinkedIn]
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: your.email@example.com
+- LinkedIn: [https://www.linkedin.com/in/mohammad-iqbalmaulana-93746a386/]
+- GitHub: [@mohammaiIqbalMaulana](https://github.com/mohammaiIqbalMaulana/Web-Portofolio.git)
+- Email: iqbalmaulana14042005@gmail.com
 
 ---
 
