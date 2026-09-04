@@ -9,7 +9,7 @@ import app from './app';
 import { prisma } from './config/database'; // Import prisma from our config
 
 // Environment validation
-const requiredEnvVars = ['JWT_SECRET', 'NODE_ENV', 'PORT', 'DATABASE_URL'];
+const requiredEnvVars = ['JWT_SECRET', 'DATABASE_URL'];
 const missingVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
 
 if (missingVars.length > 0) {
@@ -18,12 +18,13 @@ if (missingVars.length > 0) {
   process.exit(1);
 }
 
-const PORT = parseInt(process.env.PORT!) || 4000;
+const NODE_ENV = process.env.NODE_ENV || 'development';
+const PORT = parseInt(process.env.PORT || '4000', 10);
 
 async function startServer() {
   try {
     console.log('🚀 Starting Portfolio Backend Server...');
-    console.log(`🔧 Environment: ${process.env.NODE_ENV}`);
+    console.log(`🔧 Environment: ${NODE_ENV}`);
     console.log(`🔑 JWT Secret: ${process.env.JWT_SECRET ? 'Loaded ✅' : 'Missing ❌'}`);
     
     // Test database connection

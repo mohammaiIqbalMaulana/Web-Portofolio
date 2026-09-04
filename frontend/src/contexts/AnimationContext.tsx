@@ -4,6 +4,7 @@ interface AnimationContextType {
   // Animation preferences and controls
   reducedMotion: boolean
   isMobile: boolean
+  canHover: boolean
 }
 
 const AnimationContext = createContext<AnimationContextType | undefined>(undefined)
@@ -21,15 +22,24 @@ interface AnimationProviderProps {
 }
 
 export const AnimationProvider: React.FC<AnimationProviderProps> = ({ children }) => {
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const reducedMotion = typeof window !== 'undefined'
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    : false
 
-  // Detect mobile devices for performance optimization
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-                   window.innerWidth < 768
+  // Detect mobile devices and pointer capabilities for performance optimization
+  const isMobile = typeof window !== 'undefined'
+    ? /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+      window.innerWidth < 768
+    : false
+
+  const canHover = typeof window !== 'undefined'
+    ? window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    : false
 
   const value = {
     reducedMotion,
     isMobile,
+    canHover,
   }
 
   return (

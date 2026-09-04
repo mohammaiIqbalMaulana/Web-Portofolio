@@ -38,64 +38,65 @@ export const FooterSection: React.FC = () => {
   const services = t('footer.services', { returnObjects: true }) as string[];
 
   return (
-    <footer className="bg-gradient-to-br from-secondary-900 via-secondary-800 to-secondary-900 text-white relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-transparent to-purple-900/10"></div>
+    <footer className="relative overflow-hidden bg-secondary-950 text-white">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.12),transparent_24%),radial-gradient(circle_at_bottom_right,rgba(168,85,247,0.12),transparent_22%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:28px_28px] opacity-20" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {/* Brand & Description */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.3fr_0.7fr_0.7fr]">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.7 }}
             viewport={{ once: true }}
-            className="lg:col-span-2"
+            className="max-w-xl"
           >
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center shadow-sm">
-                <span className="text-white font-bold text-lg">P</span>
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-sm font-black text-secondary-950">
+                MI
               </div>
-              <span className="font-bold text-xl">{t('footer.brand')}</span>
+              <div>
+                <p className="text-sm font-medium text-white/60">{t('footer.brand')}</p>
+                <h3 className="text-xl font-black text-white">Mohammad Iqbal Maulana</h3>
+              </div>
             </div>
-            <p className="text-secondary-300 mb-6 leading-relaxed">
+
+            <p className="mt-5 max-w-lg text-sm leading-relaxed text-white/70 sm:text-base">
               {t('footer.description')}
             </p>
 
-            {/* Social Links */}
-            <div className="flex space-x-4">
+            <div className="mt-6 flex flex-wrap gap-3">
               {socialLinks.map((social) => (
                 <SocialLink
                   key={social.label}
                   icon={social.icon}
                   href={social.href}
                   label={social.label}
-                  colorClass="hover:text-blue-400 hover:bg-blue-900/20"
+                  colorClass="hover:text-white hover:bg-white/10"
                 />
               ))}
             </div>
           </motion.div>
 
-          {/* Quick Links */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-lg font-semibold mb-4">{t('footer.quickLinksTitle')}</h3>
-            <ul className="space-y-2">
+            <h3 className="text-lg font-bold text-white">{t('footer.quickLinksTitle')}</h3>
+            <ul className="mt-5 space-y-3">
               {quickLinks.map((link, index) => (
                 <motion.li
                   key={link.name}
                   initial={{ opacity: 0, x: -10 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ duration: 0.45, delay: index * 0.06 }}
                   viewport={{ once: true }}
                 >
                   <a
                     href={link.href}
-                    className="text-secondary-300 hover:text-blue-400 hover:bg-blue-900/20 rounded px-2 py-1 transition-all duration-300 transform hover:scale-105"
+                    className="inline-flex rounded-full px-3 py-1.5 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white"
                   >
                     {link.name}
                   </a>
@@ -104,23 +105,22 @@ export const FooterSection: React.FC = () => {
             </ul>
           </motion.div>
 
-          {/* Services */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-lg font-semibold mb-4">{t('footer.servicesTitle')}</h3>
-            <ul className="space-y-2">
+            <h3 className="text-lg font-bold text-white">{t('footer.servicesTitle')}</h3>
+            <ul className="mt-5 space-y-3">
               {services.map((service, index) => (
                 <motion.li
                   key={service}
                   initial={{ opacity: 0, x: -10 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ duration: 0.45, delay: index * 0.06 }}
                   viewport={{ once: true }}
-                  className="text-secondary-300"
+                  className="text-sm text-white/70"
                 >
                   {service}
                 </motion.li>
@@ -129,21 +129,20 @@ export const FooterSection: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Newsletter Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
+          transition={{ duration: 0.7, delay: 0.25 }}
           viewport={{ once: true }}
-          className="mt-12 pt-8 border-t border-secondary-700"
+          className="mt-14 rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-md"
         >
-          <div className="max-w-md mx-auto text-center">
-            <h3 className="text-lg font-semibold mb-2">{t('footer.newsletterTitle')}</h3>
-            <p className="text-secondary-300 mb-4">
+          <div className="mx-auto max-w-2xl text-center">
+            <h3 className="text-lg font-bold text-white">{t('footer.newsletterTitle')}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-white/70">
               {t('footer.newsletterDescription')}
             </p>
 
-            <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
+            <form onSubmit={handleNewsletterSubmit} className="mt-5 flex flex-col gap-3 sm:flex-row">
               <Input
                 type="email"
                 name="email"
@@ -158,7 +157,8 @@ export const FooterSection: React.FC = () => {
                 type="submit"
                 variant="primary"
                 disabled={newsletterStatus === 'loading' || !newsletterData.email.trim()}
-                size="sm"
+                size="md"
+                className="sm:min-w-40"
               >
                 {newsletterStatus === 'loading' ? '...' : t('footer.newsletterButton')}
               </Button>
@@ -168,11 +168,7 @@ export const FooterSection: React.FC = () => {
               <motion.p
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`mt-2 text-sm ${
-                  newsletterStatus === 'success'
-                    ? 'text-green-400'
-                    : 'text-red-400'
-                }`}
+                className={`mt-3 text-sm ${newsletterStatus === 'success' ? 'text-emerald-300' : 'text-rose-300'}`}
               >
                 {newsletterMessage}
               </motion.p>
@@ -180,41 +176,31 @@ export const FooterSection: React.FC = () => {
           </div>
         </motion.div>
 
-        {/* Bottom Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
           viewport={{ once: true }}
-          className="mt-12 pt-8 border-t border-secondary-700 flex flex-col sm:flex-row justify-between items-center"
+          className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-sm text-white/60 sm:flex-row"
         >
-          <div className="text-secondary-400 text-sm mb-4 sm:mb-0">
-            {t('footer.copyright', { year: new Date().getFullYear() })}
-          </div>
-
-          <div className="flex items-center text-secondary-400 text-sm">
-            {t('footer.madeWith')}
-          </div>
+          <div>{t('footer.copyright', { year: new Date().getFullYear() })}</div>
+          <div>{t('footer.madeWith')}</div>
         </motion.div>
       </div>
 
-      {/* Scroll to Top Button */}
       <AnimatePresence>
         {showScrollTop && (
           <motion.button
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0, y: 20, rotate: 180, transition: { duration: 0.5, ease: "easeInOut" } }}
-            whileHover={{ scale: 1.1, y: -2 }}
-            whileTap={{ scale: 0.9 }}
+            exit={{ opacity: 0, scale: 0, y: 20, rotate: 180, transition: { duration: 0.5, ease: 'easeInOut' } }}
+            whileHover={{ scale: 1.08, y: -2 }}
+            whileTap={{ scale: 0.94 }}
             onClick={scrollToTop}
-            className="fixed bottom-8 right-8 p-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-50"
+            className="fixed bottom-6 right-6 z-50 rounded-full bg-white p-3 text-secondary-950 shadow-[0_20px_40px_rgba(15,23,42,0.25)] transition-colors hover:bg-secondary-100 dark:bg-secondary-100 dark:hover:bg-white"
             aria-label="Scroll to top"
           >
-            <motion.div
-              animate={{ y: [0, -3, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            >
+            <motion.div animate={{ y: [0, -2, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}>
               <ArrowUp size={20} />
             </motion.div>
           </motion.button>

@@ -23,6 +23,12 @@ export interface Project {
   }>;
   title_en?: string;
   description_en?: string;
+  role?: string;
+  year?: string;
+  status?: string;
+  featured?: boolean;
+  highlights?: string[];
+  outcome?: string;
   created_at: string;
   updated_at: string;
 }
@@ -54,11 +60,11 @@ class ApiService {
 
   // Helper method for making HTTP requests
   private async request<T>(
-    endpoint: string, 
+    endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
     const url = `${this.baseURL}${endpoint}`;
-    
+
     const config: RequestInit = {
       headers: {
         'Content-Type': 'application/json',
@@ -102,7 +108,7 @@ class ApiService {
   async logout(): Promise<void> {
     this.token = null;
     localStorage.removeItem('auth_token');
-    
+
     try {
       await this.request('/auth/logout', { method: 'POST' });
     } catch (error) {

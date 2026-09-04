@@ -29,120 +29,57 @@ export const Button: React.FC<ButtonProps> = ({
   rel,
   type = 'button'
 }) => {
-  const baseClasses = "inline-flex items-center justify-center font-medium rounded-lg transition-all duration-300 group shadow-sm hover:shadow-lg relative overflow-hidden";
+  const baseClasses = 'group inline-flex items-center justify-center gap-2 font-medium rounded-xl transition-all duration-300 ease-out relative overflow-hidden border border-transparent shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-secondary-400 disabled:cursor-not-allowed disabled:opacity-50';
 
   const variantClasses = {
-    primary: "bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white",
-    secondary: "bg-gradient-to-r from-violet-500 to-fuchsia-600 hover:from-violet-600 hover:to-fuchsia-700 text-white",
-    green: "bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white",
-    red: "bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white",
-    purple: "bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white",
-    outline: "border-2 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20",
-    outlinered: "border-2 border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20"
+    primary: 'bg-secondary-900 text-white hover:bg-secondary-800 dark:bg-secondary-100 dark:text-secondary-950 dark:hover:bg-white',
+    secondary: 'bg-primary-600 text-white hover:bg-primary-500',
+    green: 'bg-emerald-600 text-white hover:bg-emerald-500',
+    red: 'bg-rose-600 text-white hover:bg-rose-500',
+    purple: 'bg-violet-600 text-white hover:bg-violet-500',
+    outline: 'border-secondary-300 bg-white/75 text-secondary-800 hover:border-secondary-400 hover:bg-white dark:border-secondary-700 dark:bg-secondary-900/40 dark:text-secondary-100 dark:hover:bg-secondary-900',
+    outlinered: 'border-rose-300 bg-rose-50 text-rose-700 hover:border-rose-400 hover:bg-rose-100 dark:border-rose-900/50 dark:bg-rose-950/20 dark:text-rose-200'
   };
 
   const sizeClasses = {
-    sm: "px-4 py-2 text-sm",
-    md: "px-6 py-3",
-    lg: "px-8 py-4 text-lg"
+    sm: 'px-4 py-2 text-sm',
+    md: 'px-5 py-3 text-sm sm:text-base',
+    lg: 'px-7 py-4 text-base sm:text-lg'
   };
 
   const IconComponent =
-    icon === "arrow"
+    icon === 'arrow'
       ? ArrowRight
-      : icon === "download"
+      : icon === 'download'
       ? Download
-      : icon === "down"
+      : icon === 'down'
       ? ArrowDown
-      : icon === "up"
+      : icon === 'up'
       ? ArrowUp
       : null;
-      
+
   const buttonContent = (
     <>
       <span className="relative z-10">{children}</span>
       {IconComponent && (
-        <IconComponent className={`ml-2 w-4 h-4 group-hover:translate-x-2 group-hover:-translate-y-0.5 transition-all duration-300 relative z-10 ${icon === 'download' ? 'group-hover:translate-y-[-2px]' : ''} ${disabled ? 'group-hover:translate-x-0 group-hover:-translate-y-0' : ''}`} />
+        <IconComponent
+          className={`relative z-10 w-4 h-4 transition-transform duration-300 ${disabled ? '' : 'group-hover:translate-x-1'} ${icon === 'download' && !disabled ? 'group-hover:-translate-y-0.5' : ''}`}
+        />
       )}
 
-      {/* Enhanced Background Effects */}
-      {!disabled && variant === 'primary' && (
-        <>
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-          <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-        </>
-      )}
-
-      {!disabled && variant === 'secondary' && (
-        <>
-          <div className="absolute inset-0 bg-gradient-to-r from-violet-400 to-fuchsia-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-fuchsia-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-          <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-        </>
-      )}
-
-      {!disabled && variant === 'green' && (
-        <>
-          <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-emerald-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-          <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-        </>
-      )}
-
-      {!disabled && variant === 'outline' && (
-        <>
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-blue-200/30 dark:via-blue-400/20 to-transparent"></div>
-        </>
-      )}
-
-      {!disabled && variant === 'outlinered' && (
-        <>
-          <div className="absolute inset-0 bg-gradient-to-r from-red-50 to-rose-50 dark:from-red-900/20 dark:to-rose-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-red-200/30 dark:via-red-400/20 to-transparent"></div>
-        </>
-      )}
-
-      {!disabled && variant === 'red' && (
-        <>
-          <div className="absolute inset-0 bg-gradient-to-r from-red-400 to-rose-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-rose-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-          <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-        </>
-      )}
-
-      {!disabled && variant === 'purple' && (
-        <>
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-          <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-        </>
-      )}
+      <span className="absolute inset-0 -translate-y-full bg-white/10 transition-transform duration-300 group-hover:translate-y-0" />
+      <span className="absolute inset-x-4 bottom-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
     </>
   );
 
   const motionProps = {
-    whileHover: disabled ? {} : {
-      scale: 1.05,
-      y: -3,
-      boxShadow: variant === 'primary'
-        ? "0 20px 40px rgba(59, 130, 246, 0.4)"
-        : variant === 'secondary'
-        ? "0 20px 40px rgba(139, 92, 246, 0.4)"
-        : variant === 'green'
-        ? "0 20px 40px rgba(34, 197, 94, 0.4)"
-        : variant === 'red'
-        ? "0 20px 40px rgba(248, 113, 113, 0.4)"
-        : variant === 'purple'
-        ? "0 10px 30px rgba(139, 92, 280, 0.2)"
-        : variant === 'outline'
-        ? "0 20px 40px rgba(59, 130, 246, 0.3)"
-        : variant === 'outlinered'
-        ? "0 20px 40px rgba(248, 113, 113, 0.3)"
-        : "none"
-    },
-    whileTap: disabled ? {} : { scale: 0.95 }
+    whileHover: disabled
+      ? {}
+      : {
+          scale: 1.02,
+          y: -1,
+        },
+    whileTap: disabled ? {} : { scale: 0.98 }
   };
 
   if (href) {
@@ -151,7 +88,7 @@ export const Button: React.FC<ButtonProps> = ({
         href={href}
         target={target}
         rel={rel}
-        className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+        className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
         {...motionProps}
       >
         {buttonContent}
@@ -164,7 +101,7 @@ export const Button: React.FC<ButtonProps> = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+      className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
       {...motionProps}
     >
       {buttonContent}

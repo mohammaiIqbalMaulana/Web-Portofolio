@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import { Camera } from 'lucide-react'
 import { useAnimation } from '../contexts/AnimationContext'
 
 interface ProfileImageProps {
@@ -10,8 +11,8 @@ interface ProfileImageProps {
 }
 
 const ProfileImage: React.FC<ProfileImageProps> = ({
-  src = '/images/Iq.jpg',
-  alt = 'Mohammad Iqbal - Full Stack Developer',
+  src = '/images/Iqbal.jpg',
+  alt = 'Mohammad Iqbal Maulana portrait',
   size = 'xl',
   className = 'mx-auto',
 }) => {
@@ -19,144 +20,53 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
   const [isHovered, setIsHovered] = useState(false)
 
   const sizeClasses = {
-    sm: 'w-24 h-24 sm:w-32 sm:h-32 md:w-44 md:h-44 lg:w-52 lg:h-52',
+    sm: 'w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48',
     md: 'w-28 h-28 sm:w-36 sm:h-36 md:w-48 md:h-48 lg:w-56 lg:h-56',
-    lg: 'w-32 h-32 sm:w-40 sm:h-40 md:w-52 md:h-52 lg:w-64 lg:h-64',
-    xl: 'w-44 h-44 sm:w-52 sm:h-52 md:w-52 md:h-52 lg:w-80 lg:h-80'
+    lg: 'w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 lg:w-64 lg:h-64',
+    xl: 'w-40 h-40 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-[22rem] lg:h-[22rem]'
   }
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-      animate={{ opacity: 1, scale: 1, rotate: 0 }}
-      transition={{
-        duration: 0.8,
-        ease: "easeOut"
-      }}
-      whileHover={!reducedMotion ? {
-        scale: 1.1,
-        rotate: 5,
-        transition: {
-          duration: 0.4,
-          ease: "easeOut"
-        }
-      } : {}}
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      whileHover={reducedMotion ? {} : { scale: 1.02 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`relative ${sizeClasses[size]} ${className} cursor-pointer`}
+      className={`relative ${sizeClasses[size]} ${className}`}
     >
-      {/* Smooth glow effect */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-primary-400 to-primary-600 rounded-full blur-lg opacity-30"
-        animate={!reducedMotion ? {
-          scale: isHovered ? 1.15 : 1,
-          opacity: isHovered ? 0.5 : 0.3
-        } : {}}
-        transition={{
-          duration: 0.3,
-          ease: "easeOut"
-        }}
-      />
+      <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-primary-500/30 via-sky-500/15 to-transparent blur-2xl" />
+      <div className="absolute inset-0 rounded-[2rem] border border-white/50 dark:border-white/10 bg-white/30 dark:bg-secondary-900/20 backdrop-blur-md" />
 
-      {/* Main image container */}
-      <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white dark:border-secondary-800 shadow-2xl">
+      <div className="relative h-full w-full overflow-hidden rounded-[2rem] border border-white/60 shadow-[0_30px_80px_rgba(15,23,42,0.18)] dark:border-white/10">
         <motion.img
           src={src}
           alt={alt}
-          className="w-full h-full object-cover"
+          className="h-full w-full object-cover"
           loading="lazy"
-          animate={!reducedMotion ? {
-            scale: isHovered ? 1.1 : 1,
-            filter: isHovered ? "brightness(1.15) contrast(1.1) saturate(1.15)" : "brightness(1) contrast(1) saturate(1)"
-          } : {}}
-          transition={{
-            duration: 0.4,
-            ease: "easeOut"
-          }}
+          animate={reducedMotion ? {} : { scale: isHovered ? 1.04 : 1 }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
         />
 
-        {/* Smooth overlay */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-t from-primary-600/20 to-transparent"
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-        />
+        <div className="absolute inset-0 bg-gradient-to-t from-secondary-950/35 via-transparent to-transparent" />
 
-        {/* Smooth shine effect */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -skew-x-12"
-          animate={{
-            x: isHovered ? '100%' : '-100%',
-            opacity: isHovered ? 1 : 0
-          }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
-        />
+        <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full border border-white/35 bg-white/70 px-3 py-1 text-[11px] font-medium text-secondary-800 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-secondary-950/50 dark:text-secondary-100">
+          <Camera size={14} />
+          <span>Portrait</span>
+        </div>
+
+        <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
+          <div className="max-w-[65%] rounded-2xl border border-white/25 bg-secondary-950/55 px-3 py-2 text-left backdrop-blur-md">
+            <p className="text-[10px] uppercase tracking-[0.28em] text-white/60">Now</p>
+            <p className="mt-1 text-sm font-semibold text-white">Building calm, responsive interfaces</p>
+          </div>
+
+          <div className="rounded-full border border-white/25 bg-white/80 px-3 py-2 text-[11px] font-medium text-secondary-700 shadow-sm backdrop-blur-md dark:bg-secondary-950/70 dark:text-secondary-100">
+            Semarang
+          </div>
+        </div>
       </div>
-
-      {/* Smooth floating elements */}
-      {!reducedMotion && (
-        <>
-          <motion.div
-            animate={{
-              y: isHovered ? [-6, 10, -6] : [-6, 6, -6],
-              rotate: isHovered ? [0, 8, 0] : [0, 5, 0],
-              scale: isHovered ? [1, 1.2, 1] : [1, 1.1, 1]
-            }}
-            transition={{
-              duration: isHovered ? 1.5 : 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute -top-2 -right-2 w-6 h-6 bg-primary-500 rounded-full opacity-60 shadow-lg"
-          />
-          <motion.div
-            animate={{
-              y: isHovered ? [6, -8, 6] : [6, -6, 6],
-              rotate: isHovered ? [0, -6, 0] : [0, -4, 0],
-              scale: isHovered ? [1, 1.3, 1] : [1, 1.15, 1]
-            }}
-            transition={{
-              duration: isHovered ? 1.2 : 1.8,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 0.3
-            }}
-            className="absolute -bottom-1 -left-1 w-4 h-4 bg-blue-500 rounded-full opacity-50 shadow-lg"
-          />
-        </>
-      )}
-
-      {/* Smooth ripple effects */}
-      {!reducedMotion && (
-        <>
-          <motion.div
-            className="absolute inset-0 rounded-full border-2 border-primary-400"
-            animate={isHovered ? {
-              scale: [1, 1.2, 1.4],
-              opacity: [0, 0.4, 0]
-            } : { scale: 1, opacity: 0 }}
-            transition={{
-              duration: 1.2,
-              repeat: isHovered ? Infinity : 0,
-              ease: "easeOut"
-            }}
-          />
-
-          <motion.div
-            className="absolute inset-0 rounded-full border border-primary-300"
-            animate={isHovered ? {
-              scale: [1, 1.3, 1.5],
-              opacity: [0, 0.2, 0]
-            } : { scale: 1, opacity: 0 }}
-            transition={{
-              duration: 1.5,
-              repeat: isHovered ? Infinity : 0,
-              ease: "easeOut",
-              delay: 0.2
-            }}
-          />
-        </>
-      )}
     </motion.div>
   )
 }

@@ -1,27 +1,57 @@
 {
   "hero": {
-    "greeting": "Halo, Nama Saya",
-    "description": "Saya sedang belajar dan mengembangkan diri di bidang teknologi informasi, khususnya dalam pengembangan web dan desain UI/UX dan sekaligus sebagai pembuat konten. Sekarang sangat bersemangat untuk menciptakan solusi digital yang inovatif dan memberikan dampak positif.",
-    "roles": ["Full Stack Developer", "UI/UX Designer", "Problem Solver", "Influencer"],
+    "greeting": "Halo, nama saya",
+    "eyebrow": "Dibuat agar terasa manusiawi, bukan seperti template.",
+    "description": "Saya merancang dan membangun pengalaman digital responsif dengan fokus pada kejelasan, gerak, dan storytelling yang berguna.",
+    "roles": ["Full Stack Developer", "UI/UX Designer", "Problem Solver", "Content Creator"],
     "viewWork": "Lihat Karya Saya",
-    "downloadCV": "Unduh CV"
+    "downloadCV": "Unduh CV",
+    "currentFocusLabel": "Fokus saat ini",
+    "currentFocus": "Membangun website responsif, sistem UI, dan pengalaman berbasis konten.",
+    "locationLabel": "Lokasi",
+    "location": "Semarang, Indonesia",
+    "stackLabel": "Stack utama",
+    "stack": "React, Node.js, Tailwind, TypeScript",
+    "connect": "Terhubung dengan saya",
+    "nowCard": "Sedang menyempurnakan interaksi portofolio dengan motion yang lebih tenang, hierarki yang lebih kuat, dan storytelling proyek yang lebih visual."
   },
   "about": {
+    "kicker": "Tentang saya",
     "title": "Tentang Saya",
-    "subtitle": "Ketahui lebih banyak tentang perjalanan, keterampilan, dan apa yang mendorong saya untuk menciptakan pengalaman digital yang menakjubkan.",
+    "subtitle": "Saya menggabungkan studi, magang, dan pembuatan konten ke dalam satu praktik kreatif yang terus mengasah kemampuan teknis sekaligus komunikasi.",
     "passion": "Tertarik dengan Teknologi & Membangun hal-hal Penting",
-    "description": "Saya telah menempuh pendidikan di Universitas Muhammadiyah Semarang sejak tahun 2023. Selama masa studi, saya mendapatkan dasar-dasar pemrograman Java dan telah mengerjakan berbagai program menggunakan Java dan Python. Di luar perkuliahan, saya juga memperdalam keterampilan saya sebagai pengembang full-stack menggunakan Node.js, termasuk menyelesaikan dua proyek berbasis web selama magang. Pengalaman gabungan ini telah memberi saya dasar dalam membangun aplikasi dari backend hingga frontend, sekaligus mengembangkan pemahaman yang lebih luas tentang konsep pemrograman. Selain akademis dan teknologi, saya juga aktif sebagai influencer di TikTok dan YouTube, yang semakin mengasah keterampilan komunikasi, kreativitas konten, dan interaksi saya dengan audiens digital.",
-    "learnMore": "Pelajari lebih lanjut tentang karya saya",
+    "description": "Saya telah menempuh pendidikan di Universitas Muhammadiyah Semarang sejak tahun 2023. Selama itu saya membangun dasar Java dan berkembang ke Python, Node.js, React, serta pengembangan web full-stack melalui proyek magang. Di luar akademik, saya juga membuat konten untuk TikTok dan YouTube, yang membantu saya menjelaskan ide dengan jelas dan memahami bagaimana orang benar-benar memakai produk digital.",
+    "learnMore": "Jelajahi proyek saya",
     "stats": {
       "projects": "Proyek Terselesaikan",
       "experience": "Tahun Pengalaman",
       "clients": "Tanggapan Klien",
       "satisfaction": "Kepuasan Klien"
+    },
+    "snapshots": {
+      "studyTitle": "Studi",
+      "studyText": "Belajar dasar perangkat lunak sambil mengasah problem solving dan product thinking.",
+      "workTitle": "Kerja",
+      "workText": "Membangun proyek web full-stack dengan Node.js, React, dan sistem UI yang praktis.",
+      "contentTitle": "Audiens",
+      "contentText": "Berbagi ide lewat konten, yang memperkuat kemampuan komunikasi dan kejelasan pesan."
+    },
+    "timelineLabel": "Linimasa",
+    "storyTitle": "Sekilas perjalanan saya sejauh ini",
+    "timeline": {
+      "startTitle": "Mulai kuliah",
+      "startText": "Membangun dasar Java dan cara berpikir algoritmik.",
+      "internTitle": "Proyek magang",
+      "internText": "Mengerjakan proyek web yang menghubungkan logika backend dengan pengalaman frontend yang rapi.",
+      "nowTitle": "Menyempurnakan gaya",
+      "nowText": "Fokus pada taste desain yang lebih kuat, layout responsif, dan storytelling portofolio yang lebih berkesan."
     }
   },
   "skills": {
+    "kicker": "Yang saya gunakan",
     "title": "Keterampilan & Keahlian",
-    "description": "Gambaran umum yang komprehensif mengenai keterampilan teknis saya dan teknologi yang saya gunakan untuk mewujudkan ide.",
+    "description": "Gambaran praktis tentang alat dan bahasa yang saya gunakan untuk merancang, membangun, dan menyempurnakan pengalaman web.",
+    "sidebarTitle": "Peralatan",
     "alwaysLearning": "Selalu belajar dan mengeksplorasi teknologi baru untuk tetap menjadi yang terdepan dalam lanskap teknologi yang terus berkembang.",
     "categories": ["Semua", "Frontend", "Backend", "Bahasa Pemrograman", "Database"],
     "skills": {
@@ -39,8 +69,9 @@
     }
   },
   "projects": {
+    "kicker": "Karya terpilih",
     "title": "Proyek Unggulan",
-    "subtitle": "Sebuah pameran karya terbaru saya, yang menampilkan aplikasi web, aplikasi seluler, dan solusi kreatif yang dibuat dengan teknologi modern.",
+    "subtitle": "Kumpulan proyek yang dikurasi dengan lebih visual, hierarki yang lebih kuat, dan ketergantungan yang lebih kecil pada paragraf panjang.",
     "noProjects": "Tidak ada proyek yang tersedia saat ini.",
     "showMore": "Tampilkan Lebih Banyak Proyek",
     "showLess": "Tampilkan Lebih Sedikit",
@@ -49,12 +80,31 @@
     "see": "Lihat",
     "files": "File",
     "file": "File",
-    "imageNotAvailable": "Gambar tidak tersedia"
+    "imageNotAvailable": "Gambar tidak tersedia",
+    "loading": "Memuat proyek...",
+    "error": "Gagal memuat proyek",
+    "featuredLabel": "Unggulan",
+    "roleLabel": "Peran",
+    "yearLabel": "Tahun",
+    "stackLabel": "Stack",
+    "statusLabel": "Status",
+    "caseStudyLabel": "Studi kasus",
+    "media": "media",
+    "previewLabel": "pratinjau gambar",
+    "viewCode": "Kode",
+    "viewLive": "Situs live",
+    "noCover": "Tidak ada gambar cover",
+    "roleFallback": "Pengerjaan full stack",
+    "statusLive": "Live",
+    "statusBuild": "Proses",
+    "quickFacts": "Fakta singkat"
   },
   "contact": {
+    "kicker": "Mari bicara",
     "title": "Hubungi Saya",
-    "subtitle": "Punya proyek di pikiran atau hanya ingin menyapa? Jangan ragu untuk menghubungi!",
+    "subtitle": "Punya ide, proyek, atau hanya ingin menyapa? Kirim pesan dan mari lihat apa yang bisa kita bangun.",
     "formTitle": "Kirim Pesan",
+    "formHint": "Ceritakan singkat tentang ide, tenggat, atau peran yang Anda butuhkan.",
     "name": "Nama Anda",
     "nameLabel": "Nama",
     "namePlaceholder": "Masukkan nama lengkap Anda",
@@ -106,7 +156,7 @@
       "Pemeliharaan"
     ],
     "newsletterTitle": "Tetap Update",
-    "newsletterDescription": "Dapatkan pemberitahuan tentang proyek dan pembaruan baru. Berlangganan newsletter saya.",
+    "newsletterDescription": "Dapatkan notifikasi tentang proyek dan pembaruan baru. Berlangganan newsletter saya.",
     "newsletterPlaceholder": "Masukkan email Anda",
     "newsletterButton": "Berlangganan",
     "copyright": "© {{year}} Mohammad Iqbal Maulana. Hak cipta dilindungi undang-undang.",

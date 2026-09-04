@@ -103,7 +103,30 @@ body {
 
 /* Focus styles */
 *:focus-visible {
-  outline: 2px solid var(--amber-500);
+  outline: 2px solid var(--primary-500);
   outline-offset: 2px;
-  box-shadow: 0 0 0 3px var(--amber-200);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-200) 65%, transparent);
+}
+
+/* Typography helpers */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Subtle surface helpers */
+.surface-card {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  backdrop-filter: blur(16px);
+}
+
+.dark .surface-card {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Reduce harsh image edges */
+img {
+  -webkit-user-drag: none;
+  user-select: none;
 }

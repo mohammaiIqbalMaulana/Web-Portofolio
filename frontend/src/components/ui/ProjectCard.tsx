@@ -1,22 +1,25 @@
 import React, { memo } from 'react';
-import { useTouchToggle } from '../../hooks/useTouchToggle';
-import { useHover } from '../../hooks/useHover';
 import { motion } from 'framer-motion';
-import { Github, Globe, FileText, ExternalLink } from 'lucide-react';
+import { Github, Globe, FileText, ExternalLink, Layers3, Image as ImageIcon, Sparkles } from 'lucide-react';
 import { Project, BACKEND_URL } from '../../services/api';
 import { useTranslation } from 'react-i18next';
 import { useAnimation } from '../../contexts/AnimationContext';
+import { usePointerTilt } from '../../hooks/usePointerTilt';
 
 interface ProjectCardProps {
   project: Project;
   index: number;
+  featured?: boolean;
 }
 
-const ProjectCardComponent: React.FC<ProjectCardProps> = ({ project, index }) => {
+const ProjectCardComponent: React.FC<ProjectCardProps> = ({ project, index, featured = false }) => {
   const { t } = useTranslation();
-  const { isTouchDevice, showContent, toggleContent } = useTouchToggle();
-  const { hover, onHoverStart, onHoverEnd } = useHover();
-  const { reducedMotion } = useAnimation();
+  const { reducedMotion, isMobile, canHover } = useAnimation();
+  const { tilt, bind, isDisabled } = usePointerTilt({
+    maxTilt: featured ? 7 : 5,
+    maxShift: featured ? 12 : 8,
+    scale: featured ? 1.01 : 1.005,
+  });
 
   const getFullUrl = (path: string) => {
     if (path.startsWith('http')) {
@@ -25,266 +28,230 @@ const ProjectCardComponent: React.FC<ProjectCardProps> = ({ project, index }) =>
     return `${BACKEND_URL}${path}`;
   };
 
-  const getLinkIcon = (type: string) => {
-    switch (type) {
-      case 'github':
-        return <Github size={14} />;
-      case 'colab':
-        return <FileText size={14} />;
-      case 'demo':
-        return <Globe size={14} />;
-      default:
-        return <ExternalLink size={14} />;
-    }
-  };
+  const coverImage = project.image_url || project.images?.[0] || '';
+  const galleryImages = project.images?.filter((image) => image !== coverImage).slice(0, 3) || [];
+  const techStack = project.tech?.slice(0, featured ? 6 : 4) || [];
+  const highlights = project.highlights && project.highlights.length > 0 ? project.highlights.slice(0, 3) : techStack.slice(0, 3);
+  const year = project.year || new Date(project.created_at).getFullYear().toString();
+  const role = project.role || t('projects.roleFallback', { defaultValue: 'Full stack build' });
+  const status = project.status || (project.live_url ? t('projects.statusLive', { defaultValue: 'Live' }) : t('projects.statusBuild', { defaultValue: 'Build' }));
 
-  const getLinkColor = (type: string) => {
-    switch (type) {
-      case 'github':
-        return 'bg-gray-600 hover:bg-gray-700';
-      case 'colab':
-        return 'bg-orange-500 hover:bg-orange-600';
-      case 'demo':
-        return 'bg-blue-500 hover:bg-blue-600';
-      default:
-        return 'bg-green-500 hover:bg-green-600';
-    }
+  const linkItems = [
+    ...(project.github_url ? [{ type: 'github' as const, label: t('projects.viewCode', { defaultValue: 'Code' }), href: project.github_url }] : []),
+    ...(project.live_url ? [{ type: 'demo' as const, label: t('projects.viewLive', { defaultValue: 'Live site' }), href: project.live_url }] : []),
+    ...(project.links || []).map((link) => ({
+      type: link.type,
+      label: link.label,
+      href: link.url,
+    })),
+  ];
+
+  const linkStyles: Record<string, string> = {
+    github: 'bg-secondary-900 text-white hover:bg-secondary-800 dark:bg-white dark:text-secondary-950 dark:hover:bg-secondary-100',
+    demo: 'bg-sky-600 text-white hover:bg-sky-500',
+    colab: 'bg-amber-600 text-white hover:bg-amber-500',
+    other: 'bg-violet-600 text-white hover:bg-violet-500',
   };
 
   return (
-    <motion.div
-      initial={reducedMotion ? {} : { opacity: 0, y: 30, scale: 0.85 }}
-      whileInView={reducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
-      transition={reducedMotion ? {} : {
-        duration: 0.3,
-        delay: index * 0.04,
-        type: "spring",
+    <motion.article
+      initial={reducedMotion ? {} : { opacity: 0, y: 28 }}
+      whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
+      transition={{
+        duration: 0.55,
+        delay: index * 0.05,
+        type: 'spring',
         stiffness: 120,
-        damping: 15
+        damping: 16,
       }}
-      viewport={{ once: true, margin: "-50px" }}
-      whileHover={reducedMotion || isTouchDevice ? {} : {
-        y: -12,
-        scale: 1.05,
-        rotateX: 5,
-        rotateY: 2,
-        transition: { duration: 0.4, type: "spring", stiffness: 300 }
-      }}
-      onHoverStart={onHoverStart}
-      onHoverEnd={onHoverEnd}
-      onClick={toggleContent}
-      className="bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-900/20 dark:to-fuchsia-900/20 rounded-lg shadow-sm p-4 sm:p-6 hover:shadow-2xl transition-all duration-0 cursor-pointer group relative overflow-hidden border border-violet-100 dark:border-violet-800"
+      viewport={{ once: true, margin: '-80px' }}
+      className={`group relative h-full ${featured ? 'lg:col-span-2' : ''}`}
     >
-      <div className="h-full flex flex-col">
-        <h3 className="text-lg sm:text-xl font-semibold text-violet-900 dark:text-violet-100 mb-2">
-          {project.title}
-        </h3>
-        <p className="text-sm sm:text-base text-violet-600 dark:text-violet-400 mb-4">
-          {project.description}
-        </p>
+      <div className="absolute -inset-px rounded-[2rem] bg-gradient-to-br from-sky-400/20 via-violet-400/15 to-transparent opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-100" />
 
-        {/* Tech Stack */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {project.tech?.map((tech, techIndex) => (
-            <motion.span
-              key={techIndex}
-              initial={reducedMotion ? {} : { opacity: 0, scale: 0.8 }}
-              whileInView={reducedMotion ? {} : { opacity: 1, scale: 1 }}
-              transition={reducedMotion ? {} : { duration: 0.4, delay: index * 0.1 * techIndex * 0.05 }}
-              viewport={{ once: true }}
-              whileHover={reducedMotion || isTouchDevice ? {} : {
-                scale: 1.1,
-                backgroundColor: "rgb(139 92 246)",
-                color: "white",
-                transition: { duration: 0.2 }
-              }}
-              className="px-2 sm:px-3 py-1 bg-violet-100 dark:bg-violet-800 text-violet-800 dark:text-violet-200 text-xs sm:text-sm rounded-full hover:bg-violet-200 dark:hover:bg-violet-700 transition-all duration-0 relative z-10"
-            >
-              {tech.trim()}
-            </motion.span>
-          ))}
+      <motion.div
+        {...bind}
+        animate={isDisabled ? {} : {
+          rotateX: tilt.rotateX,
+          rotateY: tilt.rotateY,
+          x: tilt.x,
+          y: tilt.y,
+          scale: tilt.scale,
+        }}
+        transition={{ type: 'spring', stiffness: 140, damping: 18 }}
+        style={{ transformStyle: 'preserve-3d' }}
+        className={`relative h-full overflow-hidden rounded-[2rem] border border-secondary-200/80 bg-white/90 shadow-[0_24px_70px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-secondary-950/75 ${featured ? 'lg:grid lg:grid-cols-[1.1fr_0.9fr]' : ''}`}
+      >
+        <div className={`relative overflow-hidden ${featured ? 'min-h-[18rem] lg:min-h-[28rem]' : 'aspect-[16/10]'}`}>
+          {coverImage ? (
+            <img
+              src={getFullUrl(coverImage)}
+              alt={project.title}
+              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+              loading="lazy"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.28),transparent_42%),radial-gradient(circle_at_bottom_right,rgba(168,85,247,0.22),transparent_38%),linear-gradient(135deg,rgba(15,23,42,0.92),rgba(30,41,59,1))]">
+              <div className="text-center text-white">
+                <Layers3 className="mx-auto mb-3 h-10 w-10 text-white/80" />
+                <p className="text-sm uppercase tracking-[0.26em] text-white/60">{t('projects.noCover', { defaultValue: 'No cover image' })}</p>
+                <p className="mt-2 text-lg font-semibold">{project.title}</p>
+              </div>
+            </div>
+          )}
+
+          <div className="absolute inset-0 bg-gradient-to-t from-secondary-950/85 via-secondary-950/25 to-transparent" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.12)_1px,transparent_1px)] bg-[size:24px_24px] opacity-0 mix-blend-screen transition-opacity duration-300 group-hover:opacity-20" />
+
+          <div className="absolute left-4 top-4 flex flex-wrap gap-2">
+            {featured && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-secondary-900 shadow-sm backdrop-blur-md">
+                <Sparkles size={12} className="text-amber-500" />
+                {t('projects.featuredLabel', { defaultValue: 'Featured' })}
+              </span>
+            )}
+            <span className="rounded-full bg-secondary-950/80 px-3 py-1 text-xs font-medium text-white backdrop-blur-md">
+              {year}
+            </span>
+            <span className="rounded-full bg-white/85 px-3 py-1 text-xs font-medium text-secondary-800 backdrop-blur-md">
+              {status}
+            </span>
+          </div>
+
+          <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center gap-2 text-xs text-white/90">
+            <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 backdrop-blur-md">{role}</span>
+            <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 backdrop-blur-md">{techStack[0] || 'UI'}</span>
+            {project.images?.length ? (
+              <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 backdrop-blur-md">
+                {project.images.length} {t('projects.media', { defaultValue: 'media' })}
+              </span>
+            ) : null}
+          </div>
         </div>
 
-        {/* Project Links & Media - Show on hover or when toggled */}
-        <motion.div
-          initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
-          animate={reducedMotion
-            ? (showContent ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 })
-            : isTouchDevice
-              ? (showContent ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 })
-              : hover
-                ? { opacity: 1, y: 0, transition: { delay: 0.5, duration: 0.2, ease: "easeOut" } }
-                : { opacity: 0, y: 20 }
-          }
-          className={`relative z-20
-            ${isTouchDevice ? (showContent ? 'opacity-100' : 'opacity-0') : ''}
-          `}
-        >
-          {/* Links */}
-          <div className="flex flex-wrap gap-2 pt-3 border-t border-violet-200/50 dark:border-violet-700/50 pb-3">
-            {project.github_url && (
-              <motion.a
-                href={project.github_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                whileHover={!isTouchDevice && !reducedMotion ? {
-                  scale: 1.05,
-                  y: -2,
-                  transition: { duration: 0.2 }
-                } : {}}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md bg-gray-600 hover:bg-gray-700 text-white"
-                initial={reducedMotion ? {} : { opacity: 0, x: -10 }}
-                animate={reducedMotion ? {} : { opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0 }}
-              >
-                <Github size={14} />
-                <span>GitHub</span>
-              </motion.a>
-            )}
+        <div className={`flex h-full flex-col ${featured ? 'p-5 sm:p-7 lg:p-8' : 'p-5 sm:p-6'}`}>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-secondary-500 dark:text-secondary-400">
+                {t('projects.caseStudyLabel', { defaultValue: 'Case study' })}
+              </p>
+              <h3 className={`mt-3 font-black tracking-tight text-secondary-950 dark:text-white ${featured ? 'text-2xl sm:text-3xl' : 'text-xl sm:text-2xl'}`}>
+                {project.title}
+              </h3>
+            </div>
+            <div className="rounded-2xl border border-secondary-200 bg-secondary-50 px-3 py-2 text-right dark:border-white/10 dark:bg-white/5">
+              <p className="text-[10px] uppercase tracking-[0.24em] text-secondary-500 dark:text-secondary-400">
+                {t('projects.statusLabel', { defaultValue: 'Status' })}
+              </p>
+              <p className="mt-1 text-sm font-semibold text-secondary-900 dark:text-white">{status}</p>
+            </div>
+          </div>
 
-            {project.live_url && (
-              <motion.a
-                href={project.live_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                whileHover={!isTouchDevice && !reducedMotion ? {
-                  scale: 1.05,
-                  y: -2,
-                  transition: { duration: 0.2 }
-                } : {}}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md bg-blue-500 hover:bg-blue-600 text-white"
-                initial={reducedMotion ? {} : { opacity: 0, x: -10 }}
-                animate={reducedMotion ? {} : { opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0.1 }}
-              >
-                <Globe size={14} />
-                <span>Live Demo</span>
-              </motion.a>
-            )}
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-secondary-600 dark:text-secondary-300 sm:text-[15px]">
+            {project.description}
+          </p>
 
-            {/* Additional Links */}
-            {project.links && project.links.map((link, linkIndex) => (
-              <motion.a
-                key={linkIndex}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                whileHover={!isTouchDevice && !reducedMotion ? {
-                  scale: 1.05,
-                  y: -2,
-                  transition: { duration: 0.2 }
-                } : {}}
-                whileTap={{ scale: 0.95 }}
-                className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md text-white ${getLinkColor(link.type)}`}
-                initial={reducedMotion ? {} : { opacity: 0, x: -10 }}
-                animate={reducedMotion ? {} : { opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0.2 + linkIndex * 0.1 }}
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-2xl border border-secondary-200 bg-secondary-50 p-4 dark:border-white/10 dark:bg-white/5">
+              <p className="text-[10px] uppercase tracking-[0.24em] text-secondary-500 dark:text-secondary-400">
+                {t('projects.roleLabel', { defaultValue: 'Role' })}
+              </p>
+              <p className="mt-2 text-sm font-semibold text-secondary-900 dark:text-white">{role}</p>
+            </div>
+            <div className="rounded-2xl border border-secondary-200 bg-secondary-50 p-4 dark:border-white/10 dark:bg-white/5">
+              <p className="text-[10px] uppercase tracking-[0.24em] text-secondary-500 dark:text-secondary-400">
+                {t('projects.yearLabel', { defaultValue: 'Year' })}
+              </p>
+              <p className="mt-2 text-sm font-semibold text-secondary-900 dark:text-white">{year}</p>
+            </div>
+            <div className="rounded-2xl border border-secondary-200 bg-secondary-50 p-4 dark:border-white/10 dark:bg-white/5">
+              <p className="text-[10px] uppercase tracking-[0.24em] text-secondary-500 dark:text-secondary-400">
+                {t('projects.stackLabel', { defaultValue: 'Stack' })}
+              </p>
+              <p className="mt-2 text-sm font-semibold text-secondary-900 dark:text-white">{techStack.slice(0, 2).join(' • ') || 'Frontend'}</p>
+            </div>
+          </div>
+
+          {highlights.length > 0 && (
+            <div className="mt-5 flex flex-wrap gap-2">
+              {highlights.map((item) => (
+                <span
+                  key={item}
+                  className="inline-flex items-center gap-1 rounded-full border border-secondary-200 bg-white px-3 py-1 text-xs font-medium text-secondary-700 dark:border-white/10 dark:bg-white/5 dark:text-secondary-200"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
+                  {item}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-5 flex flex-wrap gap-2">
+            {techStack.map((tech) => (
+              <span
+                key={tech}
+                className="rounded-full bg-gradient-to-r from-sky-50 to-violet-50 px-3 py-1 text-xs font-medium text-secondary-700 ring-1 ring-inset ring-sky-100 dark:from-sky-950/40 dark:to-violet-950/40 dark:text-sky-100 dark:ring-white/10"
               >
-                {getLinkIcon(link.type)}
-                <span>{link.label}</span>
-              </motion.a>
+                {tech.trim()}
+              </span>
             ))}
           </div>
 
-          {/* Images Section - Only if images exist */}
-          {project.images && project.images.length > 0 && (
-            <div className="pt-3 border-t border-violet-200/50 dark:border-violet-700/50 pb-3">
-              <h4 className="text-sm font-medium text-violet-800 dark:text-violet-200 mb-2">{t('projects.images')}:</h4>
-              <div className="flex flex-wrap gap-2">
-                {project.images.slice(0, 3).map((image, imgIndex) => (
+          <div className={`mt-6 grid gap-4 ${featured ? 'lg:grid-cols-[1fr_auto]' : 'sm:grid-cols-[1fr_auto]'}`}>
+            <div className="flex flex-wrap gap-2">
+              {linkItems.map((link) => {
+                const Icon = link.type === 'github' ? Github : link.type === 'demo' ? Globe : link.type === 'colab' ? FileText : ExternalLink;
+                return (
                   <motion.a
-                    key={imgIndex}
-                    href={getFullUrl(image)}
-                    download
-                    onClick={(e) => e.stopPropagation()}
-                    whileHover={!isTouchDevice && !reducedMotion ? { scale: 1.05 } : {}}
-                    whileTap={{ scale: 0.95 }}
-                    className="relative w-16 h-16 rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800 group"
-                  >
-                    <img
-                      src={getFullUrl(image)}
-                      alt={`${project.title} image ${imgIndex + 1}`}
-                      className="w-full h-full object-cover group-hover:opacity-80 transition-opacity"
-                      loading="lazy"
-                      onError={(e) => {
-                        const img = e.currentTarget as HTMLImageElement;
-                        const parent = img.parentElement;
-                        if (parent) {
-                          img.style.display = 'none';
-                          const errorDiv = parent.querySelector('.error-placeholder') as HTMLElement;
-                          if (errorDiv) {
-                            errorDiv.style.display = 'flex';
-                          }
-                        }
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
-                      <span className="text-white text-xs">{t('projects.see')}</span>
-                    </div>
-                    <div className="absolute inset-0 bg-gray-300 dark:bg-gray-600 flex items-center justify-center error-placeholder" style={{display: 'none'}}>
-                      <span className="text-gray-600 dark:text-gray-400 text-xs">{t('projects.imageNotAvailable')}</span>
-                    </div>
-                  </motion.a>
-                ))}
-                {project.images.length > 3 && (
-                  <motion.span
-                    whileHover={!isTouchDevice && !reducedMotion ? { scale: 1.05 } : {}}
-                    className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-md flex items-center justify-center text-xs font-medium text-gray-600 dark:text-gray-400"
-                  >
-                    +{project.images.length - 3}
-                  </motion.span>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Files Section - Only if files exist */}
-          {project.files && project.files.length > 0 && (
-            <div className="pt-3 border-t border-violet-200/50 dark:border-violet-700/50">
-              <h4 className="text-sm font-medium text-violet-800 dark:text-violet-200 mb-2">{t('projects.files')}:</h4>
-              <div className="space-y-1">
-                {project.files.map((file, fileIndex) => (
-                  <motion.a
-                    key={fileIndex}
-                    href={getFullUrl(file.path)}
-                    download={file.label || `file-${fileIndex + 1}`}
-                    onClick={(e) => e.stopPropagation()}
-                    whileHover={!isTouchDevice && !reducedMotion ? { x: 4 } : {}}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex items-center space-x-2 text-xs text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition-colors"
+                    key={`${link.label}-${link.href}`}
+                    href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    whileHover={canHover && !reducedMotion && !isMobile ? { y: -2 } : {}}
+                    whileTap={{ scale: 0.97 }}
+                    className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow-sm transition-colors ${linkStyles[link.type] || linkStyles.other}`}
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    <span className="w-1.5 h-1.5 bg-violet-400 rounded-full"></span>
-                    <span>{file.label || `${t('projects.file')} ${fileIndex + 1}`}</span>
+                    <Icon size={14} />
+                    <span>{link.label}</span>
                   </motion.a>
-                ))}
-              </div>
+                );
+              })}
+            </div>
+
+            <div className="flex items-center gap-2 text-sm text-secondary-500 dark:text-secondary-400">
+              <ImageIcon size={15} />
+              <span>
+                {galleryImages.length || 0} {t('projects.previewLabel', { defaultValue: 'preview images' })}
+              </span>
+            </div>
+          </div>
+
+          {galleryImages.length > 0 && (
+            <div className="mt-6 grid grid-cols-3 gap-2">
+              {galleryImages.map((image, imgIndex) => (
+                <a
+                  key={imgIndex}
+                  href={getFullUrl(image)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="group/image relative aspect-[4/3] overflow-hidden rounded-2xl border border-secondary-200 bg-secondary-100 dark:border-white/10 dark:bg-white/5"
+                >
+                  <img
+                    src={getFullUrl(image)}
+                    alt={`${project.title} preview ${imgIndex + 1}`}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover/image:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-secondary-950/0 transition-colors duration-300 group-hover/image:bg-secondary-950/15" />
+                </a>
+              ))}
             </div>
           )}
-        </motion.div>
-
-        {/* Enhanced Background Effects - Only active on hover or when toggled */}
-        <div className={`absolute inset-0 bg-gradient-to-r from-violet-400/10 to-fuchsia-400/10 dark:from-violet-600/20 dark:to-fuchsia-600/20 rounded-lg transition-opacity duration-300
-          ${isTouchDevice ? (showContent ? 'opacity-100' : 'opacity-0') : 'opacity-0 group-hover:opacity-100'}
-        `}></div>
-
-        {/* Glow Effect - Only active on hover or when toggled */}
-        <div className={`absolute -inset-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 rounded-lg blur transition-opacity duration-300
-          ${isTouchDevice ? (showContent ? 'opacity-20' : 'opacity-0') : 'opacity-0 group-hover:opacity-20'}
-        `}></div>
-
-        {/* Shimmer Effect - Only active on hover or when toggled */}
-        <div className={`absolute inset-0 -translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-violet-200/30 dark:via-violet-400/20 to-transparent rounded-lg
-          ${isTouchDevice ? (showContent ? 'opacity-100 translate-x-full' : 'opacity-0 translate-x-0') : 'opacity-0 group-hover:opacity-100 group-hover:translate-x-full'}
-        `}></div>
-      </div>
-    </motion.div>
+        </div>
+      </motion.div>
+    </motion.article>
   );
 };
 

@@ -110,7 +110,7 @@ web-portofolio/
 git clone https://github.com/mohammaiIqbalMaulana/Web-Portofolio.git
 cd web-portofolio
 
-# Install dependencies
+# Install dependencies for root, frontend, and backend
 npm run install:all
 
 # Setup environment variables
@@ -119,7 +119,7 @@ cp frontend/.env.example frontend/.env
 
 # Configure your database and other settings in .env files
 
-# Start development servers
+# Start both development servers from the repo root
 npm run dev
 ```
 
@@ -151,15 +151,21 @@ npm run dev
 
 ### Root Level Scripts
 ```bash
-# Install all dependencies
+# Install root, frontend, and backend dependencies
 npm run install:all
 
-# Start both frontend and backend
+# Start both frontend and backend together
 npm run dev
+
+# Start only one app if needed
+npm run dev:frontend
+npm run dev:backend
 
 # Build for production
 npm run build
 ```
+
+The root `package.json` now acts as the main developer entrypoint, so you do not need to enter `frontend/` and `backend/` separately for everyday work.
 
 ## ⚙️ Configuration
 

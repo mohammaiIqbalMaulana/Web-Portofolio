@@ -1,27 +1,57 @@
 {
   "hero": {
-    "greeting": "Hello, My Name Is",
-    "description": "I am currently studying and developing myself in the field of information technology, particularly in web development and UI/UX design, while also being a content creator. I am very excited to create innovative digital solutions that make a positive impact.",
-    "roles": ["Full Stack Developer", "UI/UX Designer", "Problem Solver", "Influencer"],
+    "greeting": "Hello, my name is",
+    "eyebrow": "Built to feel human, not template-shaped.",
+    "description": "I design and build responsive digital experiences with a focus on clarity, motion, and useful storytelling.",
+    "roles": ["Full Stack Developer", "UI/UX Designer", "Problem Solver", "Content Creator"],
     "viewWork": "View My Work",
-    "downloadCV": "Download CV"
+    "downloadCV": "Download CV",
+    "currentFocusLabel": "Current focus",
+    "currentFocus": "Building responsive websites, UI systems, and content-led experiences.",
+    "locationLabel": "Location",
+    "location": "Semarang, Indonesia",
+    "stackLabel": "Core stack",
+    "stack": "React, Node.js, Tailwind, TypeScript",
+    "connect": "Connect with me",
+    "nowCard": "Refining portfolio interactions with calmer motion, stronger hierarchy, and more visual project storytelling."
   },
   "about": {
+    "kicker": "Who I am",
     "title": "About Me",
-    "subtitle": "Know more about my journey, skills, and what drives me to create amazing digital experiences.",
-    "passion": "Passionate about Technology & Building Important Things",
-    "description": "I have been pursuing my education at Universitas Muhammadiyah Semarang since 2023. During my studies, I have gained the basics of Java programming and have worked on various programs using Java and Python. Outside of college, I have also deepened my skills as a full-stack developer using Node.js, including completing two web-based projects during an internship. This combined experience has given me a foundation in building applications from backend to frontend, while developing a broader understanding of programming concepts. Besides academics and technology, I am also active as an influencer on TikTok and YouTube, which further hones my communication skills, content creativity, and interaction with digital audiences.",
-    "learnMore": "Learn more about my work",
+    "subtitle": "I combine study, internships, and content creation into one creative practice that keeps improving both my technical and communication skills.",
+    "passion": "Tertarik dengan Teknologi & Membangun hal-hal Penting",
+    "description": "I have been studying at Universitas Muhammadiyah Semarang since 2023. During that time I built a foundation in Java and expanded into Python, Node.js, React, and full-stack web development through internship projects. Outside of academics, I also create content for TikTok and YouTube, which helps me explain ideas clearly and stay close to how people actually use digital products.",
+    "learnMore": "Explore my projects",
     "stats": {
       "projects": "Completed Projects",
       "experience": "Years of Experience",
       "clients": "Client Responses",
       "satisfaction": "Client Satisfaction"
+    },
+    "snapshots": {
+      "studyTitle": "Study",
+      "studyText": "Learning software foundations while sharpening problem solving and product thinking.",
+      "workTitle": "Work",
+      "workText": "Building full-stack web projects with Node.js, React, and practical UI systems.",
+      "contentTitle": "Audience",
+      "contentText": "Sharing ideas through content creation, which strengthens communication and clarity."
+    },
+    "timelineLabel": "Timeline",
+    "storyTitle": "A quick look at the path so far",
+    "timeline": {
+      "startTitle": "Started university",
+      "startText": "Built a foundation in Java and algorithmic thinking.",
+      "internTitle": "Internship projects",
+      "internText": "Worked on web-based projects that connected backend logic with polished frontend experiences.",
+      "nowTitle": "Refining style",
+      "nowText": "Focused on stronger design taste, responsive layouts, and more memorable portfolio storytelling."
     }
   },
   "skills": {
+    "kicker": "What I use",
     "title": "Skills & Expertise",
-    "description": "A comprehensive overview of my technical skills and the technologies I use to bring ideas to life.",
+    "description": "A practical overview of the tools and languages I use to design, build, and refine web experiences.",
+    "sidebarTitle": "Tool belt",
     "alwaysLearning": "Always learning and exploring new technologies to stay ahead in the ever-evolving tech landscape.",
     "categories": ["All", "Frontend", "Backend", "Programming Language", "Database"],
     "skills": {
@@ -39,8 +69,9 @@
     }
   },
   "projects": {
+    "kicker": "Selected work",
     "title": "Featured Projects",
-    "subtitle": "A showcase of my latest works, featuring web applications, mobile apps, and creative solutions built with modern technology.",
+    "subtitle": "A curated set of projects presented with more visuals, stronger hierarchy, and less dependency on long paragraphs.",
     "noProjects": "No projects available at the moment.",
     "showMore": "Show More Projects",
     "showLess": "Show Less",
@@ -49,12 +80,31 @@
     "see": "See",
     "files": "Files",
     "file": "File",
-    "imageNotAvailable": "Image not available"
+    "imageNotAvailable": "Image not available",
+    "loading": "Loading projects...",
+    "error": "Error loading projects",
+    "featuredLabel": "Featured",
+    "roleLabel": "Role",
+    "yearLabel": "Year",
+    "stackLabel": "Stack",
+    "statusLabel": "Status",
+    "caseStudyLabel": "Case study",
+    "media": "media",
+    "previewLabel": "preview images",
+    "viewCode": "Code",
+    "viewLive": "Live site",
+    "noCover": "No cover image",
+    "roleFallback": "Full stack build",
+    "statusLive": "Live",
+    "statusBuild": "Build",
+    "quickFacts": "Quick facts"
   },
   "contact": {
+    "kicker": "Let’s talk",
     "title": "Get In Touch",
-    "subtitle": "Have a project in mind or just want to say hello? Feel free to reach out!",
+    "subtitle": "Have an idea, a project, or just want to say hello? Send a message and let’s see what we can build.",
     "formTitle": "Send Message",
+    "formHint": "Share a brief about your idea, timeline, or the role you need.",
     "name": "Your Name",
     "nameLabel": "Name",
     "namePlaceholder": "Enter your full name",
