@@ -273,14 +273,32 @@ export const projectController = {
         }
       }
 
-      // Merge with existing - only add uploaded files, don't replace existing arrays unless explicitly provided
+      // Merge with existing.
+      //
+      // BUG FIX: the old logic here was
+      //   images: validation.data.images ? validation.data.images : [...existing, ...uploaded]
+      // The Zod schema declares `images: z.array(z.string()).optional().default([])`,
+      // so `validation.data.images` is populated with `[]` even when the client
+      // never sent an `images` key at all — `[]` is truthy in JS, so that branch
+      // was taken every time, which threw away `uploadedImages` completely.
+      // The uploaded file was written to disk correctly, but its path never
+      // made it into the DB record, so it never rendered on the frontend.
+      //
+      // Fix: check the RAW (pre-Zod-default) request body to see whether the
+      // client actually sent an `images`/`files` key (meaning "here is the
+      // full list to keep"), falling back to the existing DB values only when
+      // the key was truly omitted — and always append this request's newly
+      // uploaded files on top, regardless of which base was used.
       const existingImages = Array.isArray(existingProject.images) ? existingProject.images : [];
       const existingFiles = Array.isArray(existingProject.files) ? existingProject.files : [];
 
+      const baseImages = body.images !== undefined ? (validation.data.images ?? []) : existingImages;
+      const baseFiles = body.files !== undefined ? (validation.data.files ?? []) : existingFiles;
+
       const updateData = {
         ...validation.data,
-        images: validation.data.images ? validation.data.images : [...existingImages, ...uploadedImages],
-        files: validation.data.files ? validation.data.files : [...existingFiles, ...uploadedFiles]
+        images: [...baseImages, ...uploadedImages],
+        files: [...baseFiles, ...uploadedFiles]
       };
 
       const project = await projectService.updateProject(id, updateData);
