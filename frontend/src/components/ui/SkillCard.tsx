@@ -18,11 +18,16 @@ export const SkillCard: React.FC<SkillCardProps> = ({ skill, index }) => {
         duration: 0.6,
         delay: index * 0.06,
         type: 'spring',
-        stiffness: 110,
-        damping: 16
+        stiffness: 90,
+        damping: 20,
+        mass: 0.8
       }}
       viewport={{ once: true }}
-      whileHover={{ y: -6 }}
+      // A separate, softer spring just for the hover lift (set inside
+      // whileHover itself) — reusing the punchier entrance spring here
+      // made the card overshoot and wobble on hover, which is what read
+      // as "stiff"/jerky rather than a smooth glide.
+      whileHover={{ y: -6, transition: { type: 'spring', stiffness: 260, damping: 28, mass: 0.6 } }}
       className="group relative h-full"
     >
       <div className={`absolute -inset-px rounded-[1.6rem] bg-gradient-to-br ${skill.color} opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-25`} />
@@ -44,12 +49,18 @@ export const SkillCard: React.FC<SkillCardProps> = ({ skill, index }) => {
         </h3>
 
         <div className="mt-4 h-2 overflow-hidden rounded-full bg-secondary-100 dark:bg-white/10">
+          {/* Animating `scaleX` (GPU-accelerated transform) instead of the raw
+              `width` property: animating width forces the browser to
+              recompute layout on every frame, which is what made this fill
+              look choppy/stiff, especially on lower-end phones. The track is
+              always full width; only its visual scale changes. */}
           <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: `${skill.level}%` }}
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: skill.level / 100 }}
             viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: index * 0.05, ease: 'easeOut' }}
-            className={`h-full rounded-full bg-gradient-to-r ${skill.color}`}
+            transition={{ duration: 1.1, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
+            style={{ transformOrigin: 'left', willChange: 'transform' }}
+            className={`h-full w-full rounded-full bg-gradient-to-r ${skill.color}`}
           />
         </div>
 
