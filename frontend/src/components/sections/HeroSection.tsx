@@ -16,7 +16,7 @@ const HeroSectionComponent: React.FC = () => {
   const { reducedMotion, isMobile, canHover } = useAnimation();
   const disableAnimations = reducedMotion || isMobile;
   const roles = t('hero.roles', { returnObjects: true }) as string[];
-  const { tilt, bind, isDisabled } = usePointerTilt({ maxTilt: 8, maxShift: 14, scale: 1.01 });
+  const { bind, isDisabled, cardStyle, glareStyle } = usePointerTilt({ maxTilt: 14, maxShift: 16, scale: 1.035 });
 
   const handleDownloadCV = () => {
     const cvPath = '/CV_Mohammad Iqbal Maulana.pdf';
@@ -151,27 +151,36 @@ const HeroSectionComponent: React.FC = () => {
           animate={disableAnimations ? {} : { opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: 'easeOut' }}
           className="relative"
+          style={{ perspective: 1400 }}
         >
           <motion.div
             {...bind}
-            animate={isDisabled ? {} : {
-              rotateX: tilt.rotateX,
-              rotateY: tilt.rotateY,
-              x: tilt.x,
-              y: tilt.y,
-              scale: tilt.scale,
+            style={{
+              transformStyle: 'preserve-3d',
+              ...(isDisabled ? {} : cardStyle),
             }}
-            transition={{ type: 'spring', stiffness: 140, damping: 18 }}
-            style={{ transformStyle: 'preserve-3d' }}
-            className="relative rounded-[2rem] border border-white/70 bg-white/75 p-5 shadow-[0_30px_100px_rgba(15,23,42,0.12)] backdrop-blur-xl dark:border-white/10 dark:bg-white/5 lg:p-6"
+            className="relative rounded-[2rem] border border-white/70 bg-white/75 p-5 shadow-[0_30px_100px_rgba(15,23,42,0.12)] backdrop-blur-xl will-change-transform dark:border-white/10 dark:bg-white/5 lg:p-6"
           >
-            <div className="absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(168,85,247,0.14),transparent_30%)] opacity-90" />
-            <div className="relative grid gap-5">
-              <div className="relative">
+            {/* Moving light sheen that glides across the glass as the pointer moves —
+                this, plus the layered translateZ depths below, is what actually
+                reads as "3D" instead of a flat card snapping around. */}
+            {!isDisabled && (
+              <motion.div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 rounded-[2rem] mix-blend-soft-light"
+                style={glareStyle}
+              />
+            )}
+            <div
+              className="absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(168,85,247,0.14),transparent_30%)] opacity-90"
+              style={{ transform: 'translateZ(-24px)' }}
+            />
+            <div className="relative grid gap-5" style={{ transformStyle: 'preserve-3d' }}>
+              <div className="relative" style={{ transform: 'translateZ(64px)' }}>
                 <ProfileImage size="xl" className="mx-auto" />
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-3">
+              <div className="grid gap-3 sm:grid-cols-3" style={{ transform: 'translateZ(32px)' }}>
                 {details.map((detail) => {
                   const Icon = detail.icon;
                   return (
@@ -190,7 +199,7 @@ const HeroSectionComponent: React.FC = () => {
                 })}
               </div>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2" style={{ transform: 'translateZ(20px)' }}>
                 {roles.slice(0, 4).map((role) => (
                   <span
                     key={role}

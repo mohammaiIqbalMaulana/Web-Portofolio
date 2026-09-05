@@ -15,10 +15,10 @@ interface ProjectCardProps {
 const ProjectCardComponent: React.FC<ProjectCardProps> = ({ project, index, featured = false }) => {
   const { t } = useTranslation();
   const { reducedMotion, isMobile, canHover } = useAnimation();
-  const { tilt, bind, isDisabled } = usePointerTilt({
-    maxTilt: featured ? 7 : 5,
-    maxShift: featured ? 12 : 8,
-    scale: featured ? 1.01 : 1.005,
+  const { cardStyle, glareStyle, bind, isDisabled } = usePointerTilt({
+    maxTilt: featured ? 9 : 6,
+    maxShift: featured ? 14 : 10,
+    scale: featured ? 1.02 : 1.012,
   });
 
   const getFullUrl = (path: string) => {
@@ -71,17 +71,20 @@ const ProjectCardComponent: React.FC<ProjectCardProps> = ({ project, index, feat
 
       <motion.div
         {...bind}
-        animate={isDisabled ? {} : {
-          rotateX: tilt.rotateX,
-          rotateY: tilt.rotateY,
-          x: tilt.x,
-          y: tilt.y,
-          scale: tilt.scale,
+        style={{
+          transformStyle: 'preserve-3d',
+          perspective: 1400,
+          ...(isDisabled ? {} : cardStyle),
         }}
-        transition={{ type: 'spring', stiffness: 140, damping: 18 }}
-        style={{ transformStyle: 'preserve-3d' }}
-        className={`relative h-full overflow-hidden rounded-[2rem] border border-secondary-200/80 bg-white/90 shadow-[0_24px_70px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-secondary-950/75 ${featured ? 'lg:grid lg:grid-cols-[1.1fr_0.9fr]' : ''}`}
+        className={`relative h-full overflow-hidden rounded-[2rem] border border-secondary-200/80 bg-white/90 shadow-[0_24px_70px_rgba(15,23,42,0.08)] backdrop-blur-xl will-change-transform dark:border-white/10 dark:bg-secondary-950/75 ${featured ? 'lg:grid lg:grid-cols-[1.1fr_0.9fr]' : ''}`}
       >
+        {!isDisabled && (
+          <motion.div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-10 rounded-[2rem] mix-blend-soft-light"
+            style={glareStyle}
+          />
+        )}
         <div className={`relative overflow-hidden ${featured ? 'min-h-[18rem] lg:min-h-[28rem]' : 'aspect-[16/10]'}`}>
           {coverImage ? (
             <img
