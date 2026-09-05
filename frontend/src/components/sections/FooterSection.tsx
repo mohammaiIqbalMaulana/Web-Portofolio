@@ -197,7 +197,7 @@ export const FooterSection: React.FC = () => {
             whileHover={{ scale: 1.08, y: -2 }}
             whileTap={{ scale: 0.94 }}
             onClick={scrollToTop}
-            className="fixed bottom-6 right-6 z-50 rounded-full bg-white p-3 text-secondary-950 shadow-[0_20px_40px_rgba(15,23,42,0.25)] transition-colors hover:bg-secondary-100 dark:bg-secondary-100 dark:hover:bg-white"
+            className="fixed bottom-6 right-6 z-40 rounded-full bg-white p-3 text-secondary-950 shadow-[0_20px_40px_rgba(15,23,42,0.25)] transition-colors hover:bg-secondary-100 dark:bg-secondary-100 dark:hover:bg-white"
             aria-label="Scroll to top"
           >
             <motion.div animate={{ y: [0, -2, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Moon, Sun, Languages } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -14,24 +14,10 @@ export const HeaderSection: React.FC = () => {
   const { isScrolled, scrollProgress, scrollToSection } = useScroll();
   const { canHover } = useAnimation();
 
-  const handleClickOutside = (event: MouseEvent) => {
-    const hamburger = document.getElementById('hamburger');
-    const menuPanel = document.querySelector('[data-menu-panel]');
-
-    if (isMenuOpen && hamburger && menuPanel) {
-      const target = event.target as Element;
-      if (!hamburger.contains(target) && !menuPanel.contains(target)) {
-        setIsMenuOpen(false);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.addEventListener('click', handleClickOutside);
-      return () => document.removeEventListener('click', handleClickOutside);
-    }
-  }, [isMenuOpen]);
+  // Closing on outside-click is now handled by the full-screen backdrop
+  // rendered inside HamburgerMenu itself (see its overlay `onClick`), which
+  // is far more reliable than a document-level listener racing the drawer's
+  // own click handlers.
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'id' : 'en';
@@ -47,11 +33,14 @@ export const HeaderSection: React.FC = () => {
   ];
 
   return (
-    <header className={`fixed top-0 left-0 z-40 w-full border-b transition-all duration-300 ${
-      isScrolled
-        ? 'border-secondary-200/70 bg-white/70 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-secondary-950/70'
-        : 'border-transparent bg-transparent'
-    }`}>
+    <header
+      className={`fixed top-0 left-0 z-40 w-full border-b transition-all duration-300 ${
+        isScrolled
+          ? 'border-secondary-200/70 bg-white/70 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-secondary-950/70'
+          : 'border-transparent bg-transparent'
+      }`}
+      style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
+    >
       <motion.div
         className="h-[3px] bg-gradient-to-r from-sky-500 via-violet-500 to-rose-500"
         style={{ width: `${scrollProgress}%` }}
