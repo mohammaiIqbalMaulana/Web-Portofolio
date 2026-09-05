@@ -211,7 +211,7 @@ const HeroSectionComponent: React.FC = () => {
             initial={disableAnimations ? {} : { opacity: 0, x: 20 }}
             animate={disableAnimations ? {} : { opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.35 }}
-            className="absolute -left-4 top-8 hidden max-w-52 rounded-2xl border border-white/70 bg-white/85 p-4 shadow-lg backdrop-blur-md lg:block dark:border-white/10 dark:bg-secondary-950/70"
+            className="absolute -right-4 top-8 hidden max-w-52 rounded-2xl border border-white/70 bg-white/85 p-4 shadow-lg backdrop-blur-md lg:block dark:border-white/10 dark:bg-secondary-950/70"
           >
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-secondary-500 dark:text-secondary-400">Now</p>
             <p className="mt-2 text-sm leading-relaxed text-secondary-800 dark:text-secondary-100">
