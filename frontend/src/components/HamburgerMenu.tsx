@@ -116,15 +116,6 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onToggle, onNavig
                   className="flex flex-1 flex-col overflow-y-auto p-5"
                   style={{ paddingBottom: 'calc(1.25rem + env(safe-area-inset-bottom, 0px))' }}
                 >
-                  <div className="mb-5 rounded-2xl border border-secondary-200 bg-secondary-50 p-4 dark:border-white/10 dark:bg-white/5">
-                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-secondary-500 dark:text-secondary-400">
-                      {t('hero.eyebrow', { defaultValue: 'Built to feel human, not template-shaped.' })}
-                    </p>
-                    <p className="mt-2 text-sm leading-relaxed text-secondary-700 dark:text-secondary-200">
-                      {t('hero.currentFocus', { defaultValue: 'Building responsive websites, UI systems, and content-led experiences.' })}
-                    </p>
-                  </div>
-
                   <nav>
                     <ul className="space-y-2">
                       {navItems.map((item, index) => (

@@ -68,12 +68,7 @@ const HeroSectionComponent: React.FC = () => {
           transition={{ duration: 0.7, ease: 'easeOut' }}
           className="max-w-3xl"
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-secondary-200/80 bg-white/70 px-4 py-2 text-xs font-medium text-secondary-700 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-white/5 dark:text-secondary-200">
-            <Sparkles size={14} className="text-sky-500" />
-            <span>{t('hero.eyebrow', { defaultValue: 'Built to feel human, not template-shaped.' })}</span>
-          </div>
-
-          <h1 className="mt-6 text-4xl font-black tracking-tight text-secondary-950 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white">
+          <h1 className="text-4xl font-black tracking-tight text-secondary-950 sm:text-5xl md:text-6xl lg:text-7xl dark:text-white">
             <span className="block text-secondary-700 dark:text-secondary-300">{t('hero.greeting')}</span>
             <span className="mt-2 block leading-[0.95]">
               <TypingAnimation

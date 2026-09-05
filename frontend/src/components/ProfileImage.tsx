@@ -36,7 +36,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
       onMouseLeave={() => setIsHovered(false)}
       className={`relative ${sizeClasses[size]} ${className}`}
     >
-      <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-primary-500/30 via-sky-500/15 to-transparent blur-2xl" />
+      <div className="absolute -inset-1.5 rounded-[2rem] bg-gradient-to-br from-primary-500/30 via-sky-500/15 to-transparent blur-lg sm:-inset-3 sm:blur-2xl" />
       <div className="absolute inset-0 rounded-[2rem] border border-white/50 dark:border-white/10 bg-white/30 dark:bg-secondary-900/20 backdrop-blur-md" />
 
       <div className="relative h-full w-full overflow-hidden rounded-[2rem] border border-white/60 shadow-[0_30px_80px_rgba(15,23,42,0.18)] dark:border-white/10">
@@ -49,14 +49,14 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
           transition={{ duration: 0.4, ease: 'easeOut' }}
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-secondary-950/35 via-transparent to-transparent" />
+        <div className="absolute inset-0 hidden bg-gradient-to-t from-secondary-950/35 via-transparent to-transparent lg:block" />
 
-        <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full border border-white/35 bg-white/70 px-3 py-1 text-[11px] font-medium text-secondary-800 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-secondary-950/50 dark:text-secondary-100">
+        <div className="absolute left-4 top-4 hidden items-center gap-2 rounded-full border border-white/35 bg-white/70 px-3 py-1 text-[11px] font-medium text-secondary-800 shadow-sm backdrop-blur-md lg:flex dark:border-white/10 dark:bg-secondary-950/50 dark:text-secondary-100">
           <Camera size={14} />
           <span>Portrait</span>
         </div>
 
-        <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
+        <div className="absolute bottom-4 left-4 right-4 hidden items-end justify-between gap-3 lg:flex">
           <div className="max-w-[65%] rounded-2xl border border-white/25 bg-secondary-950/55 px-3 py-2 text-left backdrop-blur-md">
             <p className="text-[10px] uppercase tracking-[0.28em] text-white/60">Now</p>
             <p className="mt-1 text-sm font-semibold text-white">Building calm, responsive interfaces</p>

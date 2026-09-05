@@ -4,6 +4,7 @@ import { Moon, Sun, Languages } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../contexts/ThemeContext';
 import HamburgerMenu from '../HamburgerMenu';
+import AnimatedLogo from '../AnimatedLogo';
 import { useScroll } from '../../hooks/useScroll';
 import { useAnimation } from '../../contexts/AnimationContext';
 
@@ -57,12 +58,14 @@ export const HeaderSection: React.FC = () => {
             whileHover={canHover ? { y: -1 } : {}}
             whileTap={{ scale: 0.98 }}
           >
-            <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-secondary-950 text-sm font-black text-white shadow-sm transition-transform group-hover:scale-105 dark:bg-white dark:text-secondary-950">
-              MI
-            </div>
-            <div className="text-left">
-              <p className="text-sm font-semibold text-secondary-500 dark:text-secondary-400">Portfolio</p>
-              <p className="text-base font-black text-secondary-950 dark:text-white">Iqbal</p>
+            <AnimatedLogo className="transition-transform group-hover:scale-105" />
+            <div className="text-left leading-tight">
+              <p className="text-base font-black tracking-tight text-secondary-950 dark:text-white">
+                {t('common.brandName', { defaultValue: 'Iqbal Maulana' })}
+              </p>
+              <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-secondary-500 dark:text-secondary-400">
+                {t('common.brandTitle', { defaultValue: 'Full-Stack Developer' })}
+              </p>
             </div>
           </motion.button>
 

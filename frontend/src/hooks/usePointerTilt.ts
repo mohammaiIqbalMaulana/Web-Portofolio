@@ -67,7 +67,7 @@ export const usePointerTilt = ({
 
   const handlePointerMove = useCallback(
     (event: ReactPointerEvent<HTMLElement>) => {
-      if (isDisabled || event.pointerType === 'touch') return;
+      if (isDisabled || event.pointerType !== 'mouse') return;
       const rect = event.currentTarget.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
       px.set((event.clientX - rect.left) / rect.width - 0.5);
@@ -76,16 +76,27 @@ export const usePointerTilt = ({
     [isDisabled, px, py]
   );
 
-  const handlePointerEnter = useCallback(() => {
-    if (isDisabled) return;
-    hovered.set(1);
-  }, [isDisabled, hovered]);
+  const handlePointerEnter = useCallback(
+    (event: ReactPointerEvent<HTMLElement>) => {
+      // Guard on pointerType, not just the (one-time, device-class) isMobile/canHover
+      // check: a tap on a touchscreen still fires pointerenter, and without this it
+      // would snap the tilt/glare into its "hovered" state and just sit there
+      // stuck, looking like a smear of blur across the card until tapped again.
+      if (isDisabled || event.pointerType !== 'mouse') return;
+      hovered.set(1);
+    },
+    [isDisabled, hovered]
+  );
 
-  const handlePointerLeave = useCallback(() => {
-    hovered.set(0);
-    px.set(0);
-    py.set(0);
-  }, [hovered, px, py]);
+  const handlePointerLeave = useCallback(
+    (event: ReactPointerEvent<HTMLElement>) => {
+      if (event.pointerType !== 'mouse') return;
+      hovered.set(0);
+      px.set(0);
+      py.set(0);
+    },
+    [hovered, px, py]
+  );
 
   const bind = useMemo(
     () => ({

@@ -1,5 +1,15 @@
 // src/services/api.ts
-export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
+
+// In dev, default to whatever host the page itself was loaded from, on the
+// backend's port (4000). This means the same build works whether you open
+// it as http://localhost:3000 on your own machine or as
+// http://<your-computer-LAN-IP>:3000 from a phone on the same Wi-Fi — no
+// manual .env edit needed per network. VITE_BACKEND_URL still wins if set
+// (e.g. for a real production deployment).
+const inferredBackendUrl =
+  typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.hostname}:4000` : 'http://localhost:4000';
+
+export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || inferredBackendUrl;
 
 export interface Project {
   id: number;

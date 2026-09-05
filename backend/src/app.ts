@@ -30,7 +30,11 @@ app.use(helmet({
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
     ? process.env.FRONTEND_URL?.split(',') || []
-    : ['http://localhost:5173', 'http://localhost:3000', 'http://192.168.18.5:3000'],
+    // Dev only: reflect whatever origin made the request. This is what lets you
+    // open the dev server from your phone at http://<your-computer-LAN-IP>:3000
+    // (or any other device on the same network) without hardcoding an IP that
+    // changes every time you reconnect to Wi-Fi.
+    : true,
   credentials: true
 }));
 
@@ -42,9 +46,12 @@ app.use(cookieParser());
 // Static files with CORS for images/files
 app.use('/uploads', (req, res, next) => {
   // Set CORS headers for static assets
-  res.setHeader('Access-Control-Allow-Origin', process.env.NODE_ENV === 'production' 
-    ? (process.env.FRONTEND_URL || '*') 
-    : 'http://localhost:3000,http://localhost:5173');
+  // Dev only: reflect the requesting origin (same reasoning as the CORS
+  // middleware above) so images load correctly when the site is opened
+  // from a phone/tablet on the same Wi-Fi via the computer's LAN IP.
+  res.setHeader('Access-Control-Allow-Origin', process.env.NODE_ENV === 'production'
+    ? (process.env.FRONTEND_URL || '*')
+    : (req.headers.origin || '*'));
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
