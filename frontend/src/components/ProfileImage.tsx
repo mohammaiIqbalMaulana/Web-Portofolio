@@ -11,7 +11,7 @@ interface ProfileImageProps {
 }
 
 const ProfileImage: React.FC<ProfileImageProps> = ({
-  src = '/images/Iq.jpg',
+  src = '/images/Iqmal.jpg',
   alt = 'Mohammad Iqbal Maulana portrait',
   size = 'xl',
   className = 'mx-auto',
