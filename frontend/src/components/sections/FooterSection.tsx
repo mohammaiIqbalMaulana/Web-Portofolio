@@ -7,6 +7,7 @@ import { useScroll } from '../../hooks/useScroll';
 import { useNewsletter } from '../../hooks/useNewsletter';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
+import AnimatedLogo from '../AnimatedLogo';
 
 export const FooterSection: React.FC = () => {
   const { t } = useTranslation();
@@ -52,9 +53,7 @@ export const FooterSection: React.FC = () => {
             className="max-w-xl"
           >
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-sm font-black text-secondary-950">
-                MI
-              </div>
+              <AnimatedLogo size={40} />
               <div>
                 <p className="text-sm font-medium text-white/60">{t('footer.brand')}</p>
                 <h3 className="text-xl font-black text-white">Mohammad Iqbal Maulana</h3>

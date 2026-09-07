@@ -5,6 +5,8 @@ import { useAnimation } from '../contexts/AnimationContext';
 
 interface AnimatedLogoProps {
   className?: string;
+  /** Badge size in pixels. Defaults to 36 (matches the header's h-9 w-9). */
+  size?: number;
 }
 
 /**
@@ -15,11 +17,13 @@ interface AnimatedLogoProps {
  * shifting hue. Respects prefers-reduced-motion (falls back to a static
  * gradient with no motion at all).
  */
-const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ className = '' }) => {
+const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ className = '', size = 36 }) => {
   const { reducedMotion } = useAnimation();
+  const iconSize = Math.round(size * 0.47);
+  const dotSize = Math.max(4, Math.round(size * 0.042) + 4);
 
   return (
-    <div className={`relative h-9 w-9 shrink-0 ${className}`}>
+    <div className={`relative shrink-0 ${className}`} style={{ height: size, width: size }}>
       {/* Soft ambient glow, breathing gently behind the badge. */}
       {!reducedMotion && (
         <motion.div
@@ -41,7 +45,7 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ className = '' }) => {
         />
 
         <div className="absolute inset-0 flex items-center justify-center">
-          <Code2 size={17} strokeWidth={2.5} className="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]" />
+          <Code2 size={iconSize} strokeWidth={2.5} className="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]" />
         </div>
 
         {/* A little comet that keeps orbiting the badge forever — the part
@@ -54,7 +58,10 @@ const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ className = '' }) => {
             animate={{ rotate: 360 }}
             transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
           >
-            <span className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white shadow-[0_0_6px_2px_rgba(255,255,255,0.85)]" />
+            <span
+              className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white shadow-[0_0_6px_2px_rgba(255,255,255,0.85)]"
+              style={{ height: dotSize, width: dotSize }}
+            />
           </motion.div>
         )}
       </div>
